@@ -3,10 +3,10 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import OperationalError
 
-db_username = user
-db_password = password
-db_name = mydatabase
-db_host = localhost
+db_username = "user"
+db_password = "password"
+db_name = "mydatabase"
+db_host = "localhost"
 db_port = 5432
 
 SQLALCHEMY_DATABASE_URL = f"postgresql://{db_username}:{db_password}@{db_host}:{db_port}/{db_name}"

@@ -14,15 +14,20 @@ async def get_songs(db: Session = Depends(get_db)):
     songs = get_songs(db)
     return songs
 
-@songsRouter.get("/songs/{song_id}")
-async def get_song_by_id(song_id: int):
-    return {"name": "song1"}
+@songsRouter.get("/songs/{song_id}", response_model=Song)
+async def get_song_by_id(song_id: int, db: Session = Depends(get_db)):
+    song = get_song_by_id(db, song_id)
+    if song is None:
+        raise HTTPException(status_code=404, detail="Song not found")
+    return song
 
-@songsRouter.post("/songs")
-async def create_song():
-    return {"name": "song1"}
+@songsRouter.post("/songs", response_model=Song)
+async def create_song(song: SongCreate, db: Session = Depends(get_db)):
+    user = create_song(db, song)
+    return user
 
-@songsRouter.patch("/songs/{song_id}")
-async def update_song(song_id: int):
-    return {"name": "song1"}
+@songsRouter.patch("/songs/{song_id}", response_model=Song)
+async def update_song(song_id: int, song: SongCreate, db: Session = Depends(get_db)):
+    user = update_song(db, song_id, song)
+    return user
 
