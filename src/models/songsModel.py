@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, ForeignKey, Integer
+from sqlalchemy import Column, String, ForeignKey
 from sqlalchemy.dialects.postgresql import UUID
 from uuid import uuid4
 
@@ -13,4 +13,4 @@ class Song(Base):
     song_name = Column(String, unique=True, nullable=False)
     song_link = Column(String, nullable=False)
     song_lyrics = Column(String, nullable=False)
-    song_length = Column(Integer, nullable=False)
+    song_length = Column(String, nullable=False)

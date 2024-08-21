@@ -19,8 +19,14 @@ services:
     build:
       context: ./src
       dockerfile: Dockerfile
+    environment:
+      DATABASE_URL: "postgresql://user:password@postgres:5432/music_charts"
     ports:
       - "8001:8001"
+    depends_on:
+      - postgres
+    networks:
+      - mynetwork
   
   # sqs:
   #   image: softwaremill/elasticmq:latest
@@ -35,11 +41,18 @@ services:
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
-      POSTGRES_DB: mydatabase
+      POSTGRES_DB: music_charts
     ports:
       - "5432:5432"
+    networks:
+      - mynetwork
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - ./postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+
+networks:
+  mynetwork:
+    driver: bridge
 
 volumes:
   postgres_data:

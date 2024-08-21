@@ -1,22 +1,25 @@
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import NoResultFound
+from sqlalchemy.sql import text
 from models.songsModel import Song
 from schemas.songsSchema import SongCreate
 from uuid import uuid4
 import logging
+from datetime import timedelta
 
 logging.basicConfig(level=logging.INFO)
 
-def get_songs(db: Session):
+def fetch_songs(db: Session):
     return db.query(Song).all()
 
-def get_song_by_id(db: Session, song_id: uuid4):
+def fetch_song_by_id(db: Session, song_id: uuid4):
     try:
         return db.query(Song).filter(Song.song_id == song_id).first()
     except NoResultFound:
         return None
 
 def create_song(db: Session, song: SongCreate):
+
     new_song = Song(
         song_id = uuid4(),
         artist_id = song.artist_id,

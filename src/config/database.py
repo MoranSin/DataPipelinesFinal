@@ -5,16 +5,18 @@ from sqlalchemy.exc import OperationalError
 
 db_username = "user"
 db_password = "password"
-db_name = "mydatabase"
-db_host = "localhost"
+db_name = "music_charts"
+db_host = "postgres"
 db_port = 5432
 
 SQLALCHEMY_DATABASE_URL = f"postgresql://{db_username}:{db_password}@{db_host}:{db_port}/{db_name}"
 
-engine = create_engine(SQLALCHEMY_DATABASE_URL)
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
-Base = declarative_base()
+try:
+    engine = create_engine(SQLALCHEMY_DATABASE_URL)
+    SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+    Base = declarative_base()
+except OperationalError as e:
+    print(f"Error connecting to the database: {e}")
 
 def get_db():
     db = SessionLocal()
