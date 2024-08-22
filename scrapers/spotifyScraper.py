@@ -50,7 +50,6 @@ class SpotifyScraper:
             # Build the relevant data structure
             extracted_data.append({
                 "song": {
-                    "song_id": song_id,
                     "song_name": song_name,
                     "song_link": song_link,
                     "song_length": song_length,
@@ -62,9 +61,8 @@ class SpotifyScraper:
                         "country": country
                     }
                 },
-                "rank": {
+                "chart": {
                     "rank_value": rank_value,
-                    "streams": streams,
                     "date": date,
                     "country": country,
                     "source": "Spotify",
