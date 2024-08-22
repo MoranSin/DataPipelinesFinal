@@ -1,6 +1,9 @@
 from fastapi import FastAPI
 from mangum import Mangum
-from routers.router import router 
+from routers.artistsRouter import router 
+from routers.chartsRouter import router 
+from routers.genresRouter import router 
+from routers.songsRouter import router 
 import uvicorn
 
 app = FastAPI()
