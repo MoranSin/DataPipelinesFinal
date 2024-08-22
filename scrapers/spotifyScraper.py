@@ -30,7 +30,9 @@ class SpotifyScraper:
         extracted_data = []
         top_n = 10  
 
-        for entry in chart_data['entries'][:top_n]:
+        for entry in chart_data['chart-results-list'][:top_n]:
+            extracted_data.append(entry)
+        
             # Extract song details
             song_id = entry['trackMetadata'].get('trackUri', '').split(':')[-1]  
             song_name = entry['trackMetadata'].get('trackName', '')
@@ -74,7 +76,7 @@ class SpotifyScraper:
         return extracted_data
 
     def fetch_charts(self):
-        dates = self.get_weekly_dates("2024-08-01")
+        dates = self.get_weekly_dates("2024-08-22")
         all_data = {country: [] for country in self.countries}
         request_count = 0
 
@@ -101,7 +103,6 @@ class SpotifyScraper:
         with open('spotify_charts_data.json', 'w') as f:
             json.dump(all_data, f, indent=4)
 
-api_key = "BQDBMyRkJr5FX5c47huBhS8yPWkILsFCfgVHSsWn0xDWe3ho_IzrLLd_YgOl-zv6E60m4FF-jqnu85PqOqGk5annzA1kZi8Dt8ob1ljK0u8gQ18XMf02HjcEinMP9jbkC2aX4imGRux_NwCMey8aadmeslpk9Ru_zY7jt8qEUeJSCZ4bhrN0C1WFAWHcYwITwSh2ekdrb3aY7cdm_2LRgrUM-_1FhV51"
 
-spotify_scraper = SpotifyScraper(api_key)
+spotify_scraper = SpotifyScraper()
 spotify_scraper.fetch_charts()
