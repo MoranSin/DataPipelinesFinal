@@ -23,11 +23,11 @@ async def get_song_by_id(song_id: UUID, db: Session = Depends(get_db)):
 
 @songsRouter.post("/songs", response_model=Song)
 async def post_song(song: SongCreate, db: Session = Depends(get_db)):
-    user = create_song(db, song)
-    return user
+    new_song = create_song(db, song)
+    return new_song
 
 @songsRouter.patch("/songs/{song_id}", response_model=Song)
 async def patch_song(song_id: UUID, song: SongCreate, db: Session = Depends(get_db)):
-    user = update_song(db, song_id, song)
-    return user
+    new_song = update_song(db, song_id, song)
+    return new_song
 
