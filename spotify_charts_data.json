@@ -1,0 +1,1858 @@
+{
+    "us": [
+        {
+            "song": {
+                "song_id": "6AI3ezQ4o3HUoP6Dhudph3",
+                "song_name": "Not Like Us",
+                "song_link": "spotify:track:6AI3ezQ4o3HUoP6Dhudph3",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "Kendrick Lamar",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "us"
+                }
+            },
+            "rank": {
+                "rank_value": 1,
+                "streams": "15057585",
+                "date": "2024-08-01",
+                "country": "us",
+                "source": "Spotify",
+                "song_id": "6AI3ezQ4o3HUoP6Dhudph3"
+            }
+        },
+        {
+            "song": {
+                "song_id": "0WbMK4wrZ1wFSty9F7FCgu",
+                "song_name": "Good Luck, Babe!",
+                "song_link": "spotify:track:0WbMK4wrZ1wFSty9F7FCgu",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "Chappell Roan",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "us"
+                }
+            },
+            "rank": {
+                "rank_value": 2,
+                "streams": "13954654",
+                "date": "2024-08-01",
+                "country": "us",
+                "source": "Spotify",
+                "song_id": "0WbMK4wrZ1wFSty9F7FCgu"
+            }
+        },
+        {
+            "song": {
+                "song_id": "7tI8dRuH2Yc6RuoTjxo4dU",
+                "song_name": "Who",
+                "song_link": "spotify:track:7tI8dRuH2Yc6RuoTjxo4dU",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "Jimin",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "us"
+                }
+            },
+            "rank": {
+                "rank_value": 3,
+                "streams": "13465403",
+                "date": "2024-08-01",
+                "country": "us",
+                "source": "Spotify",
+                "song_id": "7tI8dRuH2Yc6RuoTjxo4dU"
+            }
+        },
+        {
+            "song": {
+                "song_id": "6dOtVTDdiauQNBQEDOtlAB",
+                "song_name": "BIRDS OF A FEATHER",
+                "song_link": "spotify:track:6dOtVTDdiauQNBQEDOtlAB",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "Billie Eilish",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "us"
+                }
+            },
+            "rank": {
+                "rank_value": 4,
+                "streams": "13360712",
+                "date": "2024-08-01",
+                "country": "us",
+                "source": "Spotify",
+                "song_id": "6dOtVTDdiauQNBQEDOtlAB"
+            }
+        },
+        {
+            "song": {
+                "song_id": "7221xIgOnuakPdLqT0F3nP",
+                "song_name": "I Had Some Help (Feat. Morgan Wallen)",
+                "song_link": "spotify:track:7221xIgOnuakPdLqT0F3nP",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "Post Malone",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "us"
+                }
+            },
+            "rank": {
+                "rank_value": 5,
+                "streams": "12824289",
+                "date": "2024-08-01",
+                "country": "us",
+                "source": "Spotify",
+                "song_id": "7221xIgOnuakPdLqT0F3nP"
+            }
+        },
+        {
+            "song": {
+                "song_id": "5fZJQrFKWQLb7FpJXZ1g7K",
+                "song_name": "A Bar Song (Tipsy)",
+                "song_link": "spotify:track:5fZJQrFKWQLb7FpJXZ1g7K",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "Shaboozey",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "us"
+                }
+            },
+            "rank": {
+                "rank_value": 6,
+                "streams": "12455456",
+                "date": "2024-08-01",
+                "country": "us",
+                "source": "Spotify",
+                "song_id": "5fZJQrFKWQLb7FpJXZ1g7K"
+            }
+        },
+        {
+            "song": {
+                "song_id": "5N3hjp1WNayUPZrA8kJmJP",
+                "song_name": "Please Please Please",
+                "song_link": "spotify:track:5N3hjp1WNayUPZrA8kJmJP",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "Sabrina Carpenter",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "us"
+                }
+            },
+            "rank": {
+                "rank_value": 7,
+                "streams": "11835583",
+                "date": "2024-08-01",
+                "country": "us",
+                "source": "Spotify",
+                "song_id": "5N3hjp1WNayUPZrA8kJmJP"
+            }
+        },
+        {
+            "song": {
+                "song_id": "2qSkIjg1o9h3YT9RAgYN75",
+                "song_name": "Espresso",
+                "song_link": "spotify:track:2qSkIjg1o9h3YT9RAgYN75",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "Sabrina Carpenter",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "us"
+                }
+            },
+            "rank": {
+                "rank_value": 8,
+                "streams": "10900753",
+                "date": "2024-08-01",
+                "country": "us",
+                "source": "Spotify",
+                "song_id": "2qSkIjg1o9h3YT9RAgYN75"
+            }
+        },
+        {
+            "song": {
+                "song_id": "5AJ9hqTS2wcFQCELCFRO7A",
+                "song_name": "MILLION DOLLAR BABY",
+                "song_link": "spotify:track:5AJ9hqTS2wcFQCELCFRO7A",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "Tommy Richman",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "us"
+                }
+            },
+            "rank": {
+                "rank_value": 9,
+                "streams": "9635735",
+                "date": "2024-08-01",
+                "country": "us",
+                "source": "Spotify",
+                "song_id": "5AJ9hqTS2wcFQCELCFRO7A"
+            }
+        },
+        {
+            "song": {
+                "song_id": "7Fzl7QaTu47WyP9R5S5mh5",
+                "song_name": "Lies Lies Lies",
+                "song_link": "spotify:track:7Fzl7QaTu47WyP9R5S5mh5",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "Morgan Wallen",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "us"
+                }
+            },
+            "rank": {
+                "rank_value": 10,
+                "streams": "8250027",
+                "date": "2024-08-01",
+                "country": "us",
+                "source": "Spotify",
+                "song_id": "7Fzl7QaTu47WyP9R5S5mh5"
+            }
+        }
+    ],
+    "gb": [
+        {
+            "song": {
+                "song_id": "2qSkIjg1o9h3YT9RAgYN75",
+                "song_name": "Espresso",
+                "song_link": "spotify:track:2qSkIjg1o9h3YT9RAgYN75",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "Sabrina Carpenter",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "gb"
+                }
+            },
+            "rank": {
+                "rank_value": 1,
+                "streams": "3521282",
+                "date": "2024-08-01",
+                "country": "gb",
+                "source": "Spotify",
+                "song_id": "2qSkIjg1o9h3YT9RAgYN75"
+            }
+        },
+        {
+            "song": {
+                "song_id": "6dOtVTDdiauQNBQEDOtlAB",
+                "song_name": "BIRDS OF A FEATHER",
+                "song_link": "spotify:track:6dOtVTDdiauQNBQEDOtlAB",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "Billie Eilish",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "gb"
+                }
+            },
+            "rank": {
+                "rank_value": 2,
+                "streams": "3520890",
+                "date": "2024-08-01",
+                "country": "gb",
+                "source": "Spotify",
+                "song_id": "6dOtVTDdiauQNBQEDOtlAB"
+            }
+        },
+        {
+            "song": {
+                "song_id": "0WbMK4wrZ1wFSty9F7FCgu",
+                "song_name": "Good Luck, Babe!",
+                "song_link": "spotify:track:0WbMK4wrZ1wFSty9F7FCgu",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "Chappell Roan",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "gb"
+                }
+            },
+            "rank": {
+                "rank_value": 3,
+                "streams": "3328798",
+                "date": "2024-08-01",
+                "country": "gb",
+                "source": "Spotify",
+                "song_id": "0WbMK4wrZ1wFSty9F7FCgu"
+            }
+        },
+        {
+            "song": {
+                "song_id": "5N3hjp1WNayUPZrA8kJmJP",
+                "song_name": "Please Please Please",
+                "song_link": "spotify:track:5N3hjp1WNayUPZrA8kJmJP",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "Sabrina Carpenter",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "gb"
+                }
+            },
+            "rank": {
+                "rank_value": 4,
+                "streams": "3191412",
+                "date": "2024-08-01",
+                "country": "gb",
+                "source": "Spotify",
+                "song_id": "5N3hjp1WNayUPZrA8kJmJP"
+            }
+        },
+        {
+            "song": {
+                "song_id": "5fZJQrFKWQLb7FpJXZ1g7K",
+                "song_name": "A Bar Song (Tipsy)",
+                "song_link": "spotify:track:5fZJQrFKWQLb7FpJXZ1g7K",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "Shaboozey",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "gb"
+                }
+            },
+            "rank": {
+                "rank_value": 5,
+                "streams": "2838161",
+                "date": "2024-08-01",
+                "country": "gb",
+                "source": "Spotify",
+                "song_id": "5fZJQrFKWQLb7FpJXZ1g7K"
+            }
+        },
+        {
+            "song": {
+                "song_id": "5Z0UnEtpLDQyYlWwgi8m9C",
+                "song_name": "Too Sweet",
+                "song_link": "spotify:track:5Z0UnEtpLDQyYlWwgi8m9C",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "Hozier",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "gb"
+                }
+            },
+            "rank": {
+                "rank_value": 6,
+                "streams": "2621031",
+                "date": "2024-08-01",
+                "country": "gb",
+                "source": "Spotify",
+                "song_id": "5Z0UnEtpLDQyYlWwgi8m9C"
+            }
+        },
+        {
+            "song": {
+                "song_id": "3Vr3zh0r7ALn8VLqCiRR10",
+                "song_name": "Stargazing",
+                "song_link": "spotify:track:3Vr3zh0r7ALn8VLqCiRR10",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "Myles Smith",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "gb"
+                }
+            },
+            "rank": {
+                "rank_value": 7,
+                "streams": "2511281",
+                "date": "2024-08-01",
+                "country": "gb",
+                "source": "Spotify",
+                "song_id": "3Vr3zh0r7ALn8VLqCiRR10"
+            }
+        },
+        {
+            "song": {
+                "song_id": "3xkHsmpQCBMytMJNiDf3Ii",
+                "song_name": "Beautiful Things",
+                "song_link": "spotify:track:3xkHsmpQCBMytMJNiDf3Ii",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "Benson Boone",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "gb"
+                }
+            },
+            "rank": {
+                "rank_value": 8,
+                "streams": "2395075",
+                "date": "2024-08-01",
+                "country": "gb",
+                "source": "Spotify",
+                "song_id": "3xkHsmpQCBMytMJNiDf3Ii"
+            }
+        },
+        {
+            "song": {
+                "song_id": "7221xIgOnuakPdLqT0F3nP",
+                "song_name": "I Had Some Help (Feat. Morgan Wallen)",
+                "song_link": "spotify:track:7221xIgOnuakPdLqT0F3nP",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "Post Malone",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "gb"
+                }
+            },
+            "rank": {
+                "rank_value": 9,
+                "streams": "2247722",
+                "date": "2024-08-01",
+                "country": "gb",
+                "source": "Spotify",
+                "song_id": "7221xIgOnuakPdLqT0F3nP"
+            }
+        },
+        {
+            "song": {
+                "song_id": "2uqYupMHANxnwgeiXTZXzd",
+                "song_name": "Austin (Boots Stop Workin')",
+                "song_link": "spotify:track:2uqYupMHANxnwgeiXTZXzd",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "Dasha",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "gb"
+                }
+            },
+            "rank": {
+                "rank_value": 10,
+                "streams": "2163334",
+                "date": "2024-08-01",
+                "country": "gb",
+                "source": "Spotify",
+                "song_id": "2uqYupMHANxnwgeiXTZXzd"
+            }
+        }
+    ],
+    "de": [
+        {
+            "song": {
+                "song_id": "64f3yNXsi2Vk76odcHCOnw",
+                "song_name": "Bauch Beine Po",
+                "song_link": "spotify:track:64f3yNXsi2Vk76odcHCOnw",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "Shirin David",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "de"
+                }
+            },
+            "rank": {
+                "rank_value": 1,
+                "streams": "4708161",
+                "date": "2024-08-01",
+                "country": "de",
+                "source": "Spotify",
+                "song_id": "64f3yNXsi2Vk76odcHCOnw"
+            }
+        },
+        {
+            "song": {
+                "song_id": "0Rgdhptwk0A3Clbu5RpYI1",
+                "song_name": "Starboy",
+                "song_link": "spotify:track:0Rgdhptwk0A3Clbu5RpYI1",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "Luciano",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "de"
+                }
+            },
+            "rank": {
+                "rank_value": 2,
+                "streams": "2569359",
+                "date": "2024-08-01",
+                "country": "de",
+                "source": "Spotify",
+                "song_id": "0Rgdhptwk0A3Clbu5RpYI1"
+            }
+        },
+        {
+            "song": {
+                "song_id": "3qcreqi8RaGqahtJSQDxNI",
+                "song_name": "Panama",
+                "song_link": "spotify:track:3qcreqi8RaGqahtJSQDxNI",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "GReeeN",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "de"
+                }
+            },
+            "rank": {
+                "rank_value": 3,
+                "streams": "2556558",
+                "date": "2024-08-01",
+                "country": "de",
+                "source": "Spotify",
+                "song_id": "3qcreqi8RaGqahtJSQDxNI"
+            }
+        },
+        {
+            "song": {
+                "song_id": "1BJJbSX6muJVF2AK7uH1x4",
+                "song_name": "Move",
+                "song_link": "spotify:track:1BJJbSX6muJVF2AK7uH1x4",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "Adam Port",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "de"
+                }
+            },
+            "rank": {
+                "rank_value": 4,
+                "streams": "2432858",
+                "date": "2024-08-01",
+                "country": "de",
+                "source": "Spotify",
+                "song_id": "1BJJbSX6muJVF2AK7uH1x4"
+            }
+        },
+        {
+            "song": {
+                "song_id": "16f4ZN6XOfrIO8fJkm28HM",
+                "song_name": "Wunder",
+                "song_link": "spotify:track:16f4ZN6XOfrIO8fJkm28HM",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "AYLIVA",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "de"
+                }
+            },
+            "rank": {
+                "rank_value": 5,
+                "streams": "2408876",
+                "date": "2024-08-01",
+                "country": "de",
+                "source": "Spotify",
+                "song_id": "16f4ZN6XOfrIO8fJkm28HM"
+            }
+        },
+        {
+            "song": {
+                "song_id": "2wvUmObLQbxClXFsuhw8Ns",
+                "song_name": "Nein!",
+                "song_link": "spotify:track:2wvUmObLQbxClXFsuhw8Ns",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "AYLIVA",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "de"
+                }
+            },
+            "rank": {
+                "rank_value": 6,
+                "streams": "2134006",
+                "date": "2024-08-01",
+                "country": "de",
+                "source": "Spotify",
+                "song_id": "2wvUmObLQbxClXFsuhw8Ns"
+            }
+        },
+        {
+            "song": {
+                "song_id": "5496lks6V3fh1mZAB6IAap",
+                "song_name": "Alibi (with Pabllo Vittar & Yseult)",
+                "song_link": "spotify:track:5496lks6V3fh1mZAB6IAap",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "Sevdaliza",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "de"
+                }
+            },
+            "rank": {
+                "rank_value": 7,
+                "streams": "2084185",
+                "date": "2024-08-01",
+                "country": "de",
+                "source": "Spotify",
+                "song_id": "5496lks6V3fh1mZAB6IAap"
+            }
+        },
+        {
+            "song": {
+                "song_id": "3pPMgoouYtezLiBTEeL9be",
+                "song_name": "VEMPA",
+                "song_link": "spotify:track:3pPMgoouYtezLiBTEeL9be",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "FOURTY",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "de"
+                }
+            },
+            "rank": {
+                "rank_value": 8,
+                "streams": "2045796",
+                "date": "2024-08-01",
+                "country": "de",
+                "source": "Spotify",
+                "song_id": "3pPMgoouYtezLiBTEeL9be"
+            }
+        },
+        {
+            "song": {
+                "song_id": "6XjDF6nds4DE2BBbagZol6",
+                "song_name": "Gata Only",
+                "song_link": "spotify:track:6XjDF6nds4DE2BBbagZol6",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "FloyyMenor",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "de"
+                }
+            },
+            "rank": {
+                "rank_value": 9,
+                "streams": "2035907",
+                "date": "2024-08-01",
+                "country": "de",
+                "source": "Spotify",
+                "song_id": "6XjDF6nds4DE2BBbagZol6"
+            }
+        },
+        {
+            "song": {
+                "song_id": "6leQi7NakJQS1vHRtZsroe",
+                "song_name": "Mittelmeer",
+                "song_link": "spotify:track:6leQi7NakJQS1vHRtZsroe",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "Pashanim",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "de"
+                }
+            },
+            "rank": {
+                "rank_value": 10,
+                "streams": "2010313",
+                "date": "2024-08-01",
+                "country": "de",
+                "source": "Spotify",
+                "song_id": "6leQi7NakJQS1vHRtZsroe"
+            }
+        }
+    ],
+    "fr": [
+        {
+            "song": {
+                "song_id": "2fFTn0f94EopgZyfSGQuyK",
+                "song_name": "SPIDER",
+                "song_link": "spotify:track:2fFTn0f94EopgZyfSGQuyK",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "GIMS",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "fr"
+                }
+            },
+            "rank": {
+                "rank_value": 1,
+                "streams": "3793430",
+                "date": "2024-08-01",
+                "country": "fr",
+                "source": "Spotify",
+                "song_id": "2fFTn0f94EopgZyfSGQuyK"
+            }
+        },
+        {
+            "song": {
+                "song_id": "37tGmKyKlr8vyt9BVdoWQo",
+                "song_name": "SOIS PAS TIMIDE",
+                "song_link": "spotify:track:37tGmKyKlr8vyt9BVdoWQo",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "GIMS",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "fr"
+                }
+            },
+            "rank": {
+                "rank_value": 2,
+                "streams": "3402789",
+                "date": "2024-08-01",
+                "country": "fr",
+                "source": "Spotify",
+                "song_id": "37tGmKyKlr8vyt9BVdoWQo"
+            }
+        },
+        {
+            "song": {
+                "song_id": "6IcsbETuviVu6UTiBTcxY4",
+                "song_name": "Imagine",
+                "song_link": "spotify:track:6IcsbETuviVu6UTiBTcxY4",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "Carbonne",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "fr"
+                }
+            },
+            "rank": {
+                "rank_value": 3,
+                "streams": "3175276",
+                "date": "2024-08-01",
+                "country": "fr",
+                "source": "Spotify",
+                "song_id": "6IcsbETuviVu6UTiBTcxY4"
+            }
+        },
+        {
+            "song": {
+                "song_id": "2PYMw8P6kuCHqhltz47XMr",
+                "song_name": "Bah Ouais - Nouvelle \u00c9cole",
+                "song_link": "spotify:track:2PYMw8P6kuCHqhltz47XMr",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "Dadi",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "fr"
+                }
+            },
+            "rank": {
+                "rank_value": 4,
+                "streams": "2589186",
+                "date": "2024-08-01",
+                "country": "fr",
+                "source": "Spotify",
+                "song_id": "2PYMw8P6kuCHqhltz47XMr"
+            }
+        },
+        {
+            "song": {
+                "song_id": "6XjDF6nds4DE2BBbagZol6",
+                "song_name": "Gata Only",
+                "song_link": "spotify:track:6XjDF6nds4DE2BBbagZol6",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "FloyyMenor",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "fr"
+                }
+            },
+            "rank": {
+                "rank_value": 5,
+                "streams": "2549516",
+                "date": "2024-08-01",
+                "country": "fr",
+                "source": "Spotify",
+                "song_id": "6XjDF6nds4DE2BBbagZol6"
+            }
+        },
+        {
+            "song": {
+                "song_id": "1HXC5IiGUqTEFl18IJ42Lm",
+                "song_name": "Coco",
+                "song_link": "spotify:track:1HXC5IiGUqTEFl18IJ42Lm",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "Ninho",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "fr"
+                }
+            },
+            "rank": {
+                "rank_value": 6,
+                "streams": "2233688",
+                "date": "2024-08-01",
+                "country": "fr",
+                "source": "Spotify",
+                "song_id": "1HXC5IiGUqTEFl18IJ42Lm"
+            }
+        },
+        {
+            "song": {
+                "song_id": "1HQQbaepsGB5uyTAGmSZxj",
+                "song_name": "CRF - Nouvelle \u00c9cole",
+                "song_link": "spotify:track:1HQQbaepsGB5uyTAGmSZxj",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "Yorssy",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "fr"
+                }
+            },
+            "rank": {
+                "rank_value": 7,
+                "streams": "2233431",
+                "date": "2024-08-01",
+                "country": "fr",
+                "source": "Spotify",
+                "song_id": "1HQQbaepsGB5uyTAGmSZxj"
+            }
+        },
+        {
+            "song": {
+                "song_id": "7EMzOyDT87Uq9Hi08Mxe31",
+                "song_name": "Wayeh",
+                "song_link": "spotify:track:7EMzOyDT87Uq9Hi08Mxe31",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "THEODORT",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "fr"
+                }
+            },
+            "rank": {
+                "rank_value": 8,
+                "streams": "2108021",
+                "date": "2024-08-01",
+                "country": "fr",
+                "source": "Spotify",
+                "song_id": "7EMzOyDT87Uq9Hi08Mxe31"
+            }
+        },
+        {
+            "song": {
+                "song_id": "3PyRt7gpih7EPvV0fMWEom",
+                "song_name": "Hakayet",
+                "song_link": "spotify:track:3PyRt7gpih7EPvV0fMWEom",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "VEN1",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "fr"
+                }
+            },
+            "rank": {
+                "rank_value": 9,
+                "streams": "2008937",
+                "date": "2024-08-01",
+                "country": "fr",
+                "source": "Spotify",
+                "song_id": "3PyRt7gpih7EPvV0fMWEom"
+            }
+        },
+        {
+            "song": {
+                "song_id": "3KZN01EuBoqh04jyGXpnxr",
+                "song_name": "Aucune attache",
+                "song_link": "spotify:track:3KZN01EuBoqh04jyGXpnxr",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "KeBlack",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "fr"
+                }
+            },
+            "rank": {
+                "rank_value": 10,
+                "streams": "1903973",
+                "date": "2024-08-01",
+                "country": "fr",
+                "source": "Spotify",
+                "song_id": "3KZN01EuBoqh04jyGXpnxr"
+            }
+        }
+    ],
+    "au": [
+        {
+            "song": {
+                "song_id": "6dOtVTDdiauQNBQEDOtlAB",
+                "song_name": "BIRDS OF A FEATHER",
+                "song_link": "spotify:track:6dOtVTDdiauQNBQEDOtlAB",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "Billie Eilish",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "au"
+                }
+            },
+            "rank": {
+                "rank_value": 1,
+                "streams": "2336872",
+                "date": "2024-08-01",
+                "country": "au",
+                "source": "Spotify",
+                "song_id": "6dOtVTDdiauQNBQEDOtlAB"
+            }
+        },
+        {
+            "song": {
+                "song_id": "5fZJQrFKWQLb7FpJXZ1g7K",
+                "song_name": "A Bar Song (Tipsy)",
+                "song_link": "spotify:track:5fZJQrFKWQLb7FpJXZ1g7K",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "Shaboozey",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "au"
+                }
+            },
+            "rank": {
+                "rank_value": 2,
+                "streams": "2153826",
+                "date": "2024-08-01",
+                "country": "au",
+                "source": "Spotify",
+                "song_id": "5fZJQrFKWQLb7FpJXZ1g7K"
+            }
+        },
+        {
+            "song": {
+                "song_id": "0WbMK4wrZ1wFSty9F7FCgu",
+                "song_name": "Good Luck, Babe!",
+                "song_link": "spotify:track:0WbMK4wrZ1wFSty9F7FCgu",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "Chappell Roan",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "au"
+                }
+            },
+            "rank": {
+                "rank_value": 3,
+                "streams": "1916817",
+                "date": "2024-08-01",
+                "country": "au",
+                "source": "Spotify",
+                "song_id": "0WbMK4wrZ1wFSty9F7FCgu"
+            }
+        },
+        {
+            "song": {
+                "song_id": "7221xIgOnuakPdLqT0F3nP",
+                "song_name": "I Had Some Help (Feat. Morgan Wallen)",
+                "song_link": "spotify:track:7221xIgOnuakPdLqT0F3nP",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "Post Malone",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "au"
+                }
+            },
+            "rank": {
+                "rank_value": 4,
+                "streams": "1900143",
+                "date": "2024-08-01",
+                "country": "au",
+                "source": "Spotify",
+                "song_id": "7221xIgOnuakPdLqT0F3nP"
+            }
+        },
+        {
+            "song": {
+                "song_id": "2qSkIjg1o9h3YT9RAgYN75",
+                "song_name": "Espresso",
+                "song_link": "spotify:track:2qSkIjg1o9h3YT9RAgYN75",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "Sabrina Carpenter",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "au"
+                }
+            },
+            "rank": {
+                "rank_value": 5,
+                "streams": "1889895",
+                "date": "2024-08-01",
+                "country": "au",
+                "source": "Spotify",
+                "song_id": "2qSkIjg1o9h3YT9RAgYN75"
+            }
+        },
+        {
+            "song": {
+                "song_id": "5N3hjp1WNayUPZrA8kJmJP",
+                "song_name": "Please Please Please",
+                "song_link": "spotify:track:5N3hjp1WNayUPZrA8kJmJP",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "Sabrina Carpenter",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "au"
+                }
+            },
+            "rank": {
+                "rank_value": 6,
+                "streams": "1778969",
+                "date": "2024-08-01",
+                "country": "au",
+                "source": "Spotify",
+                "song_id": "5N3hjp1WNayUPZrA8kJmJP"
+            }
+        },
+        {
+            "song": {
+                "song_id": "6AI3ezQ4o3HUoP6Dhudph3",
+                "song_name": "Not Like Us",
+                "song_link": "spotify:track:6AI3ezQ4o3HUoP6Dhudph3",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "Kendrick Lamar",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "au"
+                }
+            },
+            "rank": {
+                "rank_value": 7,
+                "streams": "1711300",
+                "date": "2024-08-01",
+                "country": "au",
+                "source": "Spotify",
+                "song_id": "6AI3ezQ4o3HUoP6Dhudph3"
+            }
+        },
+        {
+            "song": {
+                "song_id": "3xkHsmpQCBMytMJNiDf3Ii",
+                "song_name": "Beautiful Things",
+                "song_link": "spotify:track:3xkHsmpQCBMytMJNiDf3Ii",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "Benson Boone",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "au"
+                }
+            },
+            "rank": {
+                "rank_value": 8,
+                "streams": "1686956",
+                "date": "2024-08-01",
+                "country": "au",
+                "source": "Spotify",
+                "song_id": "3xkHsmpQCBMytMJNiDf3Ii"
+            }
+        },
+        {
+            "song": {
+                "song_id": "5AJ9hqTS2wcFQCELCFRO7A",
+                "song_name": "MILLION DOLLAR BABY",
+                "song_link": "spotify:track:5AJ9hqTS2wcFQCELCFRO7A",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "Tommy Richman",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "au"
+                }
+            },
+            "rank": {
+                "rank_value": 9,
+                "streams": "1530357",
+                "date": "2024-08-01",
+                "country": "au",
+                "source": "Spotify",
+                "song_id": "5AJ9hqTS2wcFQCELCFRO7A"
+            }
+        },
+        {
+            "song": {
+                "song_id": "17phhZDn6oGtzMe56NuWvj",
+                "song_name": "Lose Control",
+                "song_link": "spotify:track:17phhZDn6oGtzMe56NuWvj",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "Teddy Swims",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "au"
+                }
+            },
+            "rank": {
+                "rank_value": 10,
+                "streams": "1437134",
+                "date": "2024-08-01",
+                "country": "au",
+                "source": "Spotify",
+                "song_id": "17phhZDn6oGtzMe56NuWvj"
+            }
+        }
+    ],
+    "br": [
+        {
+            "song": {
+                "song_id": "7IFsTX5H1sWcEl8joV0IdD",
+                "song_name": "THE BOX MEDLEY FUNK 2",
+                "song_link": "spotify:track:7IFsTX5H1sWcEl8joV0IdD",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "THE BOX",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "br"
+                }
+            },
+            "rank": {
+                "rank_value": 1,
+                "streams": "6813511",
+                "date": "2024-08-01",
+                "country": "br",
+                "source": "Spotify",
+                "song_id": "7IFsTX5H1sWcEl8joV0IdD"
+            }
+        },
+        {
+            "song": {
+                "song_id": "6W196uVRkmQFHbc1XV8DNk",
+                "song_name": "Sonho Dela (Cowboy)",
+                "song_link": "spotify:track:6W196uVRkmQFHbc1XV8DNk",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "CountryBeat",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "br"
+                }
+            },
+            "rank": {
+                "rank_value": 2,
+                "streams": "6285407",
+                "date": "2024-08-01",
+                "country": "br",
+                "source": "Spotify",
+                "song_id": "6W196uVRkmQFHbc1XV8DNk"
+            }
+        },
+        {
+            "song": {
+                "song_id": "2o4hr5HCAKShrbFtmxm7Dg",
+                "song_name": "Torre Eiffel - Ao Vivo",
+                "song_link": "spotify:track:2o4hr5HCAKShrbFtmxm7Dg",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "Manu",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "br"
+                }
+            },
+            "rank": {
+                "rank_value": 3,
+                "streams": "6124855",
+                "date": "2024-08-01",
+                "country": "br",
+                "source": "Spotify",
+                "song_id": "2o4hr5HCAKShrbFtmxm7Dg"
+            }
+        },
+        {
+            "song": {
+                "song_id": "0HDMisLsuGNml98Xq7atpm",
+                "song_name": "EU SOU SENTIMENTO",
+                "song_link": "spotify:track:0HDMisLsuGNml98Xq7atpm",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "Luan Santana",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "br"
+                }
+            },
+            "rank": {
+                "rank_value": 4,
+                "streams": "5910624",
+                "date": "2024-08-01",
+                "country": "br",
+                "source": "Spotify",
+                "song_id": "0HDMisLsuGNml98Xq7atpm"
+            }
+        },
+        {
+            "song": {
+                "song_id": "1NcqLEg2r2LXqMVbam2BJD",
+                "song_name": "Triplex - Ao Vivo",
+                "song_link": "spotify:track:1NcqLEg2r2LXqMVbam2BJD",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "Matheus Fernandes",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "br"
+                }
+            },
+            "rank": {
+                "rank_value": 5,
+                "streams": "5730805",
+                "date": "2024-08-01",
+                "country": "br",
+                "source": "Spotify",
+                "song_id": "1NcqLEg2r2LXqMVbam2BJD"
+            }
+        },
+        {
+            "song": {
+                "song_id": "5QpcLTQjh0qO7OIuR9q8IR",
+                "song_name": "Morar Nesse Motel",
+                "song_link": "spotify:track:5QpcLTQjh0qO7OIuR9q8IR",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "Gusttavo Lima",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "br"
+                }
+            },
+            "rank": {
+                "rank_value": 6,
+                "streams": "5670222",
+                "date": "2024-08-01",
+                "country": "br",
+                "source": "Spotify",
+                "song_id": "5QpcLTQjh0qO7OIuR9q8IR"
+            }
+        },
+        {
+            "song": {
+                "song_id": "7tI8dRuH2Yc6RuoTjxo4dU",
+                "song_name": "Who",
+                "song_link": "spotify:track:7tI8dRuH2Yc6RuoTjxo4dU",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "Jimin",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "br"
+                }
+            },
+            "rank": {
+                "rank_value": 7,
+                "streams": "5258803",
+                "date": "2024-08-01",
+                "country": "br",
+                "source": "Spotify",
+                "song_id": "7tI8dRuH2Yc6RuoTjxo4dU"
+            }
+        },
+        {
+            "song": {
+                "song_id": "4VNRWHoiKHZJIoQHPbmJIv",
+                "song_name": "Gosta De Rua - Ao Vivo",
+                "song_link": "spotify:track:4VNRWHoiKHZJIoQHPbmJIv",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "Felipe e Rodrigo",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "br"
+                }
+            },
+            "rank": {
+                "rank_value": 8,
+                "streams": "5243557",
+                "date": "2024-08-01",
+                "country": "br",
+                "source": "Spotify",
+                "song_id": "4VNRWHoiKHZJIoQHPbmJIv"
+            }
+        },
+        {
+            "song": {
+                "song_id": "6mTpK40yIRk1xGGNvRMHGg",
+                "song_name": "Me Caiu T\u00e3o Bem - Ao Vivo",
+                "song_link": "spotify:track:6mTpK40yIRk1xGGNvRMHGg",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "Murilo Huff",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "br"
+                }
+            },
+            "rank": {
+                "rank_value": 9,
+                "streams": "5141804",
+                "date": "2024-08-01",
+                "country": "br",
+                "source": "Spotify",
+                "song_id": "6mTpK40yIRk1xGGNvRMHGg"
+            }
+        },
+        {
+            "song": {
+                "song_id": "6RjSXi9cPGroetXeNsWFGL",
+                "song_name": "MTG QUEM N\u00c3O QUER SOU EU",
+                "song_link": "spotify:track:6RjSXi9cPGroetXeNsWFGL",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "DJ TOPO",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "br"
+                }
+            },
+            "rank": {
+                "rank_value": 10,
+                "streams": "5042076",
+                "date": "2024-08-01",
+                "country": "br",
+                "source": "Spotify",
+                "song_id": "6RjSXi9cPGroetXeNsWFGL"
+            }
+        }
+    ],
+    "jp": [
+        {
+            "song": {
+                "song_id": "78W4mTLIh4qoLu92W4IQhO",
+                "song_name": "\u30e9\u30a4\u30e9\u30c3\u30af",
+                "song_link": "spotify:track:78W4mTLIh4qoLu92W4IQhO",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "Mrs. GREEN APPLE",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "jp"
+                }
+            },
+            "rank": {
+                "rank_value": 1,
+                "streams": "2826395",
+                "date": "2024-08-01",
+                "country": "jp",
+                "source": "Spotify",
+                "song_id": "78W4mTLIh4qoLu92W4IQhO"
+            }
+        },
+        {
+            "song": {
+                "song_id": "7tI8dRuH2Yc6RuoTjxo4dU",
+                "song_name": "Who",
+                "song_link": "spotify:track:7tI8dRuH2Yc6RuoTjxo4dU",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "Jimin",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "jp"
+                }
+            },
+            "rank": {
+                "rank_value": 2,
+                "streams": "2720561",
+                "date": "2024-08-01",
+                "country": "jp",
+                "source": "Spotify",
+                "song_id": "7tI8dRuH2Yc6RuoTjxo4dU"
+            }
+        },
+        {
+            "song": {
+                "song_id": "5BC6kr6etk2Y9J62AyI4i3",
+                "song_name": "\u9752\u3068\u590f",
+                "song_link": "spotify:track:5BC6kr6etk2Y9J62AyI4i3",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "Mrs. GREEN APPLE",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "jp"
+                }
+            },
+            "rank": {
+                "rank_value": 3,
+                "streams": "2066944",
+                "date": "2024-08-01",
+                "country": "jp",
+                "source": "Spotify",
+                "song_id": "5BC6kr6etk2Y9J62AyI4i3"
+            }
+        },
+        {
+            "song": {
+                "song_id": "0kdqcbwei4MDWFEX5f33yG",
+                "song_name": "Bling-Bang-Bang-Born",
+                "song_link": "spotify:track:0kdqcbwei4MDWFEX5f33yG",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "Creepy Nuts",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "jp"
+                }
+            },
+            "rank": {
+                "rank_value": 4,
+                "streams": "1975431",
+                "date": "2024-08-01",
+                "country": "jp",
+                "source": "Spotify",
+                "song_id": "0kdqcbwei4MDWFEX5f33yG"
+            }
+        },
+        {
+            "song": {
+                "song_id": "0teqQ0PYqVDyyXJuPOyMhu",
+                "song_name": "\u30b1\u30bb\u30e9\u30bb\u30e9",
+                "song_link": "spotify:track:0teqQ0PYqVDyyXJuPOyMhu",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "Mrs. GREEN APPLE",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "jp"
+                }
+            },
+            "rank": {
+                "rank_value": 5,
+                "streams": "1855507",
+                "date": "2024-08-01",
+                "country": "jp",
+                "source": "Spotify",
+                "song_id": "0teqQ0PYqVDyyXJuPOyMhu"
+            }
+        },
+        {
+            "song": {
+                "song_id": "00Q3uYmFKFVYTRjbsnUq7H",
+                "song_name": "I wonder",
+                "song_link": "spotify:track:00Q3uYmFKFVYTRjbsnUq7H",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "Da-iCE",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "jp"
+                }
+            },
+            "rank": {
+                "rank_value": 6,
+                "streams": "1828780",
+                "date": "2024-08-01",
+                "country": "jp",
+                "source": "Spotify",
+                "song_id": "00Q3uYmFKFVYTRjbsnUq7H"
+            }
+        },
+        {
+            "song": {
+                "song_id": "4dmruTsdHIOjfOIeaFitXK",
+                "song_name": "\u5e7e\u5104\u5149\u5e74",
+                "song_link": "spotify:track:4dmruTsdHIOjfOIeaFitXK",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "Omoinotake",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "jp"
+                }
+            },
+            "rank": {
+                "rank_value": 7,
+                "streams": "1760132",
+                "date": "2024-08-01",
+                "country": "jp",
+                "source": "Spotify",
+                "song_id": "4dmruTsdHIOjfOIeaFitXK"
+            }
+        },
+        {
+            "song": {
+                "song_id": "5LclntckGFFGFUVGJk9Z4x",
+                "song_name": "\u65b0\u3057\u3044\u604b\u4eba\u9054\u306b",
+                "song_link": "spotify:track:5LclntckGFFGFUVGJk9Z4x",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "back number",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "jp"
+                }
+            },
+            "rank": {
+                "rank_value": 8,
+                "streams": "1752208",
+                "date": "2024-08-01",
+                "country": "jp",
+                "source": "Spotify",
+                "song_id": "5LclntckGFFGFUVGJk9Z4x"
+            }
+        },
+        {
+            "song": {
+                "song_id": "3ECvJ97WjbbaTsCZ64pwgI",
+                "song_name": "\u30b3\u30ed\u30f3\u30d6\u30b9",
+                "song_link": "spotify:track:3ECvJ97WjbbaTsCZ64pwgI",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "Mrs. GREEN APPLE",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "jp"
+                }
+            },
+            "rank": {
+                "rank_value": 9,
+                "streams": "1674363",
+                "date": "2024-08-01",
+                "country": "jp",
+                "source": "Spotify",
+                "song_id": "3ECvJ97WjbbaTsCZ64pwgI"
+            }
+        },
+        {
+            "song": {
+                "song_id": "3wJHCry960drNlAUGrJLmz",
+                "song_name": "\u305f\u3060\u541b\u306b\u6674\u308c",
+                "song_link": "spotify:track:3wJHCry960drNlAUGrJLmz",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "Yorushika",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "jp"
+                }
+            },
+            "rank": {
+                "rank_value": 10,
+                "streams": "1609435",
+                "date": "2024-08-01",
+                "country": "jp",
+                "source": "Spotify",
+                "song_id": "3wJHCry960drNlAUGrJLmz"
+            }
+        }
+    ],
+    "ca": [
+        {
+            "song": {
+                "song_id": "5fZJQrFKWQLb7FpJXZ1g7K",
+                "song_name": "A Bar Song (Tipsy)",
+                "song_link": "spotify:track:5fZJQrFKWQLb7FpJXZ1g7K",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "Shaboozey",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "ca"
+                }
+            },
+            "rank": {
+                "rank_value": 1,
+                "streams": "2710278",
+                "date": "2024-08-01",
+                "country": "ca",
+                "source": "Spotify",
+                "song_id": "5fZJQrFKWQLb7FpJXZ1g7K"
+            }
+        },
+        {
+            "song": {
+                "song_id": "7221xIgOnuakPdLqT0F3nP",
+                "song_name": "I Had Some Help (Feat. Morgan Wallen)",
+                "song_link": "spotify:track:7221xIgOnuakPdLqT0F3nP",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "Post Malone",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "ca"
+                }
+            },
+            "rank": {
+                "rank_value": 2,
+                "streams": "2385453",
+                "date": "2024-08-01",
+                "country": "ca",
+                "source": "Spotify",
+                "song_id": "7221xIgOnuakPdLqT0F3nP"
+            }
+        },
+        {
+            "song": {
+                "song_id": "6dOtVTDdiauQNBQEDOtlAB",
+                "song_name": "BIRDS OF A FEATHER",
+                "song_link": "spotify:track:6dOtVTDdiauQNBQEDOtlAB",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "Billie Eilish",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "ca"
+                }
+            },
+            "rank": {
+                "rank_value": 3,
+                "streams": "1854490",
+                "date": "2024-08-01",
+                "country": "ca",
+                "source": "Spotify",
+                "song_id": "6dOtVTDdiauQNBQEDOtlAB"
+            }
+        },
+        {
+            "song": {
+                "song_id": "6AI3ezQ4o3HUoP6Dhudph3",
+                "song_name": "Not Like Us",
+                "song_link": "spotify:track:6AI3ezQ4o3HUoP6Dhudph3",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "Kendrick Lamar",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "ca"
+                }
+            },
+            "rank": {
+                "rank_value": 4,
+                "streams": "1787268",
+                "date": "2024-08-01",
+                "country": "ca",
+                "source": "Spotify",
+                "song_id": "6AI3ezQ4o3HUoP6Dhudph3"
+            }
+        },
+        {
+            "song": {
+                "song_id": "2qSkIjg1o9h3YT9RAgYN75",
+                "song_name": "Espresso",
+                "song_link": "spotify:track:2qSkIjg1o9h3YT9RAgYN75",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "Sabrina Carpenter",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "ca"
+                }
+            },
+            "rank": {
+                "rank_value": 5,
+                "streams": "1758523",
+                "date": "2024-08-01",
+                "country": "ca",
+                "source": "Spotify",
+                "song_id": "2qSkIjg1o9h3YT9RAgYN75"
+            }
+        },
+        {
+            "song": {
+                "song_id": "0WbMK4wrZ1wFSty9F7FCgu",
+                "song_name": "Good Luck, Babe!",
+                "song_link": "spotify:track:0WbMK4wrZ1wFSty9F7FCgu",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "Chappell Roan",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "ca"
+                }
+            },
+            "rank": {
+                "rank_value": 6,
+                "streams": "1682249",
+                "date": "2024-08-01",
+                "country": "ca",
+                "source": "Spotify",
+                "song_id": "0WbMK4wrZ1wFSty9F7FCgu"
+            }
+        },
+        {
+            "song": {
+                "song_id": "5N3hjp1WNayUPZrA8kJmJP",
+                "song_name": "Please Please Please",
+                "song_link": "spotify:track:5N3hjp1WNayUPZrA8kJmJP",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "Sabrina Carpenter",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "ca"
+                }
+            },
+            "rank": {
+                "rank_value": 7,
+                "streams": "1640965",
+                "date": "2024-08-01",
+                "country": "ca",
+                "source": "Spotify",
+                "song_id": "5N3hjp1WNayUPZrA8kJmJP"
+            }
+        },
+        {
+            "song": {
+                "song_id": "3xkHsmpQCBMytMJNiDf3Ii",
+                "song_name": "Beautiful Things",
+                "song_link": "spotify:track:3xkHsmpQCBMytMJNiDf3Ii",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "Benson Boone",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "ca"
+                }
+            },
+            "rank": {
+                "rank_value": 8,
+                "streams": "1612910",
+                "date": "2024-08-01",
+                "country": "ca",
+                "source": "Spotify",
+                "song_id": "3xkHsmpQCBMytMJNiDf3Ii"
+            }
+        },
+        {
+            "song": {
+                "song_id": "5crxqqibcvoOQQgg4HjAFQ",
+                "song_name": "Guy For That (Feat. Luke Combs)",
+                "song_link": "spotify:track:5crxqqibcvoOQQgg4HjAFQ",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "Post Malone",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "ca"
+                }
+            },
+            "rank": {
+                "rank_value": 9,
+                "streams": "1317203",
+                "date": "2024-08-01",
+                "country": "ca",
+                "source": "Spotify",
+                "song_id": "5crxqqibcvoOQQgg4HjAFQ"
+            }
+        },
+        {
+            "song": {
+                "song_id": "2uqYupMHANxnwgeiXTZXzd",
+                "song_name": "Austin (Boots Stop Workin')",
+                "song_link": "spotify:track:2uqYupMHANxnwgeiXTZXzd",
+                "song_length": "",
+                "artist": {
+                    "artist_id": "",
+                    "artist_name": "Dasha",
+                    "artist_genre": null,
+                    "artist_gender": null,
+                    "country": "ca"
+                }
+            },
+            "rank": {
+                "rank_value": 10,
+                "streams": "1311054",
+                "date": "2024-08-01",
+                "country": "ca",
+                "source": "Spotify",
+                "song_id": "2uqYupMHANxnwgeiXTZXzd"
+            }
+        }
+    ]
+}
