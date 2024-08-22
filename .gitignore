@@ -2,3 +2,5 @@
 ./spotify_charts_data.json
 /src/venv
 /crud-api/venv
+**/node_modules/
+**/__pycache__/
