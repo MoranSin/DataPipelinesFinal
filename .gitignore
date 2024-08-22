@@ -1,2 +1,4 @@
 .venv
 ./spotify_charts_data.json
+/src/venv
+/crud-api/venv
