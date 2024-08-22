@@ -1,12 +1,10 @@
 services:
-  # scrapers:
-  #   build:
-  #     context: ./scrapers
-  #     dockerfile: Dockerfile
-  #   ports:
-  #     - "8000:8000"
-  #   depends_on:
-  #     - sqs
+#   scrapers:
+#     build:
+#       context: ./scrapers
+#       dockerfile: Dockerfile
+#     depends_on:
+#       - sqs
   
   # processor:
   #   build:
@@ -28,13 +26,13 @@ services:
     networks:
       - mynetwork
   
-  # sqs:
-  #   image: softwaremill/elasticmq:latest
-  #   container_name: sqs
-  #   ports:
-  #     - "9324:9324"
-  #   volumes:
-  #     - ./elasticmq.conf:/opt/elasticmq.conf
+  sqs:
+    image: softwaremill/elasticmq:latest
+    container_name: sqs
+    ports:
+      - "9324:9324"
+    volumes:
+      - ./elasticmq.conf:/opt/elasticmq.conf
 
   postgres:
     image: postgres:latest
