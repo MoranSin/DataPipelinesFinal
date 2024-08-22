@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS Songs (
     genre_id UUID,
     song_name VARCHAR(50),
     song_link VARCHAR(50),
-    song_lyrics VARCHAR(50),
+    song_lyrics VARCHAR(5000),
     song_length VARCHAR(5), -- HH:MM,
     PRIMARY KEY (song_id),
     FOREIGN KEY (artist_id)
@@ -47,14 +47,13 @@ CREATE TABLE IF NOT EXISTS Songs (
         REFERENCES Genres (genre_id)
 );
 
-ALTER TABLE songs ALTER COLUMN song_length TYPE VARCHAR(5);
 
 CREATE TABLE IF NOT EXISTS Charts (
     rank_id UUID,
     artist_id UUID,
     song_id UUID,
-    rank_value INT,
-    date TIMESTAMP,
+    rank_value INT NOT NULL,
+    date DATE NOT NULL,
     source VARCHAR(50),
     country_code VARCHAR(50),
     PRIMARY KEY (rank_id),

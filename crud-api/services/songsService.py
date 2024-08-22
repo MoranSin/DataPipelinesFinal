@@ -5,7 +5,6 @@ from models.songsModel import Song
 from schemas.songsSchema import SongCreate
 from uuid import uuid4
 import logging
-from datetime import timedelta
 
 logging.basicConfig(level=logging.INFO)
 
