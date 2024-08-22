@@ -1,3 +1,6 @@
-.venv
-/src/venv
-/crud-api/venv
+**/.venv
+./spotify_charts_data.json
+**/venv
+**/__pycache__
+**/__init__.py
+**/.env
