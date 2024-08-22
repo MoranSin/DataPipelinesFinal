@@ -101,6 +101,7 @@ class SpotifyScraper:
         with open('spotify_charts_data.json', 'w') as f:
             json.dump(all_data, f, indent=4)
 
-api_key = "BQBMwxnEGIlC2j4l2wWe_M7acY-VDYICEs5GL0YTs6HLikXL3umTRtAAoJoPpOb1GBgoqjA-QCslPvXYFoAA7hLc6DPDuRKlyZoiEL0fSlLc-DCofOZPGq_daaht1PrPgKQo1niE7CIO762K8YXPR1r4Tg2b7C0o2oUUXzoBr75OmprawaZaxfFe0JbqlJLIZ_Z9h4EW0NK_lsmqW_Dk8Kx2CBELN1Y3"
+api_key = "BQDBMyRkJr5FX5c47huBhS8yPWkILsFCfgVHSsWn0xDWe3ho_IzrLLd_YgOl-zv6E60m4FF-jqnu85PqOqGk5annzA1kZi8Dt8ob1ljK0u8gQ18XMf02HjcEinMP9jbkC2aX4imGRux_NwCMey8aadmeslpk9Ru_zY7jt8qEUeJSCZ4bhrN0C1WFAWHcYwITwSh2ekdrb3aY7cdm_2LRgrUM-_1FhV51"
+
 spotify_scraper = SpotifyScraper(api_key)
 spotify_scraper.fetch_charts()
