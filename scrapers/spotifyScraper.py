@@ -2,6 +2,8 @@ import requests
 import time
 from datetime import datetime, timedelta
 import json
+import boto3
+
 
 class SpotifyScraper:
     def __init__(self, api_key):
@@ -10,8 +12,13 @@ class SpotifyScraper:
         self.headers = {
             "Authorization": f"Bearer {self.api_key}"
         }
-        # Focus on key music markets
-        self.countries = ["us", "gb", "de", "fr", "au", "br", "jp", "ca"]
+        self.countries = [
+            "ar", "au", "at", "by", "be", "bo", "br", "bg", "ca", "cl", "co", "cr", "cy", "cz", "dk",
+            "do", "ec", "eg", "sv", "ee", "fi", "fr", "de", "gr", "gt", "hn", "hk", "hu", "is", "in", "id",
+            "ie", "il", "it", "jp", "kz", "lv", "lt", "lu", "my", "mx", "ma", "nl", "nz", "ni", "ng", "no",
+            "pk", "pa", "py", "pe", "ph", "pl", "pt", "ro", "sa", "sg", "sk", "za", "kr", "es", "se", "ch",
+            "tw", "th", "tr", "ae", "ua", "gb", "uy", "us", "ve", "vn"
+        ]
 
     def get_weekly_dates(self, start_date_str):
         """Generate a list of dates for the most recent week."""
@@ -32,6 +39,7 @@ class SpotifyScraper:
 
         for entry in chart_data['entries'][:top_n]:
             # Extract song details
+            source = 'spotify'
             song_id = entry['trackMetadata'].get('trackUri', '').split(':')[-1]  
             song_name = entry['trackMetadata'].get('trackName', '')
             song_link = entry['trackMetadata'].get('trackUri', '') 
@@ -43,14 +51,11 @@ class SpotifyScraper:
             artist_genre = None  
             artist_gender = None 
 
-            # Extract rank details
             rank_value = entry['chartEntryData'].get('currentRank', 0)
             streams = entry['chartEntryData']['rankingMetric'].get('value', 0)
 
-            # Build the relevant data structure
             extracted_data.append({
                 "song": {
-                    "song_id": song_id,
                     "song_name": song_name,
                     "song_link": song_link,
                     "song_length": song_length,
@@ -62,9 +67,8 @@ class SpotifyScraper:
                         "country": country
                     }
                 },
-                "rank": {
+                "chart": {
                     "rank_value": rank_value,
-                    "streams": streams,
                     "date": date,
                     "country": country,
                     "source": "Spotify",
@@ -101,7 +105,20 @@ class SpotifyScraper:
         with open('spotify_charts_data.json', 'w') as f:
             json.dump(all_data, f, indent=4)
 
-api_key = "BQDBMyRkJr5FX5c47huBhS8yPWkILsFCfgVHSsWn0xDWe3ho_IzrLLd_YgOl-zv6E60m4FF-jqnu85PqOqGk5annzA1kZi8Dt8ob1ljK0u8gQ18XMf02HjcEinMP9jbkC2aX4imGRux_NwCMey8aadmeslpk9Ru_zY7jt8qEUeJSCZ4bhrN0C1WFAWHcYwITwSh2ekdrb3aY7cdm_2LRgrUM-_1FhV51"
+api_key = "BQDZtuzMvYihzHVNLqpDCSJmiHGYECWED7jSwHvLm5W8svlvtq4oO2GtAurvSRtFMtLUoiTZSnCFaIJlMjs7cHCxXvciCxWq7UXZM8A3YyMhb8X-MomFcu12PDJxh2bJEO7KXUDYxdSR2-WmxccaTj5H5zW4iZt-hfqekHrN0yUWRaDWs9-VDGyVr16Rpr5cezdbuJsDZgfkA3MkRcDJqYZosO8jOG-y"
 
-spotify_scraper = SpotifyScraper(api_key)
-spotify_scraper.fetch_charts()
+
+def spotify_handler(event, context):
+    print("started scraper")
+    spotify_scraper = SpotifyScraper(api_key)
+    spotify_scraper.fetch_charts()
+        
+    sqs = boto3.client('sqs', endpoint_url='http://sqs:9324',region_name='us-east-1',aws_access_key_id='x', aws_secret_access_key='x')
+    queue_url = 'http://sqs:9324/queue/data-raw-q'
+    
+    response = sqs.send_message(
+        QueueUrl=queue_url,
+        MessageBody=json.dumps(spotify_scraper.fetch_charts(), ensure_ascii=False),
+        Timeout=300)
+    
+    return {"message": "Data scraped and sent to SQS", "SQSResponse": response}
