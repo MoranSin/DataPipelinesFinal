@@ -6,14 +6,19 @@ provider:
   region: us-east-1  
 
 functions:
-  process:
-    handler: handler.process
+  spotifyScraper:
+    handler: scrapers/spotifyScraper.spotify_handler
     events:
-      - sqs:
-          arn:
-            Fn::GetAtt:
-              - DataRawQueue
-              - Arn
+      - httpApi: '*' # change this to crewler
+
+  # process:
+    # handler: handler.process
+    # events:
+    #   - sqs:
+    #       arn:
+    #         Fn::GetAtt:
+    #           - DataRawQueue
+    #           - Arn
 
 plugins:
   - serverless-python-requirements
@@ -36,3 +41,5 @@ custom:
     secretAccessKey: x
     queues:
       - QueueName: data-music-q
+
+
