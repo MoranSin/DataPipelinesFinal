@@ -2,102 +2,108 @@ import requests
 import time
 from datetime import datetime, timedelta
 from bs4 import BeautifulSoup
-import json
 
 class TiktokScraper:
     def __init__(self):
         self.base_url = "https://www.billboard.com/charts/tiktok-billboard-top-50/"
-        self.countries = ["us", "gb", "de", "fr", "au", "br", "jp", "ca"]
+        self.rank_counter = 1
 
-    def get_weekly_dates(self, start_date_str):
-        """Generate a list of dates for the most recent week."""
-        start_date = datetime.strptime(start_date_str, "%Y-%m-%d")
-        end_date = start_date - timedelta(days=1)  
-        dates = []
-
-        while start_date >= end_date:
-            dates.append(start_date.strftime("%Y-%m-%d"))
-            start_date -= timedelta(days=7)  
-
-        return dates
     
-    def extract_relevant_data(self, country, date, chart_data):
-        """Extract relevant data from the chart data for the database schema."""
-        extracted_data = []
-        top_n = 10  
+    def extract_relevant_data(self, chart_data , date):
+        extracted_data = [] 
 
-        # for entry in chart_data['o-chart-results-list__item'][:top_n]:
-        #     extracted_data.append(entry)
-            # Extract song details
-            # song_id = entry['trackMetadata'].get('trackUri', '').split(':')[-1]  
-            # song_name = entry['trackMetadata'].get('trackName', '')
-            # song_link = entry['trackMetadata'].get('trackUri', '') 
-            # song_length = entry['trackMetadata'].get('durationMs', '') 
+        chart_section = chart_data.find('div', class_='chart-results-list')
 
-            # artist_data = entry['trackMetadata']['artists'][0] 
-            # artist_id = artist_data.get('artistUri', '').split(':')[-1] 
-            # artist_name = artist_data.get('name', '')
-            # artist_genre = None  
-            # artist_gender = None 
+        chart_items = chart_section.find_all('li', class_='o-chart-results-list__item')
 
-            # # Extract rank details
-            # rank_value = entry['chartEntryData'].get('currentRank', 0)
-            # streams = entry['chartEntryData']['rankingMetric'].get('value', 0)
+        for item in chart_items:
+            # Extract the song title
+            title_element = item.find(id="title-of-a-story")
+            if title_element:
+                song_name = title_element.get_text(strip=True)
+                if song_name in ["Producer(s)", "Songwriter(s)"]:
+                    continue
+            else:
+                continue
 
-            # # Build the relevant data structure
-            # extracted_data.append({
-            #     "song": {
-            #         # "song_id": song_id,
-            #         "song_name": song_name,
-            #         "song_link": song_link,
-            #         "song_length": song_length,
-            #         "artist": {
-            #             # "artist_id": artist_id,
-            #             "artist_name": artist_name,
-            #             "artist_genre": artist_genre,
-            #             "artist_gender": artist_gender,
-            #             "country": country
-            #         }
-            #     },
-            #     "rank": {
-            #         "rank_value": rank_value,
-            #         "streams": streams,
-            #         "date": date,
-            #         "country": country,
-            #         "source": "Spotify",
-            #         # "song_id": song_id
-            #     }
-            # })
-        return chart_data
+            # Extract the artist name
+            artist_element = item.find('span', class_='c-label')
+            if artist_element:
+                artist_name = artist_element.get_text(strip=True)
+                if not artist_name:
+                    continue
+            else:
+                continue
+
+            song_link = None
+
+            # Extract the song link
+            tiktok_links = []
+            detail_elements = chart_data.find_all('div', class_='o-chart-share')
+
+            # Iterate through each detail element to find TikTok links
+            for element in detail_elements:
+                # Find all <a> tags within the element
+                link_elements = element.find_all('a', href=True)
+                for link_element in link_elements:
+                    tiktok_link = link_element['href']
+                    # Check if the href contains 'tiktok'
+                    if 'tiktok.com' in tiktok_link:
+                        tiktok_links.append(tiktok_link)
+                    else:
+                        tiktok_links.append(None)
+                        # tiktok_links.append(None)
+                        continue
+
+            # print(f"links: {len(tiktok_links)}")
+            index = self.rank_counter - 1
+            if 0 <= index < len(tiktok_links):
+                if tiktok_links[index] == None:
+                    print(f"Index {index} has no TikTok link for song {song_name}")
+                    continue
+                else:
+                    song_link = tiktok_links[index]
+                    print(f"Song: {song_name}, Artist: {artist_name}, TikTok Link: {song_link}")
+                # else:
+                    # song_link = None
+            else:
+                print(f"Index {index} is out of bounds for tiktok_links with length {len(tiktok_links)}")
+                continue  # Default to the first link if index is out of bounds
+
+
+
+            extracted_data.append({
+            "song": {
+                "song_name": song_name,
+                "song_link": song_link,
+                "song_length": None,
+                "artist": {
+                    "artist_name": artist_name,
+                    "artist_genre": None,
+                    "artist_gender": None,
+                    # "country": country
+                }
+            },
+            "rank": {
+                    "rank_value": self.rank_counter,
+                    "streams": None,
+                    "date": date,
+                    "country": None,
+                "source": "Tiktok Billboard",
+            }
+        })
+            self.rank_counter += 1
+
+        return extracted_data
     
     def fetch_charts(self):
-        dates = self.get_weekly_dates("2024-08-22")
-        all_data = {country: [] for country in self.countries}
-        request_count = 0
-
-        for country in self.countries:
-            for date in dates:
-                url = f"{self.base_url}/regional-{country}-weekly/{date}"
-                print(f"Fetching URL: {url}")
-                response = requests.get(url)
-
-                if response.status_code == 200:
-                    chart_data = response.json()
-                    relevant_data = self.extract_relevant_data(country, date, chart_data)
-                    # Append the extracted relevant data
-                    # all_data[country].extend(relevant_data)
-                else:
-                    print(f"Failed to fetch data for {country} on {date}: {response.status_code}")
-                    # print(response.text)
-
-                request_count += 1
-                if request_count % 10 == 0:
-                    print("Sleeping for 2 seconds to avoid rate limiting...")
-                    time.sleep(2)
-
-        # with open('spotify_charts_data.json', 'w') as f:
-        #     json.dump(all_data, f, indent=4)
-        print(relevant_data.text)
+        # dates = self.get_weekly_dates("2024-08-25")
+        url = self.base_url + "2024-08-24" + "/"
+        response = requests.get(url, 'html.parser')
+        html = BeautifulSoup(response.text, 'html.parser')
+        
+        relevant_data = self.extract_relevant_data(html, "2024-08-24")
+        print(relevant_data)
 
 
 tiktok_scraper = TiktokScraper()
