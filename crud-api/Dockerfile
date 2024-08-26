@@ -27,4 +27,4 @@ RUN npm install
 EXPOSE 8001
 
 # Run serverless offline when the container launches
-CMD ["npx", "serverless", "offline", "start", "--config", "serverless.yml"]
+CMD ["npx", "serverless", "offline", "--host", "0.0.0.0", "--httpPort", "8001"]
