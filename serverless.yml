@@ -1,4 +1,4 @@
-service: processor
+service: skibidi-pipeline
 
 provider:
   name: aws
@@ -6,10 +6,51 @@ provider:
   region: us-east-1  
 
 functions:
-  spotifyScraper:
-    handler: scrapers/spotifyScraper.spotify_handler
+  process:
+    handler: crud-api/app.handler
     events:
-      - httpApi: '*' # change this to crewler
+      - http:
+          path: /
+          method: any
+      - http:
+          path: /{proxy+}
+          method: any
+      - http:
+          path: /genres
+          method: any
+      - http:
+          path: /genres/{proxy+}
+          method: any
+      - http:
+          path: /songs
+          method: any
+      - http:
+          path: /songs/{proxy+}
+          method: any
+      - http:
+          path: /artists
+          method: any
+      - http:
+          path: /artists/{proxy+}
+          method: any
+      - http:
+          path: /charts
+          method: any
+      - http:
+          path: /charts/{proxy+}
+          method: any
+
+  tiktokBillboardScraper:
+    handler: scrapers/tiktokBillboardScraper.tiktokScraper
+    events:
+      - schedule:
+          rate: rate(7 days)
+          enabled: true
+      
+  # spotifyScraper:
+  #   handler: scrapers/spotifyScraper.spotify_handler
+  #   events:
+  #     - httpApi: '*' # change this to crewler
 
   # process:
     # handler: handler.process
@@ -41,5 +82,7 @@ custom:
     secretAccessKey: x
     queues:
       - QueueName: data-music-q
+  serverless-offline:
+    port: 8001    
 
 

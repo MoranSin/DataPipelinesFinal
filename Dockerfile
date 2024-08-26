@@ -1,6 +1,9 @@
 # Build Python dependencies
 FROM python:3.11-slim
 
+# Set environment variable for Python path
+ENV PYTHONPATH=/app/crud-api
+
 # Set the working directory in the container
 WORKDIR /app
 
