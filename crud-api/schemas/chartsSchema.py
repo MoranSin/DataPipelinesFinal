@@ -10,6 +10,7 @@ class Chart(BaseModel):
     date : date
     source : str
     country_code : str
+    chart_type : str
 
     class Config:
         from_attributes = True
@@ -21,3 +22,5 @@ class ChartCreate(BaseModel):
     date : date
     source : str
     country_code : str
+    chart_type : str
+    
