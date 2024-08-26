@@ -1,0 +1,14 @@
+service: crud-api
+
+provider:
+  name: aws
+  runtime: python3.11
+  region: us-east-1  
+
+functions:
+  process:
+    handler: app.handler
+
+plugins:
+  - serverless-python-requirements
+  - serverless-offline
