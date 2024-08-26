@@ -6,103 +6,73 @@ from bs4 import BeautifulSoup
 class TiktokScraper:
     def __init__(self):
         self.base_url = "https://www.billboard.com/charts/tiktok-billboard-top-50/"
-        self.rank_counter = 1
-
     
     def extract_relevant_data(self, chart_data , date):
         extracted_data = [] 
 
         chart_section = chart_data.find('div', class_='chart-results-list')
 
-        chart_items = chart_section.find_all('li', class_='o-chart-results-list__item')
+        chart_items = chart_section.find_all('div', class_='o-chart-results-list-row-container')
 
         for item in chart_items:
-            # Extract the song title
-            title_element = item.find(id="title-of-a-story")
-            if title_element:
-                song_name = title_element.get_text(strip=True)
-                if song_name in ["Producer(s)", "Songwriter(s)"]:
-                    continue
-            else:
-                continue
+            #Getting the artist name and song name
+            row = item.find('ul', class_='o-chart-results-list-row')
+            li4 = row.find('li', class_='lrv-u-width-100p')
+            artist_info = li4.find('ul', class_="lrv-a-unstyle-list")
+            second_li = artist_info.find('li', class_='o-chart-results-list__item')
+            artist_name = second_li.find('span', class_='c-label').get_text(strip=True)   
+            song_name = second_li.find('h3', id='title-of-a-story').get_text(strip=True)
 
-            # Extract the artist name
-            artist_element = item.find('span', class_='c-label')
-            if artist_element:
-                artist_name = artist_element.get_text(strip=True)
-                if not artist_name:
-                    continue
-            else:
-                continue
-
-            song_link = None
-
-            # Extract the song link
-            tiktok_links = []
-            detail_elements = chart_data.find_all('div', class_='o-chart-share')
-
-            # Iterate through each detail element to find TikTok links
-            for element in detail_elements:
-                # Find all <a> tags within the element
-                link_elements = element.find_all('a', href=True)
-                for link_element in link_elements:
-                    tiktok_link = link_element['href']
-                    # Check if the href contains 'tiktok'
-                    if 'tiktok.com' in tiktok_link:
-                        tiktok_links.append(tiktok_link)
-                    else:
-                        tiktok_links.append(None)
-                        # tiktok_links.append(None)
-                        continue
-
-            # print(f"links: {len(tiktok_links)}")
-            index = self.rank_counter - 1
-            if 0 <= index < len(tiktok_links):
-                if tiktok_links[index] == None:
-                    print(f"Index {index} has no TikTok link for song {song_name}")
-                    continue
+            #Getting the song link
+            charts_results = item.find('div', class_='charts-result-detail')
+            inner_div = charts_results.find('div', class_='lrv-u-flex')
+            links_container = inner_div.find('div', class_='lrv-u-flex-grow-1')
+            another_div = links_container.find('div', class_='o-chart-tabs-wrapper')
+            tab_5_div = another_div.find('div', {'data-tabs-trigger': 'tab_5'})
+            o_chart_share = tab_5_div.find('div', class_='o-chart-share')
+            if o_chart_share:
+                a_tags = o_chart_share.find_all('a')
+                if len(a_tags) >= 5:
+                    song_link = a_tags[4]['href']
                 else:
-                    song_link = tiktok_links[index]
-                    print(f"Song: {song_name}, Artist: {artist_name}, TikTok Link: {song_link}")
-                # else:
-                    # song_link = None
-            else:
-                print(f"Index {index} is out of bounds for tiktok_links with length {len(tiktok_links)}")
-                continue  # Default to the first link if index is out of bounds
+                    song_link = None
+
+            #Getting the rank value
+            chart_section = row.find('li', class_='o-chart-results-list__item')
+            rank_value = chart_section.find('span', class_='c-label').get_text(strip=True)
 
 
 
             extracted_data.append({
-            "artist": {
-                "artist_name": artist_name,
-                "artist_gender": None,
-                "country": "GBL",
-            },
-            "song": {
-                "song_name": song_name,
-                "song_link": song_link,
-                "song_length": None,
-                "song_lyrics": None,
-            },
-            "chart": {
-                    "chart_type":
-                    "rank_value": self.rank_counter,
-                    "date": date,
+                "artist": {
+                    "artist_name": artist_name,
+                    "artist_gender": None,
                     "country": "GBL",
-                "source": "Tiktok Billboard",
-            },
-        })
-            self.rank_counter += 1
+                },
+                "song": {
+                    "song_name": song_name,
+                    "song_link": song_link,
+                    "song_length": None,
+                    "song_lyrics": None,
+                },
+                "chart": {
+                        "chart_type": "Weekly",
+                        "rank_value": rank_value,
+                        "date": date,
+                        "country": "GBL",
+                    "source": "Tiktok Billboard",
+                },
+            })
 
         return extracted_data
     
     def fetch_charts(self):
-        # dates = self.get_weekly_dates("2024-08-25")
-        url = self.base_url + "2024-08-24" + "/"
+        date = datetime.now().strftime("%Y-%m-%d")
+        url = self.base_url
         response = requests.get(url, 'html.parser')
         html = BeautifulSoup(response.text, 'html.parser')
         
-        relevant_data = self.extract_relevant_data(html, "2024-08-24")
+        relevant_data = self.extract_relevant_data(html, date)
         print(relevant_data)
 
 
