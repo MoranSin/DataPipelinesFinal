@@ -40,6 +40,13 @@ functions:
           path: /charts/{proxy+}
           method: any
 
+  tiktokBillboardScraper:
+    handler: scrapers/tiktokBillboardScraper.tiktokScraper
+    events:
+      - schedule:
+          rate: rate(7 days)
+          enabled: true
+      
   # spotifyScraper:
   #   handler: scrapers/spotifyScraper.spotify_handler
   #   events:
