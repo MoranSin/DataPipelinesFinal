@@ -73,24 +73,24 @@ class TiktokScraper:
 
 
             extracted_data.append({
+            "artist": {
+                "artist_name": artist_name,
+                "artist_gender": None,
+                "country": "GBL",
+            },
             "song": {
                 "song_name": song_name,
                 "song_link": song_link,
                 "song_length": None,
-                "artist": {
-                    "artist_name": artist_name,
-                    "artist_genre": None,
-                    "artist_gender": None,
-                    # "country": country
-                }
+                "song_lyrics": None,
             },
-            "rank": {
+            "chart": {
+                    "chart_type":
                     "rank_value": self.rank_counter,
-                    "streams": None,
                     "date": date,
-                    "country": None,
+                    "country": "GBL",
                 "source": "Tiktok Billboard",
-            }
+            },
         })
             self.rank_counter += 1
 
