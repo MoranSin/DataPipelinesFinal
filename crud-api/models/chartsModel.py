@@ -14,3 +14,4 @@ class Chart(Base):
     date = Column(Date, nullable=False)
     source = Column(String, nullable=False)
     country_code = Column(String, nullable=False)
+    chart_type = Column(String, nullable=False)

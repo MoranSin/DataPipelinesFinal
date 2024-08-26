@@ -56,6 +56,7 @@ CREATE TABLE IF NOT EXISTS Charts (
     date DATE NOT NULL,
     source VARCHAR(50),
     country_code VARCHAR(50),
+    chart_type VARCHAR(50),
     PRIMARY KEY (rank_id),
     FOREIGN KEY (artist_id)
         REFERENCES Artists (artist_id),
