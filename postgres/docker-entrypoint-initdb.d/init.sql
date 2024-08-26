@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS Songs (
     artist_id UUID,
     genre_id UUID,
     song_name VARCHAR(50),
-    song_link VARCHAR(50),
+    song_link VARCHAR(300),
     song_lyrics VARCHAR(5000),
     song_length VARCHAR(5), -- HH:MM,
     PRIMARY KEY (song_id),

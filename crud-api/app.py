@@ -5,7 +5,6 @@ from routers.genresRouter import genresRouter
 from routers.artistsRouter import artistsRouter
 from routers.chartsRouter import chartsRouter
 
-import uvicorn
 from config.database import test_connection, create_db
 
 app = FastAPI()
@@ -25,6 +24,3 @@ app.include_router(artistsRouter)
 app.include_router(genresRouter)
 
 handler = Mangum(app)
-
-if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000, reload=True)

@@ -25,7 +25,8 @@ def create_chart(db: Session, chart: ChartCreate):
         rank_value = chart.rank_value,
         date = chart.date,
         source = chart.source,
-        country_code = chart.country_code
+        country_code = chart.country_code,
+        chart_type = chart.chart_type
 
     )
     db.add(new_chart)
@@ -41,6 +42,7 @@ def update_chart(db: Session, rank_id: uuid4, chart: ChartCreate):
     db_chart.date = chart.date
     db_chart.source = chart.source
     db_chart.country_code = chart.country_code
+    db_chart.chart_type = chart.chart_type
     db.commit()
     db.refresh(db_chart)
     return db_chart
