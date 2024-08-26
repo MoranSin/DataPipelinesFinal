@@ -184,12 +184,3 @@ class YoutubeChartsScraper:
 
         return all_countries_data
     
-api_key = YOUTUBE_CHARTS_API_KEY
-url_key = YOUTUBE_CHARTS_URL_KEY
-ytube_cookie = YOUTUBE_CHARTS_COOKIE
-countries = "global"
-timing = "WEEKLY"
-
-youtube_scraper = YoutubeChartsScraper(api_key, url_key, ytube_cookie)
-data = youtube_scraper.fetch_charts(countries, timing)
-data = youtube_scraper.fetch_all_countries_charts(timing)
