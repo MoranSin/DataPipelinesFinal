@@ -2,9 +2,10 @@ import requests
 import json
 import sys
 import os
+import time
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from genericScraper import get_alpha3_coutry_code
+from genericScraper import get_chart_type, get_today_date, get_country_code
 
 from os.path import join, dirname
 from dotenv import load_dotenv
@@ -14,6 +15,10 @@ load_dotenv(dotenv_path)
 YOUTUBE_CHARTS_API_KEY  = os.environ.get("YOUTUBE_CHARTS_API_KEY")
 YOUTUBE_CHARTS_URL_KEY = os.environ.get("YOUTUBE_CHARTS_URL_KEY")
 YOUTUBE_CHARTS_COOKIE = os.environ.get("YOUTUBE_CHARTS_COOKIE")
+ 
+def convert_seconds(n):
+    minutes, seconds = divmod(n, 60)
+    return f"{minutes:02}:{seconds:02}"
 
 class YoutubeChartsScraper:
     def __init__(self, api_key, url_key, cookie):
@@ -113,15 +118,15 @@ class YoutubeChartsScraper:
         self.payload['query'] = f"perspective=CHART_DETAILS&chart_params_country_code={country}&chart_params_chart_type=VIDEOS&chart_params_period_type={timing}"
         return self.payload
 
-    def extract_relevant_data(self, chart_data, country):
+    def extract_relevant_data(self, chart_data, country, timing):
         extracted_data = []
-        country_code = "GBL"
-        if country != "global":
-            country_code = get_alpha3_coutry_code(country)
+        country_code = get_country_code(country)
+        chart_type = get_chart_type(timing)
+        date = get_today_date()
         
         for entry in chart_data:
             song_name = entry["title"] if entry["title"] else None
-            song_length = entry["videoDuration"] if entry["videoDuration"] else None
+            song_length = convert_seconds(entry["videoDuration"]) if entry["videoDuration"] else None
             artist_name = entry["artists"][0]["name"] if entry["artists"] else None
             rank_value = entry["chartEntryMetadata"]["currentPosition"] if entry["chartEntryMetadata"]["currentPosition"] else None
             song_link = f"https://www.youtube.com/watch?v={entry['id']}" if entry["id"] else None
@@ -147,9 +152,10 @@ class YoutubeChartsScraper:
                 },
                 "chart": {
                     "rank_value": rank_value,
-                    "date": None,
+                    "date": date,
                     "source": "Youtube Charts",
                     "country_code": country_code,
+                    "chart_type": chart_type,
                 }
             })
         
@@ -161,21 +167,23 @@ class YoutubeChartsScraper:
         if response.status_code == 200:
             try:
                 data = response.json()
-                chart_data = data['contents']['sectionListRenderer']['contents'][0]['musicAnalyticsSectionRenderer']['content']["videos"][0]["videoViews"]
-                # i = 0
-                # for entry in chart_data:
-                #     print(entry)
-                #     i += 1
-                #     if i == 5:
-                #         break
-                extracted_data = self.extract_relevant_data(chart_data, country)
+                chart_data = data['contents']['sectionListRenderer']['contents'][0]['musicAnalyticsSectionRenderer']['content']["videos"][0]["videoViews"]              
+                extracted_data = self.extract_relevant_data(chart_data, country, timing)
                 return extracted_data
             except json.JSONDecodeError:
                 print("Failed to decode JSON from the response.")
         else:
             print(f"Failed to fetch data. Status code: {response.status_code}, Response: {response.text}")
 
+    def fetch_all_countries_charts(self, timing):
+        all_countries_data = []
+        for country in self.countries:
+            country_data = self.fetch_charts(country, timing)
+            all_countries_data.append(country_data)
+            time.sleep(2)
 
+        return all_countries_data
+    
 api_key = YOUTUBE_CHARTS_API_KEY
 url_key = YOUTUBE_CHARTS_URL_KEY
 ytube_cookie = YOUTUBE_CHARTS_COOKIE
@@ -184,3 +192,4 @@ timing = "WEEKLY"
 
 youtube_scraper = YoutubeChartsScraper(api_key, url_key, ytube_cookie)
 data = youtube_scraper.fetch_charts(countries, timing)
+data = youtube_scraper.fetch_all_countries_charts(timing)

@@ -3,7 +3,7 @@ from uuid import UUID, uuid4
 from datetime import date
 
 class Chart(BaseModel):
-    rank_id : UUID
+    rank_id: UUID
     artist_id: UUID
     song_id: UUID
     rank_value : int
@@ -23,4 +23,3 @@ class ChartCreate(BaseModel):
     source : str
     country_code : str
     chart_type : str
-    
