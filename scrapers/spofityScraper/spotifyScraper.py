@@ -37,7 +37,9 @@ class SpotifyScraper:
         extracted_data = []
         top_n = 10  
 
-        for entry in chart_data['entries'][:top_n]:
+        for entry in chart_data['chart-results-list'][:top_n]:
+            extracted_data.append(entry)
+        
             # Extract song details
             source = 'spotify'
             song_id = entry['trackMetadata'].get('trackUri', '').split(':')[-1]  
@@ -78,7 +80,7 @@ class SpotifyScraper:
         return extracted_data
 
     def fetch_charts(self):
-        dates = self.get_weekly_dates("2024-08-01")
+        dates = self.get_weekly_dates("2024-08-22")
         all_data = {country: [] for country in self.countries}
         request_count = 0
 

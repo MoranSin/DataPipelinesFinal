@@ -1,12 +1,10 @@
 services:
-  # scrapers:
-  #   build:
-  #     context: ./scrapers
-  #     dockerfile: Dockerfile
-  #   ports:
-  #     - "8000:8000"
-  #   depends_on:
-  #     - sqs
+#   scrapers:
+#     build:
+#       context: ./scrapers
+#       dockerfile: Dockerfile
+#     depends_on:
+#       - sqs
   
   # processor:
   #   build:
@@ -17,7 +15,7 @@ services:
 
   api:
     build:
-      context: ./crud-api
+      context: .
       dockerfile: Dockerfile
     environment:
       DATABASE_URL: "postgresql://user:password@postgres:5432/music_charts"
