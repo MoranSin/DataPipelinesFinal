@@ -47,10 +47,19 @@ functions:
           rate: rate(7 days)
           enabled: true
       
-  # spotifyScraper:
-  #   handler: scrapers/spotifyScraper.spotify_handler
-  #   events:
-  #     - httpApi: '*' # change this to crewler
+  spotifyScraper:
+    handler: scrapers/spotifyScraper.spotify_handler
+    environment:
+      SPOTIFY_API_KEY: ${env:SPOTIFY_API_KEY}
+      AWS_ACCESS_KEY_ID: ${env:AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${env:AWS_SECRET_ACCESS_KEY}
+    events:
+      - schedule:
+          rate: rate(7 days)
+          enabled: true
+      - http:
+          path: /spotify-scraper
+          method: get
 
   # process:
     # handler: handler.process
@@ -65,6 +74,8 @@ plugins:
   - serverless-python-requirements
   - serverless-offline-sqs
   - serverless-offline
+  - serverless-dotenv-plugin
+
 
 resources:
   Resources:
