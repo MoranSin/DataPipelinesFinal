@@ -91,7 +91,6 @@ class SpotifyScraper:
                 if response.status_code == 200:
                     chart_data = response.json()
                     relevant_data = self.extract_relevant_data(country, date, chart_data)
-                    # Append the extracted relevant data
                     all_data[country].extend(relevant_data)
                 else:
                     print(f"Failed to fetch data for {country} on {date}: {response.status_code}")
