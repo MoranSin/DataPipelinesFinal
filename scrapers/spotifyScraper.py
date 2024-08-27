@@ -1,9 +1,12 @@
+import os
 import requests
 import time
 from datetime import datetime, timedelta
 import json
 import boto3
+from dotenv import load_dotenv
 
+load_dotenv()
 
 class SpotifyScraper:
     def __init__(self, api_key):
@@ -19,6 +22,7 @@ class SpotifyScraper:
             "pk", "pa", "py", "pe", "ph", "pl", "pt", "ro", "sa", "sg", "sk", "za", "kr", "es", "se", "ch",
             "tw", "th", "tr", "ae", "ua", "gb", "uy", "us", "ve", "vn"
         ]
+    
 
     def get_weekly_dates(self, start_date_str):
         """Generate a list of dates for the most recent week."""
@@ -37,9 +41,7 @@ class SpotifyScraper:
         extracted_data = []
         top_n = 10  
 
-        for entry in chart_data['chart-results-list'][:top_n]:
-            extracted_data.append(entry)
-        
+        for entry in chart_data['entries'][:top_n]:
             # Extract song details
             source = 'spotify'
             song_id = entry['trackMetadata'].get('trackUri', '').split(':')[-1]  
@@ -80,7 +82,7 @@ class SpotifyScraper:
         return extracted_data
 
     def fetch_charts(self):
-        dates = self.get_weekly_dates("2024-08-22")
+        dates = self.get_weekly_dates("2024-08-01")
         all_data = {country: [] for country in self.countries}
         request_count = 0
 
@@ -106,15 +108,14 @@ class SpotifyScraper:
         with open('spotify_charts_data.json', 'w') as f:
             json.dump(all_data, f, indent=4)
 
-api_key = "BQDZtuzMvYihzHVNLqpDCSJmiHGYECWED7jSwHvLm5W8svlvtq4oO2GtAurvSRtFMtLUoiTZSnCFaIJlMjs7cHCxXvciCxWq7UXZM8A3YyMhb8X-MomFcu12PDJxh2bJEO7KXUDYxdSR2-WmxccaTj5H5zW4iZt-hfqekHrN0yUWRaDWs9-VDGyVr16Rpr5cezdbuJsDZgfkA3MkRcDJqYZosO8jOG-y"
-
+api_key = os.getenv('SPOTIFY_API_KEY')
 
 def spotify_handler(event, context):
     print("started scraper")
     spotify_scraper = SpotifyScraper(api_key)
     spotify_scraper.fetch_charts()
         
-    sqs = boto3.client('sqs', endpoint_url='http://sqs:9324',region_name='us-east-1',aws_access_key_id='x', aws_secret_access_key='x')
+    sqs = boto3.client('sqs', endpoint_url='http://sqs:9324',region_name='us-east-1',aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID'), aws_secret_access_key=os.getenv('AWS_SECRET_ACCESS_KEY'))
     queue_url = 'http://sqs:9324/queue/data-raw-q'
     
     response = sqs.send_message(
