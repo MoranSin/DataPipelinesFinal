@@ -90,76 +90,77 @@ def convert_seconds(seconds):
     return f"{minutes:02}:{seconds:02}"
 
 def process(event, context):
-    # logger.info("Received event: %s", json.dumps(event))
+    logger.info("Received event: %s", json.dumps(event))
     
-    # try:
-    #     if event is None:
-    #         raise ValueError("Event data is None")
+    try:
+        if event is None:
+            raise ValueError("Event data is None")
         
-    #     token = get_token()  
+        token = get_token()  
 
-    #     for record in event.get('Records', []):
-    #         body = record.get('body', None)
-    #         if body: 
-    #             try:
-    #                 # Assume body is a JSON string, so parse it
-    #                 data = json.loads(body)
-    #             except json.JSONDecodeError as e:
-    #                 logger.error("Failed to decode JSON: %s", e)
-    #                 continue
+        for record in event.get('Records', []):
+            body = record.get('body', None)
+            if body: 
+                try:
+                    # Assume body is a JSON string, so parse it
+                    data = json.loads(body)
+                except json.JSONDecodeError as e:
+                    logger.error("Failed to decode JSON: %s", e)
+                    continue
                 
-    #             if not isinstance(data, list):
-    #                 logger.error("Expected data to be a list, got %s", type(data).__name__)
-    #                 continue
+                if not isinstance(data, list):
+                    logger.error("Expected data to be a list, got %s", type(data).__name__)
+                    continue
                 
-    #             for entry in data:
-    #                 if not isinstance(entry, dict):
-    #                     logger.error("Expected entry to be a dict, got %s", type(entry).__name__)
-    #                     continue
+                for entry in data:
+                    if not isinstance(entry, dict):
+                        logger.error("Expected entry to be a dict, got %s", type(entry).__name__)
+                        continue
                     
-    #                 artist = entry.get('artist', {})
-    #                 song = entry.get('song', {})
+                    artist = entry.get('artist', {})
+                    song = entry.get('song', {})
                     
-    #                 artist_name = artist.get('artist_name', 'Unknown')
-    #                 song_name = song.get('song_name', 'Unknown')
+                    artist_name = artist.get('artist_name', 'Unknown')
+                    song_name = song.get('song_name', 'Unknown')
                     
-    #                 if not artist.get('artist_gender'):
-    #                     try:
-    #                         gender = get_gender(artist_name)
-    #                         artist['artist_gender'] = gender
-    #                     except Exception as e:
-    #                         logger.error(f"Failed to get gender for {artist_name}: {e}")
+                    if not artist.get('artist_gender'):
+                        try:
+                            gender = get_gender(artist_name)
+                            artist['artist_gender'] = gender
+                        except Exception as e:
+                            logger.error(f"Failed to get gender for {artist_name}: {e}")
 
-    #                 if not song.get('song_lyrics'):
-    #                     try:
-    #                         lyrics = get_lyrics(artist_name, song_name)
-    #                         song['song_lyrics'] = lyrics
-    #                     except Exception as e:
-    #                         logger.error(f"Failed to get lyrics for {song_name} by {artist_name}: {e}")
+                    if not song.get('song_lyrics'):
+                        try:
+                            lyrics = get_lyrics(artist_name, song_name)
+                            song['song_lyrics'] = lyrics
+                        except Exception as e:
+                            logger.error(f"Failed to get lyrics for {song_name} by {artist_name}: {e}")
 
-    #                 if not song.get('song_length'):
-    #                     try:
-    #                         artist_data = search_for_artist(token, artist_name)
-    #                         if artist_data:
-    #                             artist_id = artist_data['id']
-    #                             songs = get_songs_by_artist(token, artist_id)
-    #                             for song_item in songs:
-    #                                 if song_item['name'].lower() == song_name.lower():
-    #                                     duration_ms = song_item['duration_ms']
-    #                                     song['song_length'] = convert_seconds(duration_ms // 1000)
-    #                                     break
-    #                     except Exception as e:
-    #                         logger.error(f"Failed to get song length for {song_name} by {artist_name}: {e}")
+                    if not song.get('song_length'):
+                        try:
+                            artist_data = search_for_artist(token, artist_name)
+                            if artist_data:
+                                artist_id = artist_data['id']
+                                songs = get_songs_by_artist(token, artist_id)
+                                for song_item in songs:
+                                    if song_item['name'].lower() == song_name.lower():
+                                        duration_ms = song_item['duration_ms']
+                                        song['song_length'] = convert_seconds(duration_ms // 1000)
+                                        break
+                        except Exception as e:
+                            logger.error(f"Failed to get song length for {song_name} by {artist_name}: {e}")
                 
                 # After processing, send the data to the external API
                 # send_prepared_data(data)
-    send_prepared_genre_data()
+                # send_prepared_genre_data()
+                print(data)
 
-    #         else:
-    #             logger.warning("No body found in this record")
+            else:
+                logger.warning("No body found in this record")
               
-    # except (json.JSONDecodeError, ValueError) as e:
-    #     logger.error("Error processing data: %s", e)
+    except (json.JSONDecodeError, ValueError) as e:
+        logger.error("Error processing data: %s", e)
 
     return {
         'statusCode': 200,
