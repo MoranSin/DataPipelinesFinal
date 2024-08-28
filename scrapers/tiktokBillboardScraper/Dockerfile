@@ -17,15 +17,11 @@ RUN apt-get update && \
     apt-get install -y nodejs
 
 # Verify npm installation
-RUN node -v && npm -v
+RUN npm --version
 
 # Install Node.js dependencies
 COPY package*.json ./
 RUN npm install
 
-# Expose port 8001
-EXPOSE 8001
-
-
 # Run serverless offline when the container launches
-CMD ["npx", "serverless", "offline", "--config", "serverless.yml", "--host", "0.0.0.0", "--httpPort", "8001"]
+CMD ["npx", "serverless", "offline", "start", "--config", "serverless.yml"]
