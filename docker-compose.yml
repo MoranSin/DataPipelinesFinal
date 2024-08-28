@@ -61,6 +61,8 @@ services:
       - postgres
     networks:
       - mynetwork
+    volumes:
+      - ./serverless.yml:/app/serverless.yml
   
   sqs:
     image: softwaremill/elasticmq:latest

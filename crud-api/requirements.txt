@@ -2,7 +2,3 @@ fastapi
 mangum
 sqlalchemy
 psycopg2-binary
-bs4
-requests
-boto3
-python-dotenv
