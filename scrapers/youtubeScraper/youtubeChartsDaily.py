@@ -3,9 +3,9 @@ from .youtubeScraper import YoutubeScraper
 import boto3
 import json
 from fastapi import HTTPException
-
 from os.path import join, dirname
 from dotenv import load_dotenv
+
 dotenv_path = join(dirname(__file__), '.env')
 load_dotenv(dotenv_path)
 
@@ -29,7 +29,7 @@ def handler(event, context):
     data.extend(countries_charts)
 
     youtube_trends_scraper = YoutubeScraper(YOUTUBE_CHARTS_API_KEY, YOUTUBE_TRENDS_API_KEY, YOUTUBE_TRENDS_COOKIE)
-    trends_data = youtube_charts_scraper.fetch_all_countries_charts(timing, youtube_trends)
+    trends_data = youtube_trends_scraper.fetch_all_countries_charts(timing, youtube_trends)
 
     data.extend(trends_data)
 
