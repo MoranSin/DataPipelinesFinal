@@ -1,17 +1,19 @@
-FROM public.ecr.aws/lambda/python:3.9
+FROM python:3
 
-# Set the working directory in the container
 WORKDIR /app
 
-# Copy the current directory contents into the container at /app
 COPY . /app
 
-# Install any necessary dependencies specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Set environment variables
-ARG SCHEDULER_NAME
-ENV SCHEDULER_NAME=${SCHEDULER_NAME}
+RUN apt-get update && \
+    apt-get install -y curl gnupg && \
+    curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
+    apt-get install -y nodejs
 
-# Command to run the chosen scheduler
-CMD ["sh", "-c", "exec python -m ${SCHEDULER_NAME}"]
+COPY package*.json ./
+
+RUN npm install
+RUN npm update serverless-offline-scheduler
+
+CMD ["npx", "serverless", "offline", "start", "--config", "serverless.yml"]

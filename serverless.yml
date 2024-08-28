@@ -2,8 +2,10 @@ service: skibidi-pipeline
 
 provider:
   name: aws
-  runtime: python3.9
-  region: us-east-1  
+  runtime: python3.9  
+  region: us-east-1 
+  environment:
+    file: .env
 
 functions:
   process:
@@ -39,65 +41,20 @@ functions:
       - http:
           path: /charts/{proxy+}
           method: any
-
-  # tiktokBillboardScraper:
-  #   handler: scrapers/tiktokBillboardScraper/tiktokScraper.tiktok_handler
-  #   timeout: 300
-  #   events:
-  #     - schedule:
-  #         rate: rate(5 minutes)
-  #         enabled: true
-      
-  # spotifyScraper:
-  #   handler: scrapers/spotifyScraper.spotify_handler
-  #   environment:
-  #     SPOTIFY_API_KEY: ${env:SPOTIFY_API_KEY}
-  #     AWS_ACCESS_KEY_ID: ${env:AWS_ACCESS_KEY_ID}
-  #     AWS_SECRET_ACCESS_KEY: ${env:AWS_SECRET_ACCESS_KEY}
-  #     SCHEDULER_NAME: "Spotify Scraper"
-  #   events:
-  #     - schedule:
-  #         rate: rate(7 days)
-  #         enabled: true
-  #     - http:
-  #         path: /spotify-scraper
-  #         method: get
-  youtubeScraperDaily:
-    handler: scrapers/youtubeScraper/youtubeChartsDaily.handler
-    environment:
-      SCHEDULER_NAME: "YouTube Daily Scraper"
-      YOUTUBE_CHARTS_URL_KEY: ${env:YOUTUBE_CHARTS_URL_KEY}
-      YOUTUBE_CHARTS_COOKIE: ${env:YOUTUBE_CHARTS_COOKIE}
-      YOUTUBE_CHARTS_API_KEY: ${env:YOUTUBE_CHARTS_API_KEY}
-      YOUTUBE_TRENDS_COOKIE: ${env:YOUTUBE_TRENDS_COOKIE}
-      YOUTUBE_TRENDS_API_KEY: ${env:YOUTUBE_TRENDS_API_KEY}
+ 
+  youtubeChartsDaily:
+    handler: scrapers/youtubeScraper/youtubeChartsDaily
     events:
       - schedule:
-          rate: rate(7 days)
+          rate: "rate(1 day)"
           enabled: true
 
-  youtubeScraperWeekly:
-    handler: scrapers/youtubeScraper/youtubeChartsWeekly.handler
-    environment:
-      SCHEDULER_NAME: "YouTube Weekly Scraper"
-      YOUTUBE_CHARTS_URL_KEY: ${env:YOUTUBE_CHARTS_URL_KEY}
-      YOUTUBE_CHARTS_COOKIE: ${env:YOUTUBE_CHARTS_COOKIE}
-      YOUTUBE_CHARTS_API_KEY: ${env:YOUTUBE_CHARTS_API_KEY}
+  youtubeChartsWeekly:
+    handler: scrapers/youtubeScraper/youtubeChartsWeekly
     events:
       - schedule:
-          rate: rate(1 day)
+          rate: "rate(7 days)"
           enabled: true
-
-
-
-  # process:
-    # handler: handler.process
-    # events:
-    #   - sqs:
-    #       arn:
-    #         Fn::GetAtt:
-    #           - DataRawQueue
-    #           - Arn
 
 plugins:
   - serverless-python-requirements

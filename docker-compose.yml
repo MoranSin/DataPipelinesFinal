@@ -1,53 +1,35 @@
 services:
   youtube-daily-scheduler:
     build:
-      context: ./scrapers 
+      context: ./scrapers
       dockerfile: Dockerfile
       args:
-        SCHEDULER_NAME: "youtubeScraper.youtubeChartsDaily"
+        SCHEDULER_MODULE: "scrapers.youtubeScraper.youtubeChartsDaily"
     environment:
-      - SCHEDULER_NAME=scrapers.youtubeScraper.youtubeChartsDaily
       - YOUTUBE_CHARTS_URL_KEY=${YOUTUBE_CHARTS_URL_KEY}
       - YOUTUBE_CHARTS_COOKIE=${YOUTUBE_CHARTS_COOKIE}
       - YOUTUBE_CHARTS_API_KEY=${YOUTUBE_CHARTS_API_KEY}
       - YOUTUBE_TRENDS_COOKIE=${YOUTUBE_TRENDS_COOKIE}
       - YOUTUBE_TRENDS_API_KEY=${YOUTUBE_TRENDS_API_KEY}
-    command: ["python", "-m", "youtubeScraper.youtubeChartsWeekly"]
+    depends_on:
+      - sqs
+    volumes:
+      - ./serverless.yml:/app/serverless.yml
 
   youtube-weekly-scheduler:
     build:
-      context: ./scrapers 
+      context: ./scrapers
       dockerfile: Dockerfile
       args:
-        SCHEDULER_NAME: "youtubeScraper.youtubeChartsWeekly"
+        SCHEDULER_MODULE: "scrapers.youtubeScraper.youtubeChartsWeekly"
     environment:
-      - SCHEDULER_NAME=scrapers.youtubeScraper.youtubeChartsWeekly
       - YOUTUBE_CHARTS_URL_KEY=${YOUTUBE_CHARTS_URL_KEY}
       - YOUTUBE_CHARTS_COOKIE=${YOUTUBE_CHARTS_COOKIE}
       - YOUTUBE_CHARTS_API_KEY=${YOUTUBE_CHARTS_API_KEY}
-    command: ["python", "-m", "youtubeScraper.youtubeChartsWeekly"]
-
-# tiktok-billboard-scheduler:
-  #   build:
-  #     context: .
-  #     args:
-  #       SCHEDULER_NAME: "scrapers.tiktokBillboardScraper.tiktokScraper"
-  #   environment:
-  #     - SCHEDULER_NAME=scrapers.tiktokBillboardScraper.tiktokScraper
-  #   command: [python", "-m", "scrapers/tiktokBillboardScraper/tiktokScraper"]
-
-  # spotify-scheduler:
-  #   build:
-  #     context: .
-  #     args:
-  #       SCHEDULER_NAME: "scrapers.spotifyScraper.spotify_handler"
-  #   environment:
-  #     - SCHEDULER_NAME=scrapers.spotifyScraper.spotify_handler
-  #     - SPOTIFY_API_KEY=${SPOTIFY_API_KEY}
-  #     - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
-  #     - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
-  #   command: [python", "-m", "scrapers/spotifyScraper.spotify_handler"]
-
+    depends_on:
+      - sqs
+    volumes:
+      - ./serverless.yml:/app/serverless.yml
 
   api:
     build:
