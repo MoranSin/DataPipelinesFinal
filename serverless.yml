@@ -2,7 +2,7 @@ service: skibidi-pipeline
 
 provider:
   name: aws
-  runtime: python3.11
+  runtime: python3.9
   region: us-east-1  
 
 functions:
@@ -48,10 +48,34 @@ functions:
           rate: rate(5 minutes)
           enabled: true
       
-  # spotifyScraper:
-  #   handler: scrapers/spotifyScraper.spotify_handler
-  #   events:
-  #     - httpApi: '*' # change this to crewler
+  spotifyScraper:
+    handler: scrapers/spotifyScraper.spotify_handler
+    environment:
+      SPOTIFY_API_KEY: ${env:SPOTIFY_API_KEY}
+      AWS_ACCESS_KEY_ID: ${env:AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${env:AWS_SECRET_ACCESS_KEY}
+    events:
+      - schedule:
+          rate: rate(7 days)
+          enabled: true
+      - http:
+          path: /spotify-scraper
+          method: get
+
+  youtubeScraperDaily:
+    handler: scrapers/youtubeScraper.youtubeChartsDaily
+    events:
+      - schedule:
+          rate: rate(7 days)
+          enabled: true
+
+  youtubeScraperWeekly:
+    handler: scrapers/youtubeScraper.youtubeChartsWeekly
+    events:
+      - schedule:
+          rate: rate(1 day)
+          enabled: true
+
 
   # process:
     # handler: handler.process
@@ -66,6 +90,8 @@ plugins:
   - serverless-python-requirements
   - serverless-offline-sqs
   - serverless-offline
+  - serverless-dotenv-plugin
+
 
 resources:
   Resources:

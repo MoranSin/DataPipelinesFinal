@@ -11,16 +11,12 @@ from os.path import join, dirname
 from dotenv import load_dotenv
 dotenv_path = join(dirname(__file__), '.env')
 load_dotenv(dotenv_path)
-
-YOUTUBE_CHARTS_API_KEY  = os.environ.get("YOUTUBE_CHARTS_API_KEY")
-YOUTUBE_CHARTS_URL_KEY = os.environ.get("YOUTUBE_CHARTS_URL_KEY")
-YOUTUBE_CHARTS_COOKIE = os.environ.get("YOUTUBE_CHARTS_COOKIE")
  
 def convert_seconds(n):
     minutes, seconds = divmod(n, 60)
     return f"{minutes:02}:{seconds:02}"
 
-class YoutubeChartsScraper:
+class YoutubeScraper:
     def __init__(self, api_key, url_key, cookie):
         self.api_key = api_key
         self.base_url = f"https://charts.youtube.com/youtubei/v1/browse?alt=json&key={url_key}"
@@ -114,30 +110,27 @@ class YoutubeChartsScraper:
             "zw",
         ]
 
-    def get_payload(self, country, timing):
-        self.payload['query'] = f"perspective=CHART_DETAILS&chart_params_country_code={country}&chart_params_chart_type=VIDEOS&chart_params_period_type={timing}"
+    def get_payload(self, country, timing, youtube_chart_type):
+        if youtube_chart_type == "Youtube Charts":
+            self.payload['query'] = f"perspective=CHART_DETAILS&chart_params_country_code={country}&chart_params_chart_type=VIDEOS&chart_params_period_type={timing}"
+        else:
+            self.payload['query'] = f"perspective=CHART_DETAILS&chart_params_country_code={country}&chart_params_chart_type=TRENDING_VIDEOS"
+
         return self.payload
 
-    def extract_relevant_data(self, chart_data, country, timing):
+    def extract_relevant_data(self, chart_data, country, timing, youtube_chart_type):
         extracted_data = []
         country_code = get_country_code(country)
         chart_type = get_chart_type(timing)
         date = get_today_date()
         
-        for entry in chart_data:
-            song_name = entry["title"] if entry["title"] else None
-            song_length = convert_seconds(entry["videoDuration"]) if entry["videoDuration"] else None
-            artist_name = entry["artists"][0]["name"] if entry["artists"] else None
-            rank_value = entry["chartEntryMetadata"]["currentPosition"] if entry["chartEntryMetadata"]["currentPosition"] else None
-            song_link = f"https://www.youtube.com/watch?v={entry['id']}" if entry["id"] else None
-            
-            print("Song Name: ", song_name)
-            print("Song Length: ", song_length)
-            print("Artist Name: ", artist_name)
-            print("Rank Value: ", rank_value)
-            print("Song Link: ", song_link)
-            print("Country Code: ", country_code)
-            
+        for entry in chart_data[:1]:
+            song_name = entry.get("title", None)
+            song_length = convert_seconds(entry.get("videoDuration", 0)) if entry.get("videoDuration") else None
+            artist_name = entry.get("artists", [{}])[0].get("name", None)
+            rank_value = entry.get("chartEntryMetadata", {}).get("currentPosition", None)
+            song_link = f"https://www.youtube.com/watch?v={entry.get('id', '')}" if entry.get("id") else None
+
             extracted_data.append({
                 "artist": {
                     "artist_name": artist_name,
@@ -153,7 +146,7 @@ class YoutubeChartsScraper:
                 "chart": {
                     "rank_value": rank_value,
                     "date": date,
-                    "source": "Youtube Charts",
+                    "source": youtube_chart_type,
                     "country_code": country_code,
                     "chart_type": chart_type,
                 }
@@ -161,26 +154,26 @@ class YoutubeChartsScraper:
         
         return extracted_data    
 
-    def fetch_charts(self, country, timing):
-        payload = self.get_payload(country, timing)
+    def fetch_charts(self, country, timing, youtube_chart_type):
+        payload = self.get_payload(country, timing, youtube_chart_type)
         response = requests.post(self.base_url, headers=self.headers, json=payload)
         if response.status_code == 200:
             try:
                 data = response.json()
-                chart_data = data['contents']['sectionListRenderer']['contents'][0]['musicAnalyticsSectionRenderer']['content']["videos"][0]["videoViews"]              
-                extracted_data = self.extract_relevant_data(chart_data, country, timing)
+                chart_data = data['contents']['sectionListRenderer']['contents'][0]['musicAnalyticsSectionRenderer']['content']["videos"][0]["videoViews"] 
+                extracted_data = self.extract_relevant_data(chart_data, country, timing, youtube_chart_type)
+                print("extracted_data: ", extracted_data) 
                 return extracted_data
             except json.JSONDecodeError:
                 print("Failed to decode JSON from the response.")
         else:
             print(f"Failed to fetch data. Status code: {response.status_code}, Response: {response.text}")
 
-    def fetch_all_countries_charts(self, timing):
+    def fetch_all_countries_charts(self, timing, youtube_chart_type):
         all_countries_data = []
         for country in self.countries:
-            country_data = self.fetch_charts(country, timing)
-            all_countries_data.append(country_data)
+            country_data = self.fetch_charts(country, timing, youtube_chart_type)
+            if country_data:
+                all_countries_data.extend(country_data)
             time.sleep(2)
-
         return all_countries_data
-    
