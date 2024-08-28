@@ -20,7 +20,9 @@ youtube_scraper = YoutubeScraper(YOUTUBE_CHARTS_API_KEY, YOUTUBE_CHARTS_URL_KEY,
 global_charts = youtube_scraper.fetch_charts("global", timing, youtube_chart)
 countries_charts = youtube_scraper.fetch_all_countries_charts(timing, youtube_chart)
 
-data = global_charts + countries_charts
+data = []
+data.extend(global_charts)
+data.extend(countries_charts)
 
 sqs = boto3.client(
     'sqs', 

@@ -23,10 +23,15 @@ youtube_charts_scraper = YoutubeScraper(YOUTUBE_CHARTS_API_KEY, YOUTUBE_CHARTS_U
 global_charts = youtube_charts_scraper.fetch_charts("global", timing, youtube_chart)
 countries_charts = youtube_charts_scraper.fetch_all_countries_charts(timing, youtube_chart)
 
-charts_data = global_charts + countries_charts
+data = []
+data.extend(global_charts)
+data.extend(countries_charts)
 
 youtube_trends_scraper = YoutubeScraper(YOUTUBE_CHARTS_API_KEY, YOUTUBE_TRENDS_API_KEY, YOUTUBE_TRENDS_COOKIE)
 trends_data = youtube_charts_scraper.fetch_all_countries_charts(timing, youtube_trends)
+
+data.extend(trends_data)
+
 
 sqs = boto3.client(
     'sqs', 
@@ -37,10 +42,9 @@ sqs = boto3.client(
 queue_url = 'http://sqs:9324/queue/data-raw-q'
 
 try:
-    scraped_data = charts_data + trends_data
     response = sqs.send_message(
         QueueUrl=queue_url,
-        MessageBody=json.dumps(scraped_data, ensure_ascii=False)
+        MessageBody=json.dumps(data, ensure_ascii=False)
     )
     print({"message": "Data has been scraped and sent to SQS", "sqs_response": response})
 except Exception as e:
