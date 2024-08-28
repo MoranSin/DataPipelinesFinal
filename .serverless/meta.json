@@ -9,6 +9,7 @@
     "servicePath": "C:\\Users\\adler\\OneDrive\\Documents\\Documents\\GitHub\\DataPipelinesFinal",
     "serviceConfigFileName": "serverless.yml",
     "service": {
+      "org": 208462184,
       "service": "skibidi-pipeline",
       "provider": {
         "name": "aws",
@@ -149,34 +150,37 @@
         }
       }
     },
-    "serviceRawFile": "service: skibidi-pipeline\r\n\r\nprovider:\r\n  name: aws\r\n  runtime: python3.9\r\n  region: us-east-1  \r\n\r\nfunctions:\r\n  process:\r\n    handler: crud-api/app.handler\r\n    events:\r\n      - http:\r\n          path: /\r\n          method: any\r\n      - http:\r\n          path: /{proxy+}\r\n          method: any\r\n      - http:\r\n          path: /genres\r\n          method: any\r\n      - http:\r\n          path: /genres/{proxy+}\r\n          method: any\r\n      - http:\r\n          path: /songs\r\n          method: any\r\n      - http:\r\n          path: /songs/{proxy+}\r\n          method: any\r\n      - http:\r\n          path: /artists\r\n          method: any\r\n      - http:\r\n          path: /artists/{proxy+}\r\n          method: any\r\n      - http:\r\n          path: /charts\r\n          method: any\r\n      - http:\r\n          path: /charts/{proxy+}\r\n          method: any\r\n\r\n  tiktokBillboardScraper:\r\n    handler: scrapers/tiktokBillboardScraper.tiktokScraper\r\n    events:\r\n      - schedule:\r\n          rate: rate(7 days)\r\n          enabled: true\r\n      \r\n  spotifyScraper:\r\n    handler: scrapers/spotifyScraper.spotify_handler\r\n    environment:\r\n      SPOTIFY_API_KEY: ${env:SPOTIFY_API_KEY}\r\n      AWS_ACCESS_KEY_ID: ${env:AWS_ACCESS_KEY_ID}\r\n      AWS_SECRET_ACCESS_KEY: ${env:AWS_SECRET_ACCESS_KEY}\r\n    events:\r\n      - schedule:\r\n          rate: rate(7 days)\r\n          enabled: true\r\n      - http:\r\n          path: /spotify-scraper\r\n          method: get\r\n\r\n  # process:\r\n    # handler: handler.process\r\n    # events:\r\n    #   - sqs:\r\n    #       arn:\r\n    #         Fn::GetAtt:\r\n    #           - DataRawQueue\r\n    #           - Arn\r\n\r\nplugins:\r\n  - serverless-python-requirements\r\n  - serverless-offline-sqs\r\n  - serverless-offline\r\n  - serverless-dotenv-plugin\r\n\r\n\r\nresources:\r\n  Resources:\r\n    DataRawQueue:\r\n      Type: AWS::SQS::Queue\r\n      Properties:\r\n        QueueName: data-music-q\r\n\r\ncustom:\r\n  serverless-offline-sqs:\r\n    autoCreate: true\r\n    apiVersion: '2012-11-05'\r\n    endpoint: http://sqs:9324\r\n    accessKeyId: x\r\n    secretAccessKey: x\r\n    queues:\r\n      - QueueName: data-music-q\r\n  serverless-offline:\r\n    port: 8001    \r\n\r\n\r\n",
+    "serviceRawFile": "# \"org\" ensures this Service is used with the correct Serverless Framework Access Key.\norg: 208462184\nservice: skibidi-pipeline\r\n\r\nprovider:\r\n  name: aws\r\n  runtime: python3.9\r\n  region: us-east-1  \r\n\r\nfunctions:\r\n  process:\r\n    handler: crud-api/app.handler\r\n    events:\r\n      - http:\r\n          path: /\r\n          method: any\r\n      - http:\r\n          path: /{proxy+}\r\n          method: any\r\n      - http:\r\n          path: /genres\r\n          method: any\r\n      - http:\r\n          path: /genres/{proxy+}\r\n          method: any\r\n      - http:\r\n          path: /songs\r\n          method: any\r\n      - http:\r\n          path: /songs/{proxy+}\r\n          method: any\r\n      - http:\r\n          path: /artists\r\n          method: any\r\n      - http:\r\n          path: /artists/{proxy+}\r\n          method: any\r\n      - http:\r\n          path: /charts\r\n          method: any\r\n      - http:\r\n          path: /charts/{proxy+}\r\n          method: any\r\n\r\n  tiktokBillboardScraper:\r\n    handler: scrapers/tiktokBillboardScraper.tiktokScraper\r\n    events:\r\n      - schedule:\r\n          rate: rate(7 days)\r\n          enabled: true\r\n      \r\n  spotifyScraper:\r\n    handler: scrapers/spotifyScraper.spotify_handler\r\n    environment:\r\n      SPOTIFY_API_KEY: ${env:SPOTIFY_API_KEY}\r\n      AWS_ACCESS_KEY_ID: ${env:AWS_ACCESS_KEY_ID}\r\n      AWS_SECRET_ACCESS_KEY: ${env:AWS_SECRET_ACCESS_KEY}\r\n    events:\r\n      - schedule:\r\n          rate: rate(7 days)\r\n          enabled: true\r\n      - http:\r\n          path: /spotify-scraper\r\n          method: get\r\n\r\n  # process:\r\n    # handler: handler.process\r\n    # events:\r\n    #   - sqs:\r\n    #       arn:\r\n    #         Fn::GetAtt:\r\n    #           - DataRawQueue\r\n    #           - Arn\r\n\r\nplugins:\r\n  - serverless-python-requirements\r\n  - serverless-offline-sqs\r\n  - serverless-offline\r\n  - serverless-dotenv-plugin\r\n\r\n\r\nresources:\r\n  Resources:\r\n    DataRawQueue:\r\n      Type: AWS::SQS::Queue\r\n      Properties:\r\n        QueueName: data-music-q\r\n\r\ncustom:\r\n  serverless-offline-sqs:\r\n    autoCreate: true\r\n    apiVersion: '2012-11-05'\r\n    endpoint: http://sqs:9324\r\n    accessKeyId: x\r\n    secretAccessKey: x\r\n    queues:\r\n      - QueueName: data-music-q\r\n  serverless-offline:\r\n    port: 8001    \r\n\r\n\r\n",
     "command": [
-      "offline"
+      "deploy"
     ],
     "options": {},
     "error": {
-      "message": "Cannot resolve '${env:SPOTIFY_API_KEY}' variable at 'functions.spotifyScraper.environment.SPOTIFY_API_KEY'. None of the variables returned a value and no default value was provided. Please check your variable definitions or provide a default value.",
-      "stack": "Error: Cannot resolve '${env:SPOTIFY_API_KEY}' variable at 'functions.spotifyScraper.environment.SPOTIFY_API_KEY'. None of the variables returned a value and no default value was provided. Please check your variable definitions or provide a default value.\n    at _ResolverManager.resolve (file:///C:/Users/adler/.serverless/releases/4.2.4/package/dist/sf-core.js:947:51362)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async #handlePlaceholderNode (file:///C:/Users/adler/.serverless/releases/4.2.4/package/dist/sf-core.js:947:49852)\n    at async file:///C:/Users/adler/.serverless/releases/4.2.4/package/dist/sf-core.js:947:47884\n    at async processNodeAndHandleCompletion (file:///C:/Users/adler/.serverless/releases/4.2.4/package/dist/sf-core.js:947:39197)",
-      "code": "MISSING_VARIABLE_RESULT"
+      "message": "orgName.trim is not a function",
+      "stack": "TypeError: orgName.trim is not a function\n    at Authentication.getAuthenticatedData (file:///C:/Users/adler/.serverless/releases/4.2.4/package/dist/sf-core.js:940:10159)\n    at async Authentication.resolverAuthenticate (file:///C:/Users/adler/.serverless/releases/4.2.4/package/dist/sf-core.js:942:20540)\n    at async _Meta.authenticateAndResolve (file:///C:/Users/adler/.serverless/releases/4.2.4/package/dist/sf-core.js:950:11261)\n    at async route (file:///C:/Users/adler/.serverless/releases/4.2.4/package/dist/sf-core.js:950:16849)\n    at async Object.run2 [as run] (file:///C:/Users/adler/.serverless/releases/4.2.4/package/dist/sf-core.js:950:17334)\n    at async run3 (file:///C:/Users/adler/.serverless/releases/4.2.4/package/dist/sf-core.js:950:18594)"
     },
     "machineId": "6f2bc86096df909e9e20dd621c285bd6",
-    "accessKeyV2": "<REDACTED>",
-    "accessKeyV1": "<REDACTED>",
-    "orgId": "061fde2a-e94c-47b2-b6af-1ce4c63bd7d9",
-    "orgName": "208462184",
-    "userId": "pL2mqh7hNwry1ppPF5",
-    "dashboard": {
-      "isEnabledForService": false,
-      "requiredAuthentication": false,
-      "orgFeaturesInUse": null,
-      "orgObservabilityIntegrations": null,
-      "serviceAppId": null,
-      "serviceProvider": null,
-      "instanceParameters": null
+    "serviceProviderAwsCfStackId": null,
+    "serviceProviderAwsCfStackCreated": null,
+    "serviceProviderAwsCfStackUpdated": null,
+    "serviceProviderAwsCfStackStatus": null,
+    "serviceProviderAwsCfStackOutputs": null
+  },
+  "unknown": {
+    "versionSfCore": null,
+    "versionFramework": "4.2.4",
+    "isWithinCompose": false,
+    "composeOrgName": null,
+    "composeServiceName": null,
+    "command": [],
+    "options": {
+      "debug": "*"
     },
-    "userName": "208462184",
-    "subscription": null,
-    "userEmail": "adleryasmin@gmail.com",
+    "error": {
+      "message": "app-name may contain only numbers, uppercase letters, lowercase letters, dashes, and underscores. - Please contact support and provide this identifier to reference this issue - P0D3JLSPLWC6",
+      "stack": "Error: app-name may contain only numbers, uppercase letters, lowercase letters, dashes, and underscores. - Please contact support and provide this identifier to reference this issue - P0D3JLSPLWC6\n    at _AppsClient.makeRequest (C:\\Users\\adler\\.serverless\\releases\\node_modules\\@serverless-inc\\sdk\\src\\baseClient.ts:106:23)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at _AppsClient._post (C:\\Users\\adler\\.serverless\\releases\\node_modules\\@serverless-inc\\sdk\\src\\baseClient.ts:50:17)\n    at _AppsClient.create (C:\\Users\\adler\\.serverless\\releases\\node_modules\\@serverless-inc\\sdk\\src\\appsClient.ts:42:18)\n    at ensureAppInConfigFile (C:\\Users\\adler\\.serverless\\releases\\4.2.4\\sf-core\\src\\lib\\commands\\onboarding.js:709:24)\n    at setOrgAndApp (C:\\Users\\adler\\.serverless\\releases\\4.2.4\\sf-core\\src\\lib\\commands\\onboarding.js:547:7)\n    at routeExistingService (C:\\Users\\adler\\.serverless\\releases\\4.2.4\\sf-core\\src\\lib\\commands\\onboarding.js:471:3)\n    at commandOnboarding (C:\\Users\\adler\\.serverless\\releases\\4.2.4\\sf-core\\src\\lib\\commands\\onboarding.js:52:12)\n    at catchAllHandler (C:\\Users\\adler\\.serverless\\releases\\4.2.4\\sf-core\\src\\lib\\commands\\catch-all.js:17:12)\n    at runCommand (C:\\Users\\adler\\.serverless\\releases\\4.2.4\\sf-core\\src\\lib\\runners\\command.js:41:5)"
+    },
+    "machineId": "6f2bc86096df909e9e20dd621c285bd6",
     "serviceProviderAwsCfStackId": null,
     "serviceProviderAwsCfStackCreated": null,
     "serviceProviderAwsCfStackUpdated": null,
