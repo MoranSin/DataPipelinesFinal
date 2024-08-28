@@ -13,6 +13,8 @@ services:
       - YOUTUBE_TRENDS_API_KEY=${YOUTUBE_TRENDS_API_KEY}
     depends_on:
       - sqs
+    networks:
+      - mynetwork
 
 
   youtube-weekly-scheduler:
@@ -27,6 +29,8 @@ services:
       - YOUTUBE_CHARTS_API_KEY=${YOUTUBE_CHARTS_API_KEY}
     depends_on:
       - sqs
+    networks:
+      - mynetwork
 
   tiktok-scheduler:
     build:
@@ -36,6 +40,8 @@ services:
         SCHEDULER_MODULE: "scrapers.tiktokBillboardScraper.tiktokScraper"
     depends_on:
       - sqs
+    networks:
+      - mynetwork
 
   spotify-daily-scheduler:
     build:
@@ -47,6 +53,8 @@ services:
       SPOTIFY_API_KEY_DAILY: ${SPOTIFY_API_KEY_DAILY}
     depends_on:
       - sqs
+    networks:
+      - mynetwork
 
   spotify-weekly-scheduler:
     build:
@@ -58,6 +66,8 @@ services:
       SPOTIFY_API_KEY_DAILY: ${SPOTIFY_API_KEY_WEEKLY}
     depends_on:
       - sqs
+    networks:
+      - mynetwork
 
   api:
     build:
@@ -73,7 +83,16 @@ services:
       - mynetwork
     volumes:
       - ./serverless.yml:/app/serverless.yml
-  
+
+  processor:
+    build:
+      context: ./processor
+      dockerfile: Dockerfile
+    networks:
+      - mynetwork
+    depends_on:
+      - sqs  
+
   sqs:
     image: softwaremill/elasticmq:latest
     container_name: sqs
