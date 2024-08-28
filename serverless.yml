@@ -1,3 +1,5 @@
+# "org" ensures this Service is used with the correct Serverless Framework Access Key.
+org: 208462184
 service: skibidi-pipeline
 
 provider:
@@ -50,9 +52,8 @@ functions:
   spotifyScraper:
     handler: scrapers/spotifyScraper.spotify_handler
     environment:
-      SPOTIFY_API_KEY: ${env:SPOTIFY_API_KEY}
-      AWS_ACCESS_KEY_ID: ${env:AWS_ACCESS_KEY_ID}
-      AWS_SECRET_ACCESS_KEY: ${env:AWS_SECRET_ACCESS_KEY}
+      SPOTIFY_API_KEY_WEEKLY: ${env:SPOTIFY_API_KEY_WEEKLY}
+      SPOTIFY_API_KEY_DAILY: ${env:SPOTIFY_API_KEY_DAILY}
     events:
       - schedule:
           rate: rate(7 days)
