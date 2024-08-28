@@ -78,7 +78,7 @@ class TiktokScraper:
         relevant_data = self.extract_relevant_data(html, date)
         return relevant_data
 
-def tiktok_handler(event, context):
+def handler(event, context):
     try:
         tiktok_scraper = TiktokScraper()
         generated_chart = tiktok_scraper.fetch_charts()
@@ -93,6 +93,5 @@ def tiktok_handler(event, context):
     except Exception as e:
         print(f"Error: {e}")
         raise e
-
 
 

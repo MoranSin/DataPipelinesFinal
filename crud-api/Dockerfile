@@ -16,9 +16,6 @@ RUN apt-get update && \
     curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
     apt-get install -y nodejs
 
-# Verify npm installation
-RUN node -v && npm -v
-
 # Install Node.js dependencies
 COPY package*.json ./
 RUN npm install
