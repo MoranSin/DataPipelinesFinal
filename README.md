@@ -28,3 +28,13 @@ methods allowed: GET, POST, PATCH.
 ### Charts:
 http://127.0.0.1:8001/dev/charts
 methods allowed: GET, POST, PATCH.
+
+### Invoking scheduler functions
+
+```bash
+    serverless invoke local --function youtubeScraperWeekly
+```
+
+```bash
+    serverless invoke local --function youtubeScraperDaily
+```
