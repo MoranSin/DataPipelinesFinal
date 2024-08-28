@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, Request
 from sqlalchemy.orm import Session
 from schemas.artistsSchema import ArtistCreate, Artist
-from services.artistsService import fetch_artists, fetch_artist_by_id, create_artist, update_artist
+from services.artistsService import fetch_artists, fetch_artist_by_id, create_artist, update_artist, fetch_artist_by_name
 from config.database import get_db
 from uuid import UUID
 
@@ -30,3 +30,10 @@ async def post_artist(artist: ArtistCreate, db: Session = Depends(get_db)):
 async def patch_artist(artist_id: UUID, artist: ArtistCreate, db: Session = Depends(get_db)):
     updated_artist = update_artist(db, artist_id, artist)
     return updated_artist
+
+@artistsRouter.get("/artists/name/{artist_name}", response_model=Artist)
+async def get_artist_by_name(artist_name: str, db: Session = Depends(get_db)):
+    artist = fetch_artist_by_name(db, artist_name)
+    if artist is None:
+        raise HTTPException(status_code=404, detail="Artist not found")
+    return artist

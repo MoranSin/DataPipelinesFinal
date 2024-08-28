@@ -17,13 +17,22 @@ http://127.0.0.1:8001/dev/
 http://127.0.0.1:8001/dev/genres
 methods allowed: GET, POST.
 
+#### Get genre by name
+http://127.0.0.1:8001/dev/genres/name/{Genre_name}
+
 ### Artists:
 http://127.0.0.1:8001/dev/artists
 methods allowed: GET, POST, PATCH.
 
+#### Get Artist by name
+http://127.0.0.1:8001/dev/artists/name/{Artist_name}
+
 ### Songs:
 http://127.0.0.1:8001/dev/songs
 methods allowed: GET, POST, PATCH.
+
+#### Get Song by name
+http://127.0.0.1:8001/dev/songs/name/{Song_name}
 
 ### Charts:
 http://127.0.0.1:8001/dev/charts

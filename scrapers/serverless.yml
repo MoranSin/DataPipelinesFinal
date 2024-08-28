@@ -54,3 +54,15 @@ resources:
       Properties:
         QueueName: data-raw-q
 
+custom:
+  serverless-offline-sqs:
+    autoCreate: true
+    apiVersion: '2012-11-05'
+    endpoint: http://sqs:9324
+    accessKeyId: x
+    secretAccessKey: x
+    queues:
+      - QueueName: data-raw-q
+    pythonRequirements:
+      dockerizePip: true
+

@@ -39,4 +39,10 @@ def update_artist(db: Session, artist_id: uuid4, artist: ArtistCreate):
     db.refresh(db_artist)
     return db_artist
 
+def fetch_artist_by_name(db: Session, artist_name: str):
+    try:
+        return db.query(Artist).filter(Artist.artist_name == artist_name).first()
+    except NoResultFound:
+        return None
+
 
