@@ -28,6 +28,20 @@ services:
     depends_on:
       - sqs
 
+  tiktok-scheduler:
+    build:
+      context: ./scrapers
+      dockerfile: Dockerfile
+      args:
+        SCHEDULER_MODULE: "scrapers.tiktokBillboardScraper.tiktokScraper"
+    environment:
+      - YOUTUBE_CHARTS_URL_KEY=${YOUTUBE_CHARTS_URL_KEY}
+      - YOUTUBE_CHARTS_COOKIE=${YOUTUBE_CHARTS_COOKIE}
+      - YOUTUBE_CHARTS_API_KEY=${YOUTUBE_CHARTS_API_KEY}
+    depends_on:
+      - sqs
+
+
 
   api:
     build:

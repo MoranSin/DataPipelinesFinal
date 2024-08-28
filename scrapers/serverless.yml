@@ -4,9 +4,8 @@ provider:
   name: aws
   runtime: python3.11
   region: us-east-1
+
 functions:
-
-
   youtubeChartsDaily:
     handler: youtubeScraper/youtubeChartsDaily.handler
     events:
@@ -16,6 +15,11 @@ functions:
     handler: youtubeScraper/youtubeChartsWeekly.handler
     events:
       - schedule: rate(7 days)
+  
+  tiktokScraper:
+    handler: tiktokBillboardScraper/tiktokScraper.handler
+    events:
+      - schedule: rate(7 day)
 
 
 plugins:
