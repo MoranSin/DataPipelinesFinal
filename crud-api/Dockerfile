@@ -1,9 +1,6 @@
 # Build Python dependencies
 FROM python:3.11-slim
 
-# Set environment variable for Python path
-ENV PYTHONPATH=/app/crud-api
-
 # Set the working directory in the container
 WORKDIR /app
 
@@ -18,9 +15,6 @@ RUN apt-get update && \
     apt-get install -y curl gnupg && \
     curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
     apt-get install -y nodejs
-
-# Verify npm installation
-RUN npm --version
 
 # Install Node.js dependencies
 COPY package*.json ./

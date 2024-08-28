@@ -1,21 +1,57 @@
 services:
-#   scrapers:
-#     build:
-#       context: ./scrapers
-#       dockerfile: Dockerfile
-#     depends_on:
-#       - sqs
-  
-  # processor:
+  youtube-daily-scheduler:
+    build:
+      context: ./scrapers 
+      dockerfile: Dockerfile
+      args:
+        SCHEDULER_NAME: "youtubeScraper.youtubeChartsDaily"
+    environment:
+      - SCHEDULER_NAME=scrapers.youtubeScraper.youtubeChartsDaily
+      - YOUTUBE_CHARTS_URL_KEY=${YOUTUBE_CHARTS_URL_KEY}
+      - YOUTUBE_CHARTS_COOKIE=${YOUTUBE_CHARTS_COOKIE}
+      - YOUTUBE_CHARTS_API_KEY=${YOUTUBE_CHARTS_API_KEY}
+      - YOUTUBE_TRENDS_COOKIE=${YOUTUBE_TRENDS_COOKIE}
+      - YOUTUBE_TRENDS_API_KEY=${YOUTUBE_TRENDS_API_KEY}
+    command: ["python", "-m", "youtubeScraper.youtubeChartsWeekly"]
+
+  youtube-weekly-scheduler:
+    build:
+      context: ./scrapers 
+      dockerfile: Dockerfile
+      args:
+        SCHEDULER_NAME: "youtubeScraper.youtubeChartsWeekly"
+    environment:
+      - SCHEDULER_NAME=scrapers.youtubeScraper.youtubeChartsWeekly
+      - YOUTUBE_CHARTS_URL_KEY=${YOUTUBE_CHARTS_URL_KEY}
+      - YOUTUBE_CHARTS_COOKIE=${YOUTUBE_CHARTS_COOKIE}
+      - YOUTUBE_CHARTS_API_KEY=${YOUTUBE_CHARTS_API_KEY}
+    command: ["python", "-m", "youtubeScraper.youtubeChartsWeekly"]
+
+# tiktok-billboard-scheduler:
   #   build:
-  #     context: ./processor
-  #     dockerfile: Dockerfile
-  #   depends_on:
-  #     - sqs
+  #     context: .
+  #     args:
+  #       SCHEDULER_NAME: "scrapers.tiktokBillboardScraper.tiktokScraper"
+  #   environment:
+  #     - SCHEDULER_NAME=scrapers.tiktokBillboardScraper.tiktokScraper
+  #   command: [python", "-m", "scrapers/tiktokBillboardScraper/tiktokScraper"]
+
+  # spotify-scheduler:
+  #   build:
+  #     context: .
+  #     args:
+  #       SCHEDULER_NAME: "scrapers.spotifyScraper.spotify_handler"
+  #   environment:
+  #     - SCHEDULER_NAME=scrapers.spotifyScraper.spotify_handler
+  #     - SPOTIFY_API_KEY=${SPOTIFY_API_KEY}
+  #     - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+  #     - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+  #   command: [python", "-m", "scrapers/spotifyScraper.spotify_handler"]
+
 
   api:
     build:
-      context: .
+      context: ./crud-api
       dockerfile: Dockerfile
     environment:
       DATABASE_URL: "postgresql://user:password@postgres:5432/music_charts"
