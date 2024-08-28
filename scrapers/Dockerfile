@@ -26,6 +26,7 @@ RUN npm install -g serverless
 # Copy the rest of your application code
 COPY . .
 
+
 # Copy the installed Python dependencies from the first stage
 COPY --from=python-base /usr/local/lib/python3.11 /usr/local/lib/python3.11
 

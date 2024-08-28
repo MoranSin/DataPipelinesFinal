@@ -5,9 +5,7 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - sqs
-      - postgres
     environment:
-      # Load environment variables from the .env file
       SPOTIFY_API_KEY_WEEKLY: ${SPOTIFY_API_KEY_WEEKLY}
       SPOTIFY_API_KEY_DAILY: ${SPOTIFY_API_KEY_DAILY}
       ORG: ${ORG}

@@ -5,7 +5,7 @@ import requests
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
 
-dotenv_path = abspath(join(dirname(__file__), '..', '.env'))
+dotenv_path = abspath(join(dirname(__file__), '..', 'env.yml'))
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from genericScraper import get_chart_type, get_today_date, get_country_code
@@ -74,14 +74,11 @@ class SpotifyScraper:
         all_data = []
 
         for date in dates:
-            # Construct the URL
             url = f"{self.base_url}/{date}"
             print(f"Fetching URL: {url}")  # Debug: Print URL
             
-            # Make the request
             response = requests.get(url, headers=self.headers)
 
-            # Handle non-JSON responses gracefully
             try:
                 if response.status_code == 200:
                     chart_data = response.json()

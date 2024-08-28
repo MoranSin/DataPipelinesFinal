@@ -3,7 +3,7 @@ from os.path import join, dirname
 from dotenv import load_dotenv
 from os.path import join, dirname, abspath
 
-dotenv_path = abspath(join(dirname(__file__),'.env'))
+dotenv_path = abspath(join(dirname(__file__),'env.yml'))
 load_dotenv(dotenv_path)
 
 from spotifyScraper import SpotifyScraper

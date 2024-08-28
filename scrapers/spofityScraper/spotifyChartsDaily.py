@@ -1,7 +1,7 @@
 import os
 from os.path import join, dirname, abspath
 
-dotenv_path = abspath(join(dirname(__file__),'.env'))
+dotenv_path = abspath(join(dirname(__file__),'env.yml'))
 from dotenv import load_dotenv
 load_dotenv(dotenv_path)
 
