@@ -1,0 +1,6 @@
+boto3
+requests
+load_dotenv
+lyricsgenius
+musicbrainzngs
+requests
