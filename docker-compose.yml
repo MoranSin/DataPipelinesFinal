@@ -5,12 +5,14 @@ services:
       dockerfile: Dockerfile
       args:
         SCHEDULER_MODULE: "scrapers.youtubeScraper.youtubeChartsDaily"
-    environment:
-      - YOUTUBE_CHARTS_URL_KEY=${YOUTUBE_CHARTS_URL_KEY}
-      - YOUTUBE_CHARTS_COOKIE=${YOUTUBE_CHARTS_COOKIE}
-      - YOUTUBE_CHARTS_API_KEY=${YOUTUBE_CHARTS_API_KEY}
-      - YOUTUBE_TRENDS_COOKIE=${YOUTUBE_TRENDS_COOKIE}
-      - YOUTUBE_TRENDS_API_KEY=${YOUTUBE_TRENDS_API_KEY}
+    # environment:
+    #   - YOUTUBE_CHARTS_URL_KEY=${YOUTUBE_CHARTS_URL_KEY}
+    #   - YOUTUBE_CHARTS_COOKIE=${YOUTUBE_CHARTS_COOKIE}
+    #   - YOUTUBE_CHARTS_API_KEY=${YOUTUBE_CHARTS_API_KEY}
+    #   - YOUTUBE_TRENDS_COOKIE=${YOUTUBE_TRENDS_COOKIE}
+    #   - YOUTUBE_TRENDS_API_KEY=${YOUTUBE_TRENDS_API_KEY}
+    # env_file:
+    #   - ./scrapers/.env
     depends_on:
       - sqs
     networks:
@@ -23,10 +25,12 @@ services:
       dockerfile: Dockerfile
       args:
         SCHEDULER_MODULE: "scrapers.youtubeScraper.youtubeChartsWeekly"
-    environment:
-      - YOUTUBE_CHARTS_URL_KEY=${YOUTUBE_CHARTS_URL_KEY}
-      - YOUTUBE_CHARTS_COOKIE=${YOUTUBE_CHARTS_COOKIE}
-      - YOUTUBE_CHARTS_API_KEY=${YOUTUBE_CHARTS_API_KEY}
+    # environment:
+    #   - YOUTUBE_CHARTS_URL_KEY=${YOUTUBE_CHARTS_URL_KEY}
+    #   - YOUTUBE_CHARTS_COOKIE=${YOUTUBE_CHARTS_COOKIE}
+    #   - YOUTUBE_CHARTS_API_KEY=${YOUTUBE_CHARTS_API_KEY}
+    # env_file:
+    #   - ./scrapers/.env
     depends_on:
       - sqs
     networks:
@@ -49,8 +53,10 @@ services:
       dockerfile: Dockerfile
       args:
         SCHEDULER_MODULE: "scrapers.spofityScraper.spotifyChartsDaily"
-    environment:
-      SPOTIFY_API_KEY_DAILY: ${SPOTIFY_API_KEY_DAILY}
+    # environment:
+    #   SPOTIFY_API_KEY_DAILY: ${SPOTIFY_API_KEY_DAILY}
+    # env_file:
+    #   - ./scrapers/.env
     depends_on:
       - sqs
     networks:
@@ -62,8 +68,10 @@ services:
       dockerfile: Dockerfile
       args:
         SCHEDULER_MODULE: "scrapers.spofityScraper.spotifyChartsWeekly"
-    environment:
-      SPOTIFY_API_KEY_DAILY: ${SPOTIFY_API_KEY_WEEKLY}
+    # environment:
+    #   SPOTIFY_API_KEY_DAILY: ${SPOTIFY_API_KEY_WEEKLY}
+    # env_file:
+    #   - ./scrapers/.env
     depends_on:
       - sqs
     networks:
@@ -88,6 +96,8 @@ services:
       dockerfile: Dockerfile
     networks:
       - mynetwork
+    env_file:
+      - ./processor/.env
     depends_on:
       - sqs  
 

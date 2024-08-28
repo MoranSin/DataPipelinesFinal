@@ -8,7 +8,7 @@ class TiktokScraper:
     def __init__(self):
         self.base_url = "https://www.billboard.com/charts/tiktok-billboard-top-50/"
         self.sqs = boto3.client('sqs', endpoint_url='http://sqs:9324', region_name='elasticmq', aws_access_key_id='x', aws_secret_access_key='x')
-        self.queue_url = 'http://sqs:9324/queue/data-music-q'
+        self.queue_url = 'http://sqs:9324/queue/data-raw-q'
     
     def extract_relevant_data(self, chart_data , date):
         extracted_data = [] 
