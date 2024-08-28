@@ -1,6 +1,8 @@
 import os
 from youtubeScraper import YoutubeScraper
-
+import boto3
+import json
+from fastapi import HTTPException
 
 from os.path import join, dirname
 from dotenv import load_dotenv
@@ -26,15 +28,20 @@ charts_data = global_charts + countries_charts
 youtube_trends_scraper = YoutubeScraper(YOUTUBE_CHARTS_API_KEY, YOUTUBE_TRENDS_API_KEY, YOUTUBE_TRENDS_COOKIE)
 trends_data = youtube_charts_scraper.fetch_all_countries_charts(timing, youtube_trends)
 
-print("First 10 entries from Global Charts:")
-for entry in global_charts:
-    print(entry)
+sqs = boto3.client(
+    'sqs', 
+    region_name="us-east-1",
+    endpoint_url='http://sqs:9324'
+)
 
-print("\nFirst 10 entries from Countries Charts:")
-for entry in countries_charts:
-    print(entry)
+queue_url = 'http://sqs:9324/queue/data-raw-q'
 
-print("\nFirst 10 entries from Trends Data:")
-for entry in trends_data:
-    print(entry)
-
+try:
+    scraped_data = charts_data + trends_data
+    response = sqs.send_message(
+        QueueUrl=queue_url,
+        MessageBody=json.dumps(scraped_data, ensure_ascii=False)
+    )
+    print({"message": "Data has been scraped and sent to SQS", "sqs_response": response})
+except Exception as e:
+    raise HTTPException(status_code=500, detail=str(e))
