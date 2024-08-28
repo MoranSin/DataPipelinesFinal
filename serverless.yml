@@ -4,15 +4,8 @@ provider:
   name: aws
   runtime: python3.9  
   region: us-east-1 
-  environment: ${file(env.yml)}
-
-
-# environment:
-#     SPOTIFY_API_KEY_WEEKLY: ${env:SPOTIFY_API_KEY_WEEKLY}
-#     SPOTIFY_API_KEY_DAILY: ${env:SPOTIFY_API_KEY_DAILY}
-#     ORG: ${env:ORG}
-
-useDotenv: false 
+  environment:
+    file: .env
 
 functions:
   process:
@@ -48,53 +41,15 @@ functions:
       - http:
           path: /charts/{proxy+}
           method: any
+ 
 
-  tiktokBillboardScraper:
-    handler: scrapers/tiktokBillboardScraper.tiktokScraper
-    events:
-      - schedule:
-          rate: rate(7 days)
-          enabled: true
-      
-  spotifyScraper:
-    handler: scrapers/spotifyScraper.spotify_handler
-    events:
-      - schedule:
-          rate: rate(7 days)
-          enabled: true
-      - http:
-          path: /spotify-scraper
-          method: get
-
-  youtubeScraperDaily:
-    handler: scrapers/youtubeScraper.youtubeChartsDaily
-    events:
-      - schedule:
-          rate: rate(7 days)
-          enabled: true
-
-  youtubeScraperWeekly:
-    handler: scrapers/youtubeScraper.youtubeChartsWeekly
-    events:
-      - schedule:
-          rate: rate(1 day)
-          enabled: true
-
-
-  # process:
-    # handler: handler.process
-    # events:
-    #   - sqs:
-    #       arn:
-    #         Fn::GetAtt:
-    #           - DataRawQueue
-    #           - Arn
 
 plugins:
   - serverless-python-requirements
   - serverless-offline-sqs
   - serverless-offline
   - serverless-dotenv-plugin
+  - serverless-offline-scheduler
 
 
 resources:
@@ -102,7 +57,7 @@ resources:
     DataRawQueue:
       Type: AWS::SQS::Queue
       Properties:
-        QueueName: data-music-q
+        QueueName: data-raw-q
 
 custom:
   serverless-offline-sqs:
@@ -112,8 +67,8 @@ custom:
     accessKeyId: x
     secretAccessKey: x
     queues:
-      - QueueName: data-music-q
+      - QueueName: data-raw-q
   serverless-offline:
     port: 8001    
-
-
+  pythonRequirements:
+    dockerizePip: true

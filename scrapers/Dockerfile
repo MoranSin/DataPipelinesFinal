@@ -1,37 +1,19 @@
-# First Stage: Build Python dependencies
-FROM python:3.11 AS python-base
+FROM python:3
 
-# Set the working directory in the container
-WORKDIR /usr/src/app
+WORKDIR /app
 
-# Copy requirements.txt and install Python dependencies
-COPY requirements.txt ./
+COPY . /app
+
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Second Stage: Install Node.js and Serverless
-FROM node:18-slim AS node-base
+RUN apt-get update && \
+    apt-get install -y curl gnupg && \
+    curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
+    apt-get install -y nodejs
 
-# Set the working directory in the container
-WORKDIR /usr/src/app
-
-# Copy the package.json and package-lock.json and install dependencies
 COPY package*.json ./
 
-# Install serverless and other Node.js dependencies
 RUN npm install
+RUN npm update serverless-offline-scheduler
 
-# Install serverless globally (if needed)
-RUN npm install -g serverless
-
-# Copy the rest of your application code
-COPY . .
-
-
-# Copy the installed Python dependencies from the first stage
-COPY --from=python-base /usr/local/lib/python3.11 /usr/local/lib/python3.11
-
-# Expose the port that the serverless offline runs on (default is 3000)
-EXPOSE 3000
-
-# Set the default command to run serverless offline
-CMD ["serverless", "offline", "start"]
+CMD ["npx", "serverless", "offline", "start", "--config", "serverless.yml"]

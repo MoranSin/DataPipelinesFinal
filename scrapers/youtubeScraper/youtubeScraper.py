@@ -124,13 +124,13 @@ class YoutubeScraper:
         chart_type = get_chart_type(timing)
         date = get_today_date()
         
-        for entry in chart_data[:10]:
-            song_name = entry["title"] if entry["title"] else None
-            song_length = convert_seconds(entry["videoDuration"]) if entry["videoDuration"] else None
-            artist_name = entry["artists"][0]["name"] if entry["artists"] else None
-            rank_value = entry["chartEntryMetadata"]["currentPosition"] if entry["chartEntryMetadata"]["currentPosition"] else None
-            song_link = f"https://www.youtube.com/watch?v={entry['id']}" if entry["id"] else None
-        
+        for entry in chart_data[:1]:
+            song_name = entry.get("title", None)
+            song_length = convert_seconds(entry.get("videoDuration", 0)) if entry.get("videoDuration") else None
+            artist_name = entry.get("artists", [{}])[0].get("name", None)
+            rank_value = entry.get("chartEntryMetadata", {}).get("currentPosition", None)
+            song_link = f"https://www.youtube.com/watch?v={entry.get('id', '')}" if entry.get("id") else None
+
             extracted_data.append({
                 "artist": {
                     "artist_name": artist_name,
@@ -160,8 +160,9 @@ class YoutubeScraper:
         if response.status_code == 200:
             try:
                 data = response.json()
-                chart_data = data['contents']['sectionListRenderer']['contents'][0]['musicAnalyticsSectionRenderer']['content']["videos"][0]["videoViews"]              
+                chart_data = data['contents']['sectionListRenderer']['contents'][0]['musicAnalyticsSectionRenderer']['content']["videos"][0]["videoViews"] 
                 extracted_data = self.extract_relevant_data(chart_data, country, timing, youtube_chart_type)
+                print("extracted_data: ", extracted_data) 
                 return extracted_data
             except json.JSONDecodeError:
                 print("Failed to decode JSON from the response.")
@@ -172,8 +173,7 @@ class YoutubeScraper:
         all_countries_data = []
         for country in self.countries:
             country_data = self.fetch_charts(country, timing, youtube_chart_type)
-            all_countries_data.append(country_data)
+            if country_data:
+                all_countries_data.extend(country_data)
             time.sleep(2)
-
         return all_countries_data
-    

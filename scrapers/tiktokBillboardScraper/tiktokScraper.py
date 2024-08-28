@@ -1,11 +1,14 @@
 import requests
-import time
-from datetime import datetime, timedelta
+from datetime import datetime
 from bs4 import BeautifulSoup
+import boto3
+import json
 
 class TiktokScraper:
     def __init__(self):
         self.base_url = "https://www.billboard.com/charts/tiktok-billboard-top-50/"
+        self.sqs = boto3.client('sqs', endpoint_url='http://sqs:9324', region_name='elasticmq', aws_access_key_id='x', aws_secret_access_key='x')
+        self.queue_url = 'http://sqs:9324/queue/data-music-q'
     
     def extract_relevant_data(self, chart_data , date):
         extracted_data = [] 
@@ -73,12 +76,22 @@ class TiktokScraper:
         html = BeautifulSoup(response.text, 'html.parser')
         
         relevant_data = self.extract_relevant_data(html, date)
-        print(relevant_data)
+        return relevant_data
 
+def handler(event, context):
+    try:
+        tiktok_scraper = TiktokScraper()
+        generated_chart = tiktok_scraper.fetch_charts()
 
-tiktok_scraper = TiktokScraper()
-tiktok_scraper.fetch_charts()
-    
+        response = tiktok_scraper.sqs.send_message(
+            QueueUrl=tiktok_scraper.queue_url,
+            MessageBody=json.dumps(generated_chart, ensure_ascii=False)
+        )
+        print(f"Data scraped and sent to SQS: {response}")
+        return {"message": "Data scraped and sent to SQS", "SQSResponse": response}
 
+    except Exception as e:
+        print(f"Error: {e}")
+        raise e
 
 

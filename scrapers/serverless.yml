@@ -1,0 +1,66 @@
+service: scrapers
+
+provider:
+  name: aws
+  runtime: python3.11
+  region: us-east-1
+
+functions:
+  youtubeChartsDaily:
+    handler: youtubeScraper/youtubeChartsDaily.handler
+    events:
+      #- schedule: rate(1 day)
+      - schedule: rate(10 minutes)
+
+  youtubeChartsWeekly:
+    handler: youtubeScraper/youtubeChartsWeekly.handler
+    events:
+      # - schedule: rate(7 days)
+      - schedule: rate(10 minutes)
+
+  
+  tiktokScraper:
+    handler: tiktokBillboardScraper/tiktokScraper.handler
+    events:
+      # - schedule: rate(7 days)
+      - schedule: rate(10 minutes)
+
+
+  spotifyScraperDaily:
+    handler: spofityScraper/spotifyChartsDaily.handler
+    events:
+      # - schedule: rate(1 day)
+      - schedule: rate(10 minutes)
+
+
+  spotifyScraperWeekly:
+    handler: spofityScraper/spotifyChartsWeekly.handler
+    events:
+      - schedule: rate(10 minutes)
+      # - schedule: rate(7 days)
+
+
+plugins:
+  - serverless-python-requirements
+  - serverless-offline-sqs
+  - serverless-offline
+  - serverless-dotenv-plugin
+  - serverless-offline-scheduler
+
+resources:
+  Resources:
+    DataRawQueue:
+      Type: AWS::SQS::Queue
+      Properties:
+        QueueName: data-raw-q
+
+custom:
+  serverless-offline-sqs:
+    autoCreate: true
+    apiVersion: '2012-11-05'
+    endpoint: http://sqs:9324 
+    region: us-east-1
+    accessKeyId: accessKey
+    secretAccessKey: secretKey
+    queues:
+      - QueueName: data-raw-q

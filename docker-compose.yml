@@ -1,28 +1,67 @@
 services:
-  scrapers:
+  youtube-daily-scheduler:
     build:
       context: ./scrapers
       dockerfile: Dockerfile
+      args:
+        SCHEDULER_MODULE: "scrapers.youtubeScraper.youtubeChartsDaily"
+    environment:
+      - YOUTUBE_CHARTS_URL_KEY=${YOUTUBE_CHARTS_URL_KEY}
+      - YOUTUBE_CHARTS_COOKIE=${YOUTUBE_CHARTS_COOKIE}
+      - YOUTUBE_CHARTS_API_KEY=${YOUTUBE_CHARTS_API_KEY}
+      - YOUTUBE_TRENDS_COOKIE=${YOUTUBE_TRENDS_COOKIE}
+      - YOUTUBE_TRENDS_API_KEY=${YOUTUBE_TRENDS_API_KEY}
     depends_on:
       - sqs
+
+
+  youtube-weekly-scheduler:
+    build:
+      context: ./scrapers
+      dockerfile: Dockerfile
+      args:
+        SCHEDULER_MODULE: "scrapers.youtubeScraper.youtubeChartsWeekly"
     environment:
-      SPOTIFY_API_KEY_WEEKLY: ${SPOTIFY_API_KEY_WEEKLY}
+      - YOUTUBE_CHARTS_URL_KEY=${YOUTUBE_CHARTS_URL_KEY}
+      - YOUTUBE_CHARTS_COOKIE=${YOUTUBE_CHARTS_COOKIE}
+      - YOUTUBE_CHARTS_API_KEY=${YOUTUBE_CHARTS_API_KEY}
+    depends_on:
+      - sqs
+
+  tiktok-scheduler:
+    build:
+      context: ./scrapers
+      dockerfile: Dockerfile
+      args:
+        SCHEDULER_MODULE: "scrapers.tiktokBillboardScraper.tiktokScraper"
+    depends_on:
+      - sqs
+
+  spotify-daily-scheduler:
+    build:
+      context: ./scrapers
+      dockerfile: Dockerfile
+      args:
+        SCHEDULER_MODULE: "scrapers.spofityScraper.spotifyChartsDaily"
+    environment:
       SPOTIFY_API_KEY_DAILY: ${SPOTIFY_API_KEY_DAILY}
-      ORG: ${ORG}
-      DATABASE_URL: "postgresql://user:password@postgres:5432/music_charts"
-    networks:
-      - mynetwork
-  
-  # processor:
-  #   build:
-  #     context: ./processor
-  #     dockerfile: Dockerfile
-  #   depends_on:
-  #     - sqs
+    depends_on:
+      - sqs
+
+  spotify-weekly-scheduler:
+    build:
+      context: ./scrapers
+      dockerfile: Dockerfile
+      args:
+        SCHEDULER_MODULE: "scrapers.spofityScraper.spotifyChartsWeekly"
+    environment:
+      SPOTIFY_API_KEY_DAILY: ${SPOTIFY_API_KEY_WEEKLY}
+    depends_on:
+      - sqs
 
   api:
     build:
-      context: .
+      context: ./crud-api
       dockerfile: Dockerfile
     environment:
       DATABASE_URL: "postgresql://user:password@postgres:5432/music_charts"
@@ -32,6 +71,8 @@ services:
       - postgres
     networks:
       - mynetwork
+    volumes:
+      - ./serverless.yml:/app/serverless.yml
   
   sqs:
     image: softwaremill/elasticmq:latest
