@@ -25,3 +25,9 @@ def create_genre(db: Session, genre: GenreCreate):
     db.commit()
     db.refresh(new_genre)
     return new_genre
+
+def fetch_genre_by_name(db: Session, genre_name: str):
+    try:
+        return db.query(Genre).filter(Genre.genre_name == genre_name).first()
+    except NoResultFound:
+        return None

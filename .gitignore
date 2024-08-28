@@ -10,3 +10,4 @@
 **/__pycache__
 **/__init__.py
 **/.env
+scrapers/env

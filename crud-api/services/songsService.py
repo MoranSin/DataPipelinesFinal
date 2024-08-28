@@ -44,3 +44,9 @@ def update_song(db: Session, song_id: uuid4, song: SongCreate):
     db.commit()
     db.refresh(db_song)
     return db_song
+
+def fetch_song_by_name(db: Session, song_name: str):
+    try:
+        return db.query(Song).filter(Song.song_name == song_name).first()
+    except NoResultFound:
+        return None
