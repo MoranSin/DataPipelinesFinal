@@ -1,11 +1,10 @@
-# "org" ensures this Service is used with the correct Serverless Framework Access Key.
-org: 208462184
 service: skibidi-pipeline
 
 provider:
   name: aws
-  runtime: python3.9
-  region: us-east-1  
+  runtime: python3.9  
+  region: us-east-1 
+  environment: ${file(.env)} 
 
 functions:
   process:
@@ -51,9 +50,6 @@ functions:
       
   spotifyScraper:
     handler: scrapers/spotifyScraper.spotify_handler
-    environment:
-      SPOTIFY_API_KEY_WEEKLY: ${env:SPOTIFY_API_KEY_WEEKLY}
-      SPOTIFY_API_KEY_DAILY: ${env:SPOTIFY_API_KEY_DAILY}
     events:
       - schedule:
           rate: rate(7 days)
