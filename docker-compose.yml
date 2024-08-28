@@ -15,7 +15,7 @@ services:
 
   api:
     build:
-      context: .
+      context: ./crud-api
       dockerfile: Dockerfile
     environment:
       DATABASE_URL: "postgresql://user:password@postgres:5432/music_charts"
@@ -25,6 +25,8 @@ services:
       - postgres
     networks:
       - mynetwork
+    volumes:
+      - ./serverless.yml:/app/serverless.yml
   
   sqs:
     image: softwaremill/elasticmq:latest

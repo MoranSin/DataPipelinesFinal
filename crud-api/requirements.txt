@@ -1,0 +1,4 @@
+fastapi
+mangum
+sqlalchemy
+psycopg2-binary

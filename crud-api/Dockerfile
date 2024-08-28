@@ -1,9 +1,6 @@
 # Build Python dependencies
 FROM python:3.11-slim
 
-# Set environment variable for Python path
-ENV PYTHONPATH=/app/crud-api
-
 # Set the working directory in the container
 WORKDIR /app
 
@@ -30,4 +27,4 @@ RUN npm install
 EXPOSE 8001
 
 # Run serverless offline when the container launches
-CMD ["npx", "serverless", "offline", "--host", "0.0.0.0", "--httpPort", "8001"]
+CMD ["npx", "serverless", "offline", "--config", "/app/serverless.yml", "--host", "0.0.0.0", "--httpPort", "8001"]

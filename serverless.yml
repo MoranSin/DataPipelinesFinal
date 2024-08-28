@@ -41,10 +41,11 @@ functions:
           method: any
 
   tiktokBillboardScraper:
-    handler: scrapers/tiktokBillboardScraper.tiktokScraper
+    handler: scrapers/tiktokBillboardScraper/tiktokScraper.tiktok_handler
+    timeout: 300
     events:
       - schedule:
-          rate: rate(7 days)
+          rate: rate(5 minutes)
           enabled: true
       
   # spotifyScraper:
