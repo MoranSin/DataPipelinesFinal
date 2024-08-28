@@ -13,8 +13,7 @@ services:
       - YOUTUBE_TRENDS_API_KEY=${YOUTUBE_TRENDS_API_KEY}
     depends_on:
       - sqs
-    volumes:
-      - ./serverless.yml:/app/serverless.yml
+
 
   youtube-weekly-scheduler:
     build:
@@ -28,8 +27,7 @@ services:
       - YOUTUBE_CHARTS_API_KEY=${YOUTUBE_CHARTS_API_KEY}
     depends_on:
       - sqs
-    volumes:
-      - ./serverless.yml:/app/serverless.yml
+
 
   api:
     build:

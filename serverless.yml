@@ -42,19 +42,7 @@ functions:
           path: /charts/{proxy+}
           method: any
  
-  youtubeChartsDaily:
-    handler: scrapers/youtubeScraper/youtubeChartsDaily
-    events:
-      - schedule:
-          rate: "rate(1 day)"
-          enabled: true
 
-  youtubeChartsWeekly:
-    handler: scrapers/youtubeScraper/youtubeChartsWeekly
-    events:
-      - schedule:
-          rate: "rate(7 days)"
-          enabled: true
 
 plugins:
   - serverless-python-requirements
