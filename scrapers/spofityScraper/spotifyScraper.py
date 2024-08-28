@@ -5,7 +5,7 @@ import requests
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
 
-dotenv_path = abspath(join(dirname(__file__), '..', 'env.yml'))
+dotenv_path = abspath(join(dirname(__file__), '..', '.env'))
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from genericScraper import get_chart_type, get_today_date, get_country_code

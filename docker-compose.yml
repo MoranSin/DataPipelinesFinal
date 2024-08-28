@@ -43,8 +43,8 @@ services:
       dockerfile: Dockerfile
       args:
         SCHEDULER_MODULE: "scrapers.spofityScraper.spotifyChartsDaily"
-    environment:
-      SPOTIFY_API_KEY_DAILY: ${SPOTIFY_API_KEY_DAILY}
+    # environment:
+    #   SPOTIFY_API_KEY_DAILY: ${SPOTIFY_API_KEY_DAILY}
     depends_on:
       - sqs
 
