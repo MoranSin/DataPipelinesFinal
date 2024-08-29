@@ -25,10 +25,14 @@ def handler(event, context):
     data.extend(global_charts)
     data.extend(countries_charts)
 
+    # print(data)
+
     sqs = boto3.client(
         'sqs', 
         region_name="us-east-1",
-        endpoint_url='http://sqs:9324'
+        endpoint_url='http://sqs:9324',
+        aws_access_key_id='x', 
+        aws_secret_access_key='x'
     )
 
     queue_url = 'http://sqs:9324/queue/data-raw-q'
@@ -39,6 +43,7 @@ def handler(event, context):
             QueueUrl=queue_url,
             MessageBody=json.dumps(scraped_data, ensure_ascii=False)
         )
-        print({"message": "Data has been scraped and sent to SQS", "sqs_response": response})
+        return {"message": "Data from youtube weekly has been scraped and sent to SQS", "SQSResponse": response}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        print(f"Error: {e}")
+        raise e

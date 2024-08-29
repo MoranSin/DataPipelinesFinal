@@ -87,8 +87,7 @@ def handler(event, context):
             QueueUrl=tiktok_scraper.queue_url,
             MessageBody=json.dumps(generated_chart, ensure_ascii=False)
         )
-        print(f"Data scraped and sent to SQS: {response}")
-        return {"message": "Data scraped and sent to SQS", "SQSResponse": response}
+        return {"message": "Data from tiktok been scraped and sent to SQS", "SQSResponse": response}
 
     except Exception as e:
         print(f"Error: {e}")
