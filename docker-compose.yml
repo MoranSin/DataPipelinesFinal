@@ -96,8 +96,6 @@ services:
       dockerfile: Dockerfile
     networks:
       - mynetwork
-    env_file:
-      - ./processor/.env
     depends_on:
       - sqs  
 
@@ -108,6 +106,8 @@ services:
       - "9324:9324"
     volumes:
       - ./elasticmq.conf:/opt/elasticmq.conf
+    networks:
+      - mynetwork
 
   postgres:
     image: postgres:latest
