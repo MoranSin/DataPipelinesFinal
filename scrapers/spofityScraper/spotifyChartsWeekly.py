@@ -20,7 +20,7 @@ queue_url = 'http://sqs:9324/queue/data-raw-q'
 
 api_key = SPOTIFY_API_KEY_WEEKLY
 base_url = "https://charts-spotify-com-service.spotify.com/auth/v0/charts/regional-global-weekly"
-headers = {"Authorization": api_key, "Accept": "application/json"}
+headers = {"Authorization": f"Bearer {api_key}", "Accept": "application/json"}
 timing = "WEEKLY"
 
 print(api_key)
