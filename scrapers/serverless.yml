@@ -4,6 +4,7 @@ provider:
   name: aws
   runtime: python3.11
   region: us-east-1
+  # environment: file(env.yml)
 
 functions:
   youtubeChartsDaily:
@@ -43,9 +44,9 @@ functions:
 plugins:
   - serverless-python-requirements
   - serverless-offline-sqs
-  - serverless-offline
   - serverless-dotenv-plugin
   - serverless-offline-scheduler
+  - serverless-offline
 
 resources:
   Resources:
