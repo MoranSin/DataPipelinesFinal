@@ -18,7 +18,6 @@ services:
     networks:
       - mynetwork
 
-
   youtube-weekly-scheduler:
     build:
       context: ./scrapers
@@ -97,7 +96,7 @@ services:
     networks:
       - mynetwork
     depends_on:
-      - sqs  
+      - sqs
 
   sqs:
     image: softwaremill/elasticmq:latest
@@ -115,7 +114,7 @@ services:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
       POSTGRES_DB: music_charts
-      
+
     ports:
       - "5432:5432"
     networks:
