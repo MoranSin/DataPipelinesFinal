@@ -15,7 +15,7 @@ def handler(event, context):
     api_key = SPOTIFY_API_KEY_DAILY
     print(SPOTIFY_API_KEY_DAILY)
     base_url = "https://charts-spotify-com-service.spotify.com/auth/v0/charts/regional-global-daily"
-    headers = {"Authorization": api_key, "Accept": "application/json"}
+    headers = {"Authorization": f"Bearer {api_key}", "Accept": "application/json"}
     timing = "DAILY"
 
     spotifyScraper = SpotifyScraper(api_key, base_url, headers)
