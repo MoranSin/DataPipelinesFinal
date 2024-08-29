@@ -3,7 +3,7 @@ import json
 import logging
 from MusicAddedDataAPI.GeniusLyricsApi import get_lyrics
 from MusicAddedDataAPI.MusicBrainzApi import get_gender
-from MusicAddedDataAPI.SpotifyApi import get_token, search_for_artist, get_songs_by_artist
+from MusicAddedDataAPI.SpotifyApi import get_token, search_for_artist, get_songs_by_artist, get_available_genre
 
 API_ENDPOINT_ARTISTS = "http://api:8001/dev/artists"
 API_ENDPOINT_SONGS = "http://api:8001/dev/songs"
@@ -14,16 +14,29 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
 
 
-def send_prepared_genre_data():
-    genres = ["Rock", "Jazz", "Classical", "Pop", "Hip Hop", "Rap"]
-    
-    for genre_name in genres:
-        response = requests.post(API_ENDPOINT_GENERE, json={"genre_name": genre_name}, headers={"Content-Type": "application/json"})
-        
-        if response.status_code == 200:
-            print(f"Successfully sent genre: {genre_name}")
-        else:
-            print(f"Failed to send genre: {genre_name}, Status code: {response.status_code}, Response: {response.text}")
+def get_genre_data(token):
+    genres = []
+    response = requests.get(API_ENDPOINT_GENERE)
+    if not response.status_code == 200:
+        logger.error(f"Failed to fetch genres, status code: {response.status_code}")
+        return []
+    genres = response.json()
+    if not genres:
+        new_genres = []
+        genres = get_available_genre(token)
+        for genre_name in genres:
+            post_response =  requests.post(API_ENDPOINT_GENERE, json={"genre_name": genre_name}, headers={"Content-Type": "application/json"})
+            if post_response.status_code == 200:
+                genre1 = post_response.json()
+                print(f"Successfully sent genre: {genre1}")
+                new_genres.append(genre1)
+            else:
+                print(f"Failed to send genre: {genre_name}, Status code: {post_response.status_code}, Response: {post_response.text}")
+        return new_genres 
+    else:
+        return  genres    
+
+
 
 
 def send_prepared_data(data):
@@ -91,76 +104,79 @@ def convert_seconds(seconds):
 
 def process(event, context):
     logger.info("Received event: %s", json.dumps(event))
+    token = get_token()  
+    res = get_genre_data(token)
+    print("please add to the fucking db: " + res)
     
-    try:
-        if event is None:
-            raise ValueError("Event data is None")
+    # try:
+    #     if event is None:
+    #         raise ValueError("Event data is None")
         
-        token = get_token()  
 
-        for record in event.get('Records', []):
-            body = record.get('body', None)
-            if body: 
-                try:
-                    # Assume body is a JSON string, so parse it
-                    data = json.loads(body)
-                except json.JSONDecodeError as e:
-                    logger.error("Failed to decode JSON: %s", e)
-                    continue
+    #     for record in event.get('Records', []):
+    #         body = record.get('body', None)
+    #         if body: 
+    #             try:
+    #                 # Assume body is a JSON string, so parse it
+    #                 data = json.loads(body)
+    #             except json.JSONDecodeError as e:
+    #                 logger.error("Failed to decode JSON: %s", e)
+    #                 continue
                 
-                if not isinstance(data, list):
-                    logger.error("Expected data to be a list, got %s", type(data).__name__)
-                    continue
+    #             if not isinstance(data, list):
+    #                 logger.error("Expected data to be a list, got %s", type(data).__name__)
+    #                 continue
                 
-                for entry in data:
-                    if not isinstance(entry, dict):
-                        logger.error("Expected entry to be a dict, got %s", type(entry).__name__)
-                        continue
+    #             for entry in data:
+    #                 if not isinstance(entry, dict):
+    #                     logger.error("Expected entry to be a dict, got %s", type(entry).__name__)
+    #                     continue
                     
-                    artist = entry.get('artist', {})
-                    song = entry.get('song', {})
+    #                 artist = entry.get('artist', {})
+    #                 song = entry.get('song', {})
                     
-                    artist_name = artist.get('artist_name', 'Unknown')
-                    song_name = song.get('song_name', 'Unknown')
+    #                 artist_name = artist.get('artist_name', 'Unknown')
+    #                 song_name = song.get('song_name', 'Unknown')
                     
-                    if not artist.get('artist_gender'):
-                        try:
-                            gender = get_gender(artist_name)
-                            artist['artist_gender'] = gender
-                        except Exception as e:
-                            logger.error(f"Failed to get gender for {artist_name}: {e}")
+    #                 if not artist.get('artist_gender'):
+    #                     try:
+    #                         gender = get_gender(artist_name)
+    #                         artist['artist_gender'] = gender
+    #                     except Exception as e:
+    #                         logger.error(f"Failed to get gender for {artist_name}: {e}")
 
-                    if not song.get('song_lyrics'):
-                        try:
-                            lyrics = get_lyrics(artist_name, song_name)
-                            song['song_lyrics'] = lyrics
-                        except Exception as e:
-                            logger.error(f"Failed to get lyrics for {song_name} by {artist_name}: {e}")
+    #                 if not song.get('song_lyrics'):
+    #                     try:
+    #                         lyrics = get_lyrics(artist_name, song_name)
+    #                         song['song_lyrics'] = lyrics
+    #                     except Exception as e:
+    #                         logger.error(f"Failed to get lyrics for {song_name} by {artist_name}: {e}")
 
-                    if not song.get('song_length'):
-                        try:
-                            artist_data = search_for_artist(token, artist_name)
-                            if artist_data:
-                                artist_id = artist_data['id']
-                                songs = get_songs_by_artist(token, artist_id)
-                                for song_item in songs:
-                                    if song_item['name'].lower() == song_name.lower():
-                                        duration_ms = song_item['duration_ms']
-                                        song['song_length'] = convert_seconds(duration_ms // 1000)
-                                        break
-                        except Exception as e:
-                            logger.error(f"Failed to get song length for {song_name} by {artist_name}: {e}")
+    #                 if not song.get('song_length'):
+    #                     try:
+    #                         artist_data = search_for_artist(token, artist_name)
+    #                         if artist_data:
+    #                             artist_id = artist_data['id']
+    #                             songs = get_songs_by_artist(token, artist_id)
+    #                             for song_item in songs:
+    #                                 if song_item['name'].lower() == song_name.lower():
+    #                                     duration_ms = song_item['duration_ms']
+    #                                     song['song_length'] = convert_seconds(duration_ms // 1000)
+    #                                     break
+    #                     except Exception as e:
+    #                         logger.error(f"Failed to get song length for {song_name} by {artist_name}: {e}")
                 
-                # After processing, send the data to the external API
-                # send_prepared_data(data)
-                # send_prepared_genre_data()
-                print(data)
+    #             # After processing, send the data to the external API
+    #             # send_prepared_data(data)
+    #             # send_prepared_genre_data()
+    #             print(data)
+                
 
-            else:
-                logger.warning("No body found in this record")
+    #         else:
+    #             logger.warning("No body found in this record")
               
-    except (json.JSONDecodeError, ValueError) as e:
-        logger.error("Error processing data: %s", e)
+    # except (json.JSONDecodeError, ValueError) as e:
+    #     logger.error("Error processing data: %s", e)
 
     return {
         'statusCode': 200,

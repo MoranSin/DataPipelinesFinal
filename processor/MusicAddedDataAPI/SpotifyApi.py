@@ -52,6 +52,13 @@ def get_songs_by_artist(token, artist_id):
     json_result = json.loads(result.content)["tracks"]
     return json_result
 
+def get_available_genre(token):
+    url = f"https://api.spotify.com/v1/recommendations/available-genre-seeds"
+    headers = get_auth_header(token)
+    result = get(url,headers=headers)
+    json_result = json.loads(result.content)["genres"]
+    return json_result
+
 
     
     
