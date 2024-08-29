@@ -162,7 +162,7 @@ class YoutubeScraper:
                 data = response.json()
                 chart_data = data['contents']['sectionListRenderer']['contents'][0]['musicAnalyticsSectionRenderer']['content']["videos"][0]["videoViews"] 
                 extracted_data = self.extract_relevant_data(chart_data, country, timing, youtube_chart_type)
-                print("extracted_data: ", extracted_data) 
+                # print("extracted_data: ", extracted_data) 
                 return extracted_data
             except json.JSONDecodeError:
                 print("Failed to decode JSON from the response.")
