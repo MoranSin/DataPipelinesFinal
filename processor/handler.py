@@ -5,10 +5,10 @@ from MusicAddedDataAPI.GeniusLyricsApi import get_lyrics
 from MusicAddedDataAPI.MusicBrainzApi import get_gender
 from MusicAddedDataAPI.SpotifyApi import get_token, search_for_artist, get_songs_by_artist
 
-API_ENDPOINT_ARTISTS = "http://127.0.0.1:8001/dev/artists"
-API_ENDPOINT_SONGS = "http://127.0.0.1:8001/dev/songs"
-API_ENDPOINT_CHARTS = "http://127.0.0.1:8001/dev/charts"
-API_ENDPOINT_GENERE = "http://127.0.0.1:8001/dev/genres"
+API_ENDPOINT_ARTISTS = "http://api:8001/dev/artists"
+API_ENDPOINT_SONGS = "http://api:8001/dev/songs"
+API_ENDPOINT_CHARTS = "http://api:8001/dev/charts"
+API_ENDPOINT_GENERE = "http://api:8001/dev/genres"
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
