@@ -21,7 +21,7 @@ def handler(event, context):
     spotifyScraper = SpotifyScraper(api_key, base_url, headers)
     global_charts = spotifyScraper.fetch_charts("global", timing) ## TO DO: match  the fetch_charts function to work with these parameters 
 
-    data = global_charts 
+    # data = global_charts 
 
     sqs = boto3.client(
             'sqs', 
@@ -34,10 +34,10 @@ def handler(event, context):
     queue_url = 'http://sqs:9324/queue/data-raw-q'
 
     try:
-        scraped_data = data
+        # scraped_data = data
         response = sqs.send_message(
             QueueUrl=queue_url,
-            MessageBody=json.dumps(scraped_data, ensure_ascii=False)
+            MessageBody=json.dumps(global_charts, ensure_ascii=False)
         )
         return {"message": "Data from spotify daily has been scraped and sent to SQS", "SQSResponse": response}
     except Exception as e:

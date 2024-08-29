@@ -19,6 +19,11 @@ def handler(event, context):
 
 # `   print(api_key)
 
+    spotifyScraper = SpotifyScraper(api_key, base_url, headers)
+    global_charts = spotifyScraper.fetch_charts("global", timing) ## TO DO: match  the fetch_charts function to work with these parameters 
+
+    # data = global_charts 
+
     sqs = boto3.client(
         'sqs', 
         region_name="us-east-1",
@@ -32,7 +37,7 @@ def handler(event, context):
     try:
         response = sqs.send_message(
             QueueUrl=queue_url,
-            MessageBody=json.dumps(data, ensure_ascii=False)
+            MessageBody=json.dumps(global_charts, ensure_ascii=False)
         )
         return {"message": "Data from spotify weekly has been scraped and sent to SQS", "SQSResponse": response}
     except Exception as e:

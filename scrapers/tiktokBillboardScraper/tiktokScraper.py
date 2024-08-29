@@ -82,6 +82,8 @@ def handler(event, context):
     try:
         tiktok_scraper = TiktokScraper()
         generated_chart = tiktok_scraper.fetch_charts()
+        if not generated_chart:
+            raise ValueError("No data fetched from charts")
 
         response = tiktok_scraper.sqs.send_message(
             QueueUrl=tiktok_scraper.queue_url,
