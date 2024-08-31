@@ -9,7 +9,7 @@ load_dotenv()
 client_id = os.getenv("SPOTIFY_CLIENT_ID")
 client_secret = os.getenv("SPOTIFY_CLIENT_SECRET")
 
-def get_token():
+def sp_get_token():
     auth_string = client_id + ":" + client_secret
     auth_bytes  = auth_string.encode("utf-8")
     auth_base64 = str(base64.b64encode(auth_bytes), "utf-8")
@@ -26,13 +26,13 @@ def get_token():
     return token
 
 
-def get_auth_header(token):
+def sp_get_auth_header(token):
     return{"Authorization": "Bearer " + token}
 
 
-def search_for_artist(token, artist_name):
+def sp_search_for_artist(token, artist_name):
     url = "https://api.spotify.com/v1/search"
-    headers = get_auth_header(token)
+    headers = sp_get_auth_header(token)
     query = f"?q={artist_name}&type=artist&limit=1"
     
     query_url = url + query
@@ -45,19 +45,33 @@ def search_for_artist(token, artist_name):
     return json_result[0]
     
     
-def get_songs_by_artist(token, artist_id):
+def sp_get_songs_by_artist(token, artist_id):
     url = f"https://api.spotify.com/v1/artists/{artist_id}/top-tracks?country=US"
-    headers = get_auth_header(token)
+    headers = sp_get_auth_header(token)
     result = get(url,headers=headers)
     json_result = json.loads(result.content)["tracks"]
     return json_result
 
-def get_available_genre(token):
+def sp_get_available_genre(token):
     url = f"https://api.spotify.com/v1/recommendations/available-genre-seeds"
-    headers = get_auth_header(token)
+    headers = sp_get_auth_header(token)
     result = get(url,headers=headers)
     json_result = json.loads(result.content)["genres"]
     return json_result
+
+def search_for_track(token, track_name):
+    url = "https://api.spotify.com/v1/search"
+    headers = sp_get_auth_header(token)
+    query = f"?q={track_name}&type=track&limit=1"
+    
+    query_url = url + query
+    result = get(query_url, headers=headers)
+    json_result = json.loads(result.content)["tracks"]["items"]
+    
+    if len(json_result) == 0:
+        return "unkonwn"
+    
+    return json_result[0]
 
 
     

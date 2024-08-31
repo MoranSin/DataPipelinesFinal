@@ -27,7 +27,7 @@ class SpotifyScraper:
 
     def get_dates(self, start_date_str, timing):
         """Generate a list of dates based on timing (weekly or daily)."""
- 
+
         dates = []
         
         if timing == "WEEKLY":
