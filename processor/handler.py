@@ -3,7 +3,7 @@ import json
 import logging
 
 from MusicAddedDataAPI.SpotifyApi import sp_get_token
-from utils.dbUtils import get_artist_data_from_db
+from utils.dbUtils import get_artist_data_from_db, get_song_from_db, create_genre, create_artist, create_song, create_chart
 from utils.utils import get_missing_data_for_song, get_missing_data_for_artist, get_genre_data
 
 API_ENDPOINT_ARTISTS = "http://api:8001/dev/artists"
@@ -104,21 +104,70 @@ def process(event, context):
                         )
                         continue
                     
+                    if not entry.get("artist") or not entry.get("song") or not entry.get("chart"):
+                        logger.error("Missing data in entry")
+                        continue
+                    
                     artist_res = get_artist_data_from_db(entry["artist"]["artist_name"])
-
+                    artist_id = None
                     if not artist_res:
                         artist = entry.get("artist", {})
                         entry["artist"] = get_missing_data_for_artist(artist)
+                    else:
+                        artist_id = artist_res["artist_id"]
                         
-                    song_db = {}
-                    if not song_db:
+                    print("test-1")
+                    song_res = None
+                    if artist_id:    
+                        song_res = get_song_from_db(entry["song"]["song_name"], artist_res["artist_id"])
+                    
+                    print("test-1.5")
+                    if not song_res:
                         song = entry.get("song", {})
                         entry["song"] = get_missing_data_for_song(token,song, entry["artist"]["artist_name"])
+                    
+                    # if genre not exists, add genre
+                    print("test-2")
+                    ####it falls here####
+                    if entry["song"]["genre_id"] not in genre_arr or entry["artist"]["genre_id"] not in genre_arr:
+                        print("test-3")
+                        genre_res = create_genre(token, entry["song"]["genre_id"])
+                        entry["song"]["genre_id"] = genre_res["genre_id"]
+                        entry["artist"]["genre_id"] = genre_res["genre_id"]
+                        print("test-4")
+                    else:
+                        print("test-5")
+                        entry["song"]["genre_id"] = genre_arr[entry["song"]["genre_id"]]
+                        entry["artist"]["genre_id"] = genre_arr[entry["artist"]["genre_id"]]
+                        print("test-6")
                         
-                    print(entry)
+                    # if artist not exists, add artist
+                    if not artist_res:
+                        print("test-7")
+                        new_artist = create_artist(token, entry["artist"])
+                        entry["artist"]["artist_id"] = new_artist["artist_id"]
+                        print("test-8")
+                    else:
+                        print("test-9")
+                        entry["artist"]["artist_id"] = artist_res["artist_id"] 
+                        print("test-10")   
+                    
+                    # if song not exists, add song
+                    
+                    # entry["song"]["aritst_id"] = entry["artist"]["aritst_id"]
+                    # if not song_res:
+                    #     new_song = create_song(token, entry["song"])
+                    #     entry["song"]["song_id"] = new_song["song_id"]
+                    # else:
+                    #     entry["song"]["song_id"] = song_res["song_id"]
+                    
+                    # # add chart
+                    
+                    # entry["chart"]["aritst_id"] = entry["artist"]["aritst_id"]
+                    # entry["chart"]["song_id"] = entry["song"]["song_id"]
+                    # create_chart(token, entry["chart"])
             except Exception as e:
                 logger.error(f"Error processing data: {e}")
-        print(data)
     return {"statusCode": 200, "body": json.dumps("Processing is done")}
     
 
