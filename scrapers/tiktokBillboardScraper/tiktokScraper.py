@@ -4,7 +4,6 @@ from bs4 import BeautifulSoup
 import boto3
 import json
 
-
 class TiktokScraper:
     def __init__(self):
         self.base_url = "https://www.billboard.com/charts/tiktok-billboard-top-50/"
@@ -59,21 +58,20 @@ class TiktokScraper:
                 {
                     "artist": {
                         "artist_name": artist_name,
-                        "artist_gender": None,
-                        "country": "GBL",
+                        "country_code": None,
                     },
                     "song": {
                         "song_name": song_name,
                         "song_link": song_link,
-                        "song_length": None,
                         "song_lyrics": None,
+                        "song_length": None,
                     },
                     "chart": {
-                        "chart_type": "Weekly",
                         "rank_value": rank_value,
                         "date": date,
-                        "country": "GBL",
                         "source": "Tiktok Billboard",
+                        "country_code": "GBL",
+                        "chart_type": "Weekly",
                     },
                 }
             )

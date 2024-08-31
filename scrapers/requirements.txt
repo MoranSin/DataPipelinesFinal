@@ -2,4 +2,3 @@ bs4
 requests
 boto3
 python-dotenv
-fastapi

@@ -1,22 +1,10 @@
 import requests
 import json
 import logging
-import os
-from MusicAddedDataAPI.GeniusLyricsApi import gl_get_lyrics
-from MusicAddedDataAPI.MusicBrainzApi import mb_get_gender_and_country
-from MusicAddedDataAPI.SpotifyApi import (
-    sp_get_token,
-    sp_search_for_artist,
-    sp_get_songs_by_artist,
-    sp_get_available_genre,
-)
 
-from utils.utils import (
-    get_genre_data,
-    get_missing_data_for_song,
-    get_missing_data_for_artist,
-)
-from utils.dbUtils import get_artist_data_from_db, get_genre_data_from_db
+from MusicAddedDataAPI.SpotifyApi import sp_get_token
+from utils.dbUtils import get_artist_data_from_db
+from utils.utils import get_missing_data_for_song, get_missing_data_for_artist, get_genre_data
 
 API_ENDPOINT_ARTISTS = "http://api:8001/dev/artists"
 API_ENDPOINT_SONGS = "http://api:8001/dev/songs"
@@ -25,7 +13,6 @@ API_ENDPOINT_GENERE = "http://api:8001/dev/genres"
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
-
 
 def send_prepared_data(data):
     """Send the prepared data to the external API."""
@@ -41,7 +28,7 @@ def send_prepared_data(data):
         artist_payload = {
             "artist_name": artist.get("artist_name"),
             "genre_id": 1,
-            "country_code": artist.get("country"),
+            "country_code": artist.get("country_code"),
             "artist_gender": artist.get("artist_gender"),
         }
         try:
@@ -74,7 +61,7 @@ def send_prepared_data(data):
             "rank_value": chart.get("rank_value"),
             "date": chart.get("date"),
             "source": chart.get("source"),
-            "country_code": chart.get("country"),
+            "country_code": chart.get("country_code"),
             "chart_type": chart.get("chart_type"),
         }
         try:
@@ -109,33 +96,31 @@ def process(event, context):
                 logger.error("Expected data to be a list, got %s", type(data).__name__)
                 continue
 
-            for entry in data:
-                if not isinstance(entry, dict):
-                    logger.error(
-                        "Expected entry to be a dict, got %s", type(entry).__name__
-                    )
-                    continue
-
-                artist_res = get_artist_data_from_db(entry["artist"]["artist_name"])
-                print(artist_res)
-                if not artist_res:
-                    logger.error(
-                        f"Failed to fetch artist data for {entry['artist']['artist_name']}"
-                    )
-                    continue
-
-                artist = entry.get("artist", {})
-                if not artist_res:
-                    entry["artist"] = get_missing_data_for_artist(artist)
-                    print(entry["artist"])
+            try:
+                for entry in data:
+                    if not isinstance(entry, dict):
+                        logger.error(
+                            "Expected entry to be a dict, got %s", type(entry).__name__
+                        )
+                        continue
                     
-                song_db = {}
-                if not song_db:
-                    song = entry.get("song", {})
-                    entry["song"] = get_missing_data_for_song(song, artist["artist_name"])
-                    print(entry["song"])
+                    artist_res = get_artist_data_from_db(entry["artist"]["artist_name"])
 
-                
+                    if not artist_res:
+                        artist = entry.get("artist", {})
+                        entry["artist"] = get_missing_data_for_artist(artist)
+                        
+                    song_db = {}
+                    if not song_db:
+                        song = entry.get("song", {})
+                        entry["song"] = get_missing_data_for_song(token,song, entry["artist"]["artist_name"])
+                        
+                    print(entry)
+            except Exception as e:
+                logger.error(f"Error processing data: {e}")
+        print(data)
+    return {"statusCode": 200, "body": json.dumps("Processing is done")}
+    
 
     #     for record in event.get('Records', []):
     #         body = record.get('body', None)
@@ -201,7 +186,6 @@ def process(event, context):
     # except (json.JSONDecodeError, ValueError) as e:
     #     logger.error("Error processing data: %s", e)
 
-    return {"statusCode": 200, "body": json.dumps("Processing is done")}
 
 
 # send_prepared_genere_data()

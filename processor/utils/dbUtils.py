@@ -1,15 +1,6 @@
 import requests
 import json
 import logging
-import os
-from MusicAddedDataAPI.GeniusLyricsApi import gl_get_lyrics
-from MusicAddedDataAPI.MusicBrainzApi import mb_get_gender_and_country
-from MusicAddedDataAPI.SpotifyApi import (
-    sp_get_token,
-    sp_search_for_artist,
-    sp_get_songs_by_artist,
-    sp_get_available_genre,
-)
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()

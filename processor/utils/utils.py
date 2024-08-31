@@ -1,11 +1,11 @@
 import requests
 import json
 import logging
-import os
+
 from MusicAddedDataAPI.GeniusLyricsApi import gl_get_lyrics
 from MusicAddedDataAPI.MusicBrainzApi import mb_get_gender_and_country
-from MusicAddedDataAPI.SpotifyApi import sp_search_for_artist, sp_get_songs_by_artist, sp_get_available_genre
-from dbUtils import get_gernes_from_db, create_genre
+from MusicAddedDataAPI.SpotifyApi import sp_search_for_artist, sp_get_songs_by_artist, sp_get_available_genre, search_for_track
+from .dbUtils import get_gernes_from_db, create_genre
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
@@ -37,7 +37,7 @@ def get_song_length(token, artist_name, song_name):
             if song_item['name'].lower() == song_name.lower():
                 duration_ms = song_item['duration_ms']
                 return convert_seconds(duration_ms // 1000)
-    return None
+    return 'Unknown'
 
 def get_missing_data_for_artist(artist):
     """Prepare the entry for sending to the external API."""
@@ -46,18 +46,16 @@ def get_missing_data_for_artist(artist):
         if not artist_name:
             raise ValueError("Missing artist name")
         
-        if not artist.get('genre_id') and not artist.get('country'):
-            gender, country = mb_get_gender_and_country(artist_name)
-            artist['genre_id'] = gender
-            artist['country_code'] = country
-
+        gender, country = mb_get_gender_and_country(artist_name)
+        artist['genre_id'] = gender if gender else "Unknown"
+        artist['country_code'] = country if country else "Unknown"
         return artist
     except Exception as e:
         logger.error(f"Failed to prepare entry: {e}")
         return None
 
 
-def get_missing_data_for_song(song, artist_name):
+def get_missing_data_for_song(token,song, artist_name):
     """Prepare the entry for sending to the external API."""
     try:
         song_name = song.get('song_name', 'Unknown')
@@ -69,7 +67,11 @@ def get_missing_data_for_song(song, artist_name):
             song['song_lyrics'] = lyrics
 
         if not song.get('song_length'):
-            song['song_length'] = get_song_length(artist_name, song_name)
+            song['song_length'] = get_song_length(token,artist_name, song_name)
+        
+        if not song.get('song_link'):
+            track = search_for_track(token, artist_name)
+            song['song_link'] = track['external_urls']['spotify'] if track['external_urls']['spotify'] else "Unknown"
         
         return song
     except Exception as e:

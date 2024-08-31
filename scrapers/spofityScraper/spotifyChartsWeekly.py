@@ -3,7 +3,7 @@ import boto3
 import json
 from os.path import join, dirname, abspath
 from dotenv import load_dotenv
-from spotifyScraper import SpotifyScraper
+from .spotifyScraper import SpotifyScraper
 
 dotenv_path = abspath(join(dirname(__file__), '.env'))
 load_dotenv(dotenv_path)

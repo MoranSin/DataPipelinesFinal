@@ -69,7 +69,7 @@ def search_for_track(token, track_name):
     json_result = json.loads(result.content)["tracks"]["items"]
     
     if len(json_result) == 0:
-        return "unkonwn"
+        return "Unkonwn"
     
     return json_result[0]
 

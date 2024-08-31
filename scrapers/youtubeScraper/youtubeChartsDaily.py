@@ -2,7 +2,6 @@ import os
 from .youtubeScraper import YoutubeScraper
 import boto3
 import json
-from fastapi import HTTPException
 from os.path import join, dirname
 from dotenv import load_dotenv
 
