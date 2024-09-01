@@ -34,16 +34,12 @@ def handler(event, context):
     data.extend(trends_data)
 
 
-    sqs = boto3.client(
-        'sqs', 
-        region_name="us-east-1",
-        endpoint_url='http://sqs:9324'
-    )
+    boto3.client('sqs', endpoint_url='http://sqs:9324', region_name='us-east-1', aws_access_key_id='x', aws_secret_access_key='x')
 
     queue_url = 'http://sqs:9324/queue/data-raw-q'
 
     try:
-        response = sqs.send_message(
+        response = boto3.sqs.send_message(
             QueueUrl=queue_url,
             MessageBody=json.dumps(data, ensure_ascii=False)
         )

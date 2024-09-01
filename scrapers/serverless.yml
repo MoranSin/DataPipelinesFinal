@@ -4,6 +4,11 @@ provider:
   name: aws
   runtime: python3.11
   region: us-east-1
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "sqs:SendMessage"
+      Resource: "*"
 
 functions:
   youtubeChartsDaily:
@@ -54,3 +59,16 @@ resources:
       Properties:
         QueueName: data-raw-q
 
+custom:
+  serverless-offline-sqs:
+    autoCreate: true
+    apiVersion: '2012-11-05'
+    endpoint: http://sqs:9324
+    accessKeyId: x
+    secretAccessKey: x
+    queues:
+      - QueueName: data-raw-q
+  serverless-offline:
+    port: 8001    
+  pythonRequirements:
+    dockerizePip: true
