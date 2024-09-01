@@ -17,7 +17,8 @@ from utils.utils import (
     get_genre_data,
     get_song_payload,
     get_artist_payload,
-    get_chart_payload
+    get_chart_payload,
+    get_genre_id_by_name
 )
 
 
@@ -57,16 +58,41 @@ def process(event, context):
                     if (not entry.get("artist") or not entry.get("song") or not entry.get("chart")):
                         logger.error("Missing data in entry")
                         continue
-
-                    artist_payload = get_artist_payload(entry)
+                                     
+                    artist_payload = get_artist_payload(token, entry)
                     artist_id = artist_payload.get("artist_id") or None
-                    aritst_name = artist_payload.get("aritst_name") or None
-                    song_payload = get_song_payload(token, entry, artist_id, aritst_name)
+                    artist_name = artist_payload.get("artist_name") or None
+                    song_payload = get_song_payload(token, entry, artist_id, artist_name)
                     chart_payload = get_chart_payload(entry)
-                        
-                    print("artist: ", artist_payload)
-                    print("song: ", song_payload)
-                    print("chart: ", chart_payload)
+                    
+                    genre_payload = artist_payload.get("genre_id") or "Unknown"
+                    print("genre_payload:", genre_payload)
+                    genre_id = get_genre_id_by_name(genre_arr, genre_payload)
+                    
+                    if not genre_id:
+                        genre_res = create_genre(genre_payload)
+                        artist_payload["genre_id"] = genre_res["genre_id"]
+                        song_payload["genre_id"] = genre_res["genre_id"]
+                    else:
+                        artist_payload["genre_id"] = genre_id
+                        song_payload["genre_id"] = genre_id
+
+                    if not artist_id:
+                        new_artist = create_artist(artist_payload)
+                        artist_payload["artist_id"] = new_artist["artist_id"]
+                    
+                    song_payload["artist_id"] = artist_payload["artist_id"]
+                    if not song_payload.get("song_id"):
+                        new_song = create_song(song_payload)
+                        song_payload["song_id"] = new_song["song_id"]
+                    
+                    chart_payload["artist_id"] = artist_payload["artist_id"]
+                    chart_payload["song_id"] = song_payload["song_id"]
+                    chart_res = create_chart(chart_payload)
+                
+                    print("artist_payload:", artist_payload)
+                    print("song_payload:", song_payload)
+                    print("chart_payload:", chart_res)
                     
             except Exception as e:
                 logger.error(f"Error processing data: {e}")

@@ -14,6 +14,12 @@ def convert_seconds(seconds):
     minutes, seconds = divmod(seconds, 60)
     return f"{minutes:02}:{seconds:02}"
 
+def get_genre_id_by_name(genre_arr, genre_name):
+    for genre in genre_arr:
+        if genre['genre_name'] == genre_name:
+            return genre['genre_id']
+    return None 
+
 def get_genre_data(token):
     genres = get_gernes_from_db()
     if not genres:
@@ -39,7 +45,16 @@ def get_song_length(token, artist_name, song_name):
                 return convert_seconds(duration_ms // 1000)
     return 'Unknown'
 
-def get_missing_data_for_artist(artist):
+def get_artist_genre(token, artist_name):
+    artist_data = sp_search_for_artist(token, artist_name)
+    if artist_data:
+        artist_genres = artist_data['genres']
+        print("the artist genres:",artist_genres)
+        return artist_genres[0] if artist_genres else 'Unknown'
+    else:
+        return 'Unknown'
+
+def get_missing_data_for_artist(token, artist):
     """Prepare the entry for sending to the external API."""
     try:
         artist_name = artist.get('artist_name', 'Unknown')
@@ -47,11 +62,12 @@ def get_missing_data_for_artist(artist):
             raise ValueError("Missing artist name")
         
         gender, country = mb_get_gender_and_country(artist_name)
-        artist['genre_id'] = gender if gender else "Unknown"
+        artist['artist_gender'] = gender if gender else "Unknown"
         artist['country_code'] = country if country else "Unknown"
+        artist['genre_id'] = get_artist_genre(token, artist_name)
         return artist
     except Exception as e:
-        logger.error(f"Failed to prepare entry: {e}")
+        logger.error(f"Failed to prepare data for artist: {e}")
         return None
 
 
@@ -60,12 +76,15 @@ def get_missing_data_for_song(token,song, artist_name):
     new_song = song
     try:
         song_name = song.get('song_name', 'Unknown')
-        if not song_name:
+        if song_name == None:
             raise ValueError("Missing artist or song name")
 
         if not song.get('song_lyrics'):
             lyrics = gl_get_lyrics(artist_name, song_name)
-            new_song['song_lyrics'] = lyrics
+            if not lyrics:
+                new_song['song_lyrics'] = "Unknown"
+            else:
+                new_song['song_lyrics'] = lyrics
 
         if not song.get('song_length'):
             new_song['song_length'] = get_song_length(token,artist_name, song_name)
@@ -73,11 +92,11 @@ def get_missing_data_for_song(token,song, artist_name):
         if not song.get('song_link'):
             track = search_for_track(token, artist_name)
             new_song['song_link'] = track['external_urls']['spotify'] if track['external_urls']['spotify'] else "Unknown"
-        
+                    
         return new_song
     except Exception as e:
-        logger.error(f"Failed to prepare entry: {e}")
-        return None
+        logger.error(f"Failed to prepare data for song: {e}")
+        return new_song
 
 def get_song_payload(token, entry, artist_id, artist_name):
     try:
@@ -90,34 +109,35 @@ def get_song_payload(token, entry, artist_id, artist_name):
             "song_length": None,
         }
 
-        song_payload["song_name"] = entry["song"]["song_name"] if entry["song"]["song_name"] else None
+        entry_song = entry.get('song', {})
+        if not entry_song:
+            raise ValueError("Missing song data")
+                
+        song_payload["song_name"] = entry_song["song_name"] if entry_song["song_name"] else None
         song_payload["genre_id"] = None
         song_payload["artist_id"] = None
-        song_payload["song_link"] = entry["song"]["song_link"] if entry["song"]["song_link"] else None
-        song_payload["song_length"]= entry["song"]["song_length"] if entry["song"]["song_length"] else None
+        song_payload["song_link"] = entry_song["song_link"] if entry_song["song_link"] else None
+        song_payload["song_length"]= entry_song["song_length"] if entry_song["song_length"] else None
         song_payload["song_lyrics"] = None
 
-        song_name = entry["song"]["song_name"]
+        song_name = entry_song["song_name"]
+        print("the song name inside get_song_payload:",song_name)
         song_res = None
         if artist_id:
             song_res = get_song_from_db(song_name, artist_id)
 
-        song_pl_res = None
         if song_res == None:
-            song_pl_res = get_missing_data_for_song(token, song_payload, artist_name)
-            print("Line 108")
+            song_payload = get_missing_data_for_song(token, entry_song, artist_name)
         else:
-            song_pl_res = song_res
+            song_payload = song_res
 
-        print("get song payload 109: ", song_pl_res)
-
-        return song_pl_res
+        return song_payload
     except Exception as e:
         logger.error(f"Error in song payload: {e}")
         return None
 
 
-def get_artist_payload(entry):
+def get_artist_payload(token, entry):
     try:
         artist_payload = {
             "artist_name": None,
@@ -133,8 +153,7 @@ def get_artist_payload(entry):
 
         artist_res = get_artist_data_from_db(entry["artist"]["artist_name"])
         if not artist_res:
-            artist = entry.get("artist", {})
-            artist_payload = get_missing_data_for_artist(artist)
+            artist_payload = get_missing_data_for_artist(token, artist_payload)
         else:
             artist_payload = artist_res
             
