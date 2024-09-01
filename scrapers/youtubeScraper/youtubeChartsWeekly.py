@@ -14,6 +14,7 @@ YOUTUBE_CHARTS_URL_KEY = os.environ.get("YOUTUBE_CHARTS_URL_KEY")
 YOUTUBE_CHARTS_COOKIE = os.environ.get("YOUTUBE_CHARTS_COOKIE")
 
 def handler(event, context):
+    print("Youtube Weekly Handler")
     timing = "WEEKLY"
     youtube_chart = "Youtube Charts"
 
@@ -25,7 +26,7 @@ def handler(event, context):
     data.extend(global_charts)
     data.extend(countries_charts)
 
-    # print(data)
+    print("youtube weekly charts: ",data)
 
     sqs = boto3.client(
         'sqs', 

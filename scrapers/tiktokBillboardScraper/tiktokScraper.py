@@ -46,26 +46,27 @@ class TiktokScraper:
 
 
 
-            extracted_data.append({
-                "artist": {
-                    "artist_name": artist_name,
-                    "artist_gender": None,
-                    "country": "GBL",
-                },
-                "song": {
-                    "song_name": song_name,
-                    "song_link": song_link,
-                    "song_length": None,
-                    "song_lyrics": None,
-                },
-                "chart": {
-                        "chart_type": "Weekly",
+            extracted_data.append(
+                {
+                    "artist": {
+                        "artist_name": artist_name,
+                        "country_code": None,
+                    },
+                    "song": {
+                        "song_name": song_name,
+                        "song_link": song_link,
+                        "song_lyrics": None,
+                        "song_length": None,
+                    },
+                    "chart": {
                         "rank_value": rank_value,
                         "date": date,
-                        "country": "GBL",
-                    "source": "Tiktok Billboard",
-                },
-            })
+                        "source": "Tiktok Billboard",
+                        "country_code": "GBL",
+                        "chart_type": "Weekly",
+                    },
+                }
+            )
 
         return extracted_data
     
@@ -80,8 +81,10 @@ class TiktokScraper:
 
 def handler(event, context):
     try:
+        print("Tiktok Handler started")
         tiktok_scraper = TiktokScraper()
         generated_chart = tiktok_scraper.fetch_charts()
+        print(f"Generated Tiktok Chart: {generated_chart}")
         if not generated_chart:
             raise ValueError("No data fetched from charts")
 
@@ -89,6 +92,7 @@ def handler(event, context):
             QueueUrl=tiktok_scraper.queue_url,
             MessageBody=json.dumps(generated_chart, ensure_ascii=False)
         )
+        print(f"SQS Response: {response}")
         return {"message": "Data from tiktok been scraped and sent to SQS", "SQSResponse": response}
 
     except Exception as e:

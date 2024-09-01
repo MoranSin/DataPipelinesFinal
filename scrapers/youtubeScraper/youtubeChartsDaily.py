@@ -17,6 +17,7 @@ YOUTUBE_TRENDS_COOKIE = os.environ.get("YOUTUBE_TRENDS_COOKIE")
 
 
 def handler(event, context):
+    print("Youtube Daily Handler")
     timing = "DAILY"
     youtube_chart = "Youtube Charts"
     youtube_trends = "Youtube Trends"
@@ -38,6 +39,8 @@ def handler(event, context):
         timing, youtube_trends)
 
     data.extend(trends_data)
+
+    print("youtube daily chart: ",data)
 
     sqs = boto3.client(
         'sqs',

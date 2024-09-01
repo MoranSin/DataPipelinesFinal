@@ -32,7 +32,7 @@ class SpotifyScraper:
         
         if timing == "WEEKLY":
             delta = timedelta(days=7)
-            start_date = datetime.strptime("2024-08-22", "%Y-%m-%d")
+            start_date = datetime.strptime("2024-08-29", "%Y-%m-%d")
 
         else:
             delta = timedelta(days=1)
@@ -54,18 +54,24 @@ class SpotifyScraper:
 
         for entry in chart_data['entries'][:top_n]:
             extracted_data.append({
-                "song_name": entry['trackMetadata'].get('trackName', ''),
-                "song_link": entry['trackMetadata'].get('trackUri', ''),
-                "song_length": entry['trackMetadata'].get('durationMs', ''),
-                "artist_id": entry['trackMetadata']['artists'][0].get('artistUri', '').split(':')[-1],
-                "artist_name": entry['trackMetadata']['artists'][0].get('name', ''),
-                "country": country,
-                "rank_value": entry['chartEntryData'].get('currentRank', 0),
-                "date": date,
-                "source": "Spotify",
-                "song_id": entry['trackMetadata'].get('trackUri', '').split(':')[-1]
+                "artist": {
+                    "artist_name": entry['trackMetadata']['artists'][0].get('name', None),
+                    "country_code": None,
+                },
+                "song": {
+                    "song_name": entry['trackMetadata'].get('trackName', None),
+                    "song_link": entry['trackMetadata'].get('trackUri', None),
+                    "song_lyrics": None,
+                    "song_length": entry['trackMetadata'].get('durationMs', None),
+                },
+                "chart": {
+                    "rank_value": entry['chartEntryData'].get('currentRank', None),
+                    "date": date,
+                    "source": "Spotify",
+                    "country_code": country,
+                    "chart_type": "Weekly",
+                }
             })
-        return extracted_data
 
     def fetch_charts(self, country, timing):
         country_code = get_country_code(country)

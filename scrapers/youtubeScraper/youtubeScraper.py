@@ -135,7 +135,6 @@ class YoutubeScraper:
                 "artist": {
                     "artist_name": artist_name,
                     "country_code": None,
-                    "artist_gender": None,
                 },
                 "song": {
                     "song_name": song_name,
