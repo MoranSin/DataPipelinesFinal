@@ -66,7 +66,7 @@ def process(event, context):
                     chart_payload = get_chart_payload(entry)
                     
                     genre_payload = artist_payload.get("genre_id") or "Unknown"
-                    print("genre_payload:", genre_payload)
+                    # print("genre_payload:", genre_payload)
                     genre_id = get_genre_id_by_name(genre_arr, genre_payload)
                     
                     if not genre_id:
@@ -81,24 +81,24 @@ def process(event, context):
                         new_artist = create_artist(artist_payload)
                         artist_payload["artist_id"] = new_artist["artist_id"]
                     
-                    print("artist_payload:", artist_payload)
+                    # print("artist_payload:", artist_payload)
                     song_payload["artist_id"] = artist_payload["artist_id"]
-                    print("before song_payload:", song_payload)
                     if not song_payload.get("song_id"):
                         new_song = create_song(song_payload)
                         song_payload["song_id"] = new_song["song_id"]
 
-                    print("after song_payload:", song_payload)
-                    # print("song_payload:", song_payload)
-                    
+                    # print("after song_payload:", song_payload)                    
                     chart_payload["artist_id"] = artist_payload["artist_id"]
                     chart_payload["song_id"] = song_payload["song_id"]
                     chart_res = create_chart(chart_payload)
                 
-                    print("chart_payload:", chart_res)
+                    # print("chart_payload:", chart_res)
+                    
+                    print(f"Added song {song_payload['song_name']} by artist {artist_payload['artist_name']} to chart in rank {chart_payload['rank_value']}")
                     
             except Exception as e:
                 logger.error(f"Error processing data: {e}")
+    print("finished processing")
     return {"statusCode": 200, "body": json.dumps("Processing is done")}
 
 
