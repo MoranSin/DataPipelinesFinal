@@ -15,7 +15,7 @@ def handler(event, context):
     print("Spotify Daily Handler")
     api_key = SPOTIFY_API_KEY_DAILY
 
-    base_url = "https://charts-spotify-com-service.spotify.com/auth/v0/charts/regional-global-daily"
+    base_url = "https://charts-spotify-com-service.spotify.com/auth/v0/charts/regional-global-daily/latest"
     headers = {"Authorization": f"Bearer {api_key}", "Accept": "application/json"}
     timing = "DAILY"
 
