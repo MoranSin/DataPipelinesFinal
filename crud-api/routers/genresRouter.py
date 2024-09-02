@@ -32,3 +32,8 @@ async def get_genre_by_name(genre_name: str, db: Session = Depends(get_db)):
 async def post_genre(genre: GenreCreate, db: Session = Depends(get_db)):
     new_genre = create_genre(db, genre)
     return new_genre
+
+@genresRouter.post("/genres/list", response_model=Genre)
+async def post_genres(genre: GenreCreate, db: Session = Depends(get_db)):
+    new_genre = create_genre(db, genre)
+    return new_genre
