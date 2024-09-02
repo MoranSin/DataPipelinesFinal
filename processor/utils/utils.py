@@ -10,6 +10,9 @@ from .dbUtils import get_gernes_from_db, create_genre, get_artist_data_from_db, 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
 
+def remove_quotes(s):
+    return s.replace('"', '')
+
 def convert_seconds(seconds):
     minutes, seconds = divmod(seconds, 60)
     return f"{minutes:02}:{seconds:02}"
@@ -43,7 +46,7 @@ def get_song_length(token, artist_name, song_name):
             if song_item['name'].lower() == song_name.lower():
                 duration_ms = song_item['duration_ms']
                 return convert_seconds(duration_ms // 1000)
-    return 'Unknown'
+    return '00:00'
 
 def get_artist_genre(token, artist_name):
     artist_data = sp_search_for_artist(token, artist_name)
@@ -76,15 +79,18 @@ def get_missing_data_for_song(token,song, artist_name):
     new_song = song
     try:
         song_name = song.get('song_name', 'Unknown')
-        if song_name == None:
-            raise ValueError("Missing artist or song name")
+        if song_name == 'Unknown':
+            raise ValueError("Missing song name")
 
         if not song.get('song_lyrics'):
             lyrics = gl_get_lyrics(artist_name, song_name)
-            if not lyrics:
+            if lyrics == None:
                 new_song['song_lyrics'] = "Unknown"
             else:
-                new_song['song_lyrics'] = lyrics
+                new_song['song_lyrics'] = remove_quotes(lyrics)
+                if len(new_song['song_lyrics']) > 5000 or len(new_song['song_lyrics']) == 0:
+                    new_song['song_lyrics'] = "Unknown"
+
 
         if not song.get('song_length'):
             new_song['song_length'] = get_song_length(token,artist_name, song_name)
@@ -117,11 +123,10 @@ def get_song_payload(token, entry, artist_id, artist_name):
         song_payload["genre_id"] = None
         song_payload["artist_id"] = None
         song_payload["song_link"] = entry_song["song_link"] if entry_song["song_link"] else None
-        song_payload["song_length"]= entry_song["song_length"] if entry_song["song_length"] else None
+        song_payload["song_length"]= entry_song["song_length"] if entry_song["song_length"] else "00:00"
         song_payload["song_lyrics"] = None
 
         song_name = entry_song["song_name"]
-        print("the song name inside get_song_payload:",song_name)
         song_res = None
         if artist_id:
             song_res = get_song_from_db(song_name, artist_id)

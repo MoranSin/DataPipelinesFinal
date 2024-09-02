@@ -81,17 +81,20 @@ def process(event, context):
                         new_artist = create_artist(artist_payload)
                         artist_payload["artist_id"] = new_artist["artist_id"]
                     
+                    print("artist_payload:", artist_payload)
                     song_payload["artist_id"] = artist_payload["artist_id"]
+                    print("before song_payload:", song_payload)
                     if not song_payload.get("song_id"):
                         new_song = create_song(song_payload)
                         song_payload["song_id"] = new_song["song_id"]
+
+                    print("after song_payload:", song_payload)
+                    # print("song_payload:", song_payload)
                     
                     chart_payload["artist_id"] = artist_payload["artist_id"]
                     chart_payload["song_id"] = song_payload["song_id"]
                     chart_res = create_chart(chart_payload)
                 
-                    print("artist_payload:", artist_payload)
-                    print("song_payload:", song_payload)
                     print("chart_payload:", chart_res)
                     
             except Exception as e:
