@@ -14,6 +14,7 @@ functions:
             Fn::GetAtt:
               - DataRawQueue
               - Arn
+    timeout: 900
 
 plugins:
   - serverless-python-requirements
