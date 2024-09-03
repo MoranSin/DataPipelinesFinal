@@ -33,6 +33,7 @@ def get_genre_data(token):
             if genre_res:
                 print(f"Successfully sent genre: {genre_res}")
                 new_genres.append(genre_res)
+        unknown_genre = create_genre("Unknown")
         return new_genres 
     else:
         return  genres    
