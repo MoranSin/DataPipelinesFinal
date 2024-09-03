@@ -63,11 +63,10 @@ def process(event, context):
                     chart_payload = get_chart_payload(entry)
                     
                     genre_payload = artist_payload.get("genre_id") or "Unknown"
-                    # print("genre_payload:", genre_payload)
                     genre_id = get_genre_by_name_or_id(genre_arr, genre_payload)
-                    print("genre_id:", genre_id)
                     if not genre_id:
                         genre_res = create_genre(genre_payload)
+                        genre_arr.append(genre_res)
                         artist_payload["genre_id"] = genre_res["genre_id"]
                         song_payload["genre_id"] = genre_res["genre_id"]
                     else:
