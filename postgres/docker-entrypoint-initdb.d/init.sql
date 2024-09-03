@@ -23,9 +23,9 @@ CREATE TABLE IF NOT EXISTS Genres (
 
 CREATE TABLE IF NOT EXISTS Artists (
     artist_id UUID,
-    artist_name VARCHAR(50),
+    artist_name VARCHAR(100),
     genre_id UUID,
-    country_code VARCHAR(50),
+    country_code VARCHAR(10),
     artist_gender VARCHAR(50),
     PRIMARY KEY (artist_id),
     FOREIGN KEY (genre_id)
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS Songs (
     song_id UUID,
     artist_id UUID,
     genre_id UUID,
-    song_name VARCHAR(50),
+    song_name VARCHAR(100),
     song_link VARCHAR(300),
     song_lyrics VARCHAR(5000),
     song_length VARCHAR(5), -- HH:MM,
@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS Charts (
     rank_value INT NOT NULL,
     date DATE NOT NULL,
     source VARCHAR(50),
-    country_code VARCHAR(50),
+    country_code VARCHAR(10),
     chart_type VARCHAR(50),
     PRIMARY KEY (rank_id),
     FOREIGN KEY (artist_id)

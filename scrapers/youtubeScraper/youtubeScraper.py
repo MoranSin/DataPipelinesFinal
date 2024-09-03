@@ -11,7 +11,7 @@ from os.path import join, dirname
 from dotenv import load_dotenv
 dotenv_path = join(dirname(__file__), '.env')
 load_dotenv(dotenv_path)
- 
+
 def convert_seconds(n):
     minutes, seconds = divmod(n, 60)
     return f"{minutes:02}:{seconds:02}"
@@ -124,7 +124,7 @@ class YoutubeScraper:
         chart_type = get_chart_type(timing)
         date = get_today_date()
         
-        for entry in chart_data[:1]:
+        for entry in chart_data[:5]:
             song_name = entry.get("title", None)
             song_length = convert_seconds(entry.get("videoDuration", 0)) if entry.get("videoDuration") else None
             artist_name = entry.get("artists", [{}])[0].get("name", None)
@@ -135,7 +135,6 @@ class YoutubeScraper:
                 "artist": {
                     "artist_name": artist_name,
                     "country_code": None,
-                    "artist_gender": None,
                 },
                 "song": {
                     "song_name": song_name,
@@ -162,7 +161,7 @@ class YoutubeScraper:
                 data = response.json()
                 chart_data = data['contents']['sectionListRenderer']['contents'][0]['musicAnalyticsSectionRenderer']['content']["videos"][0]["videoViews"] 
                 extracted_data = self.extract_relevant_data(chart_data, country, timing, youtube_chart_type)
-                print("extracted_data: ", extracted_data) 
+                # print("extracted_data: ", extracted_data) 
                 return extracted_data
             except json.JSONDecodeError:
                 print("Failed to decode JSON from the response.")

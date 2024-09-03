@@ -5,17 +5,18 @@ services:
       dockerfile: Dockerfile
       args:
         SCHEDULER_MODULE: "scrapers.youtubeScraper.youtubeChartsDaily"
-    environment:
-      - YOUTUBE_CHARTS_URL_KEY=${YOUTUBE_CHARTS_URL_KEY}
-      - YOUTUBE_CHARTS_COOKIE=${YOUTUBE_CHARTS_COOKIE}
-      - YOUTUBE_CHARTS_API_KEY=${YOUTUBE_CHARTS_API_KEY}
-      - YOUTUBE_TRENDS_COOKIE=${YOUTUBE_TRENDS_COOKIE}
-      - YOUTUBE_TRENDS_API_KEY=${YOUTUBE_TRENDS_API_KEY}
+    # environment:
+    #   - YOUTUBE_CHARTS_URL_KEY=${YOUTUBE_CHARTS_URL_KEY}
+    #   - YOUTUBE_CHARTS_COOKIE=${YOUTUBE_CHARTS_COOKIE}
+    #   - YOUTUBE_CHARTS_API_KEY=${YOUTUBE_CHARTS_API_KEY}
+    #   - YOUTUBE_TRENDS_COOKIE=${YOUTUBE_TRENDS_COOKIE}
+    #   - YOUTUBE_TRENDS_API_KEY=${YOUTUBE_TRENDS_API_KEY}
+    # env_file:
+    #   - ./scrapers/.env
     depends_on:
       - sqs
     networks:
       - mynetwork
-
 
   youtube-weekly-scheduler:
     build:
@@ -23,10 +24,12 @@ services:
       dockerfile: Dockerfile
       args:
         SCHEDULER_MODULE: "scrapers.youtubeScraper.youtubeChartsWeekly"
-    environment:
-      - YOUTUBE_CHARTS_URL_KEY=${YOUTUBE_CHARTS_URL_KEY}
-      - YOUTUBE_CHARTS_COOKIE=${YOUTUBE_CHARTS_COOKIE}
-      - YOUTUBE_CHARTS_API_KEY=${YOUTUBE_CHARTS_API_KEY}
+    # environment:
+    #   - YOUTUBE_CHARTS_URL_KEY=${YOUTUBE_CHARTS_URL_KEY}
+    #   - YOUTUBE_CHARTS_COOKIE=${YOUTUBE_CHARTS_COOKIE}
+    #   - YOUTUBE_CHARTS_API_KEY=${YOUTUBE_CHARTS_API_KEY}
+    # env_file:
+    #   - ./scrapers/.env
     depends_on:
       - sqs
     networks:
@@ -49,8 +52,10 @@ services:
       dockerfile: Dockerfile
       args:
         SCHEDULER_MODULE: "scrapers.spofityScraper.spotifyChartsDaily"
-    environment:
-      SPOTIFY_API_KEY_DAILY: ${SPOTIFY_API_KEY_DAILY}
+    # environment:
+    #   SPOTIFY_API_KEY_DAILY: ${SPOTIFY_API_KEY_DAILY}
+    # env_file:
+    #   - ./scrapers/.env
     depends_on:
       - sqs
     networks:
@@ -62,8 +67,10 @@ services:
       dockerfile: Dockerfile
       args:
         SCHEDULER_MODULE: "scrapers.spofityScraper.spotifyChartsWeekly"
-    environment:
-      SPOTIFY_API_KEY_DAILY: ${SPOTIFY_API_KEY_WEEKLY}
+    # environment:
+    #   SPOTIFY_API_KEY_DAILY: ${SPOTIFY_API_KEY_WEEKLY}
+    # env_file:
+    #   - ./scrapers/.env
     depends_on:
       - sqs
     networks:
@@ -81,8 +88,6 @@ services:
       - postgres
     networks:
       - mynetwork
-    volumes:
-      - ./serverless.yml:/app/serverless.yml
 
   processor:
     build:
@@ -91,7 +96,7 @@ services:
     networks:
       - mynetwork
     depends_on:
-      - sqs  
+      - sqs
 
   sqs:
     image: softwaremill/elasticmq:latest
@@ -100,6 +105,8 @@ services:
       - "9324:9324"
     volumes:
       - ./elasticmq.conf:/opt/elasticmq.conf
+    networks:
+      - mynetwork
 
   postgres:
     image: postgres:latest
@@ -107,7 +114,7 @@ services:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
       POSTGRES_DB: music_charts
-      
+
     ports:
       - "5432:5432"
     networks:

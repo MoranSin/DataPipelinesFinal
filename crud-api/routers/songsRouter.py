@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, Request
 from sqlalchemy.orm import Session
 from schemas.songsSchema import SongCreate, Song
-from services.songsService import fetch_songs, fetch_song_by_id, create_song, update_song
+from services.songsService import fetch_songs, fetch_song_by_id, create_song, update_song, fetch_song_by_name, fetch_song_by_name_and_artist_id
 from config.database import get_db
 from uuid import UUID
 
@@ -31,3 +31,16 @@ async def patch_song(song_id: UUID, song: SongCreate, db: Session = Depends(get_
     new_song = update_song(db, song_id, song)
     return new_song
 
+@songsRouter.get("/songs/name/{song_name}", response_model=Song)
+async def get_song_by_name(song_name: str, db: Session = Depends(get_db)):
+    song = fetch_song_by_name(db, song_name)
+    if song is None:
+        raise HTTPException(status_code=404, detail="Song not found")
+    return song
+
+@songsRouter.get("/songs/name/{song_name}/artist/{artist_id}", response_model=Song)
+async def get_song_by_name_and_artist_id(song_name: str, artist_id: str, db: Session = Depends(get_db)):
+    song = fetch_song_by_name_and_artist_id(db, song_name, artist_id)
+    if song is None:
+        raise HTTPException(status_code=404, detail="Song not found")
+    return song

@@ -2,7 +2,6 @@ import os
 from .youtubeScraper import YoutubeScraper  
 import boto3
 import json
-from fastapi import HTTPException
 
 from os.path import join, dirname
 from dotenv import load_dotenv
@@ -14,6 +13,7 @@ YOUTUBE_CHARTS_URL_KEY = os.environ.get("YOUTUBE_CHARTS_URL_KEY")
 YOUTUBE_CHARTS_COOKIE = os.environ.get("YOUTUBE_CHARTS_COOKIE")
 
 def handler(event, context):
+    print("Youtube Weekly Handler")
     timing = "WEEKLY"
     youtube_chart = "Youtube Charts"
 
@@ -25,16 +25,25 @@ def handler(event, context):
     data.extend(global_charts)
     data.extend(countries_charts)
 
-    boto3.client('sqs', endpoint_url='http://sqs:9324', region_name='us-east-1', aws_access_key_id='x', aws_secret_access_key='x')
+    print("youtube weekly charts: ",data)
+
+    sqs = boto3.client(
+        'sqs', 
+        region_name="us-east-1",
+        endpoint_url='http://sqs:9324',
+        aws_access_key_id='x', 
+        aws_secret_access_key='x'
+    )
 
     queue_url = 'http://sqs:9324/queue/data-raw-q'
 
     try:
         scraped_data = data
-        response = boto3.sqs.send_message(
+        response = sqs.send_message(
             QueueUrl=queue_url,
             MessageBody=json.dumps(scraped_data, ensure_ascii=False)
         )
-        print({"message": "Data has been scraped and sent to SQS", "sqs_response": response})
+        return {"message": "Data from youtube weekly has been scraped and sent to SQS", "SQSResponse": response}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        print(f"Error: {e}")
+        raise e

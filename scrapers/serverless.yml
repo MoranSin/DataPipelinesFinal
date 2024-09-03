@@ -4,53 +4,53 @@ provider:
   name: aws
   runtime: python3.11
   region: us-east-1
-  iamRoleStatements:
-    - Effect: "Allow"
-      Action:
-        - "sqs:SendMessage"
-      Resource: "*"
 
 functions:
   youtubeChartsDaily:
     handler: youtubeScraper/youtubeChartsDaily.handler
     events:
+      - schedule: rate(1 hour)
       #- schedule: rate(1 day)
-      - schedule: rate(10 minutes)
+    timeout: 360
 
   youtubeChartsWeekly:
     handler: youtubeScraper/youtubeChartsWeekly.handler
     events:
+      - schedule: rate(1 hour)
       # - schedule: rate(7 days)
-      - schedule: rate(10 minutes)
+    timeout: 360
 
   
   tiktokScraper:
     handler: tiktokBillboardScraper/tiktokScraper.handler
     events:
+      - schedule: rate(1 hour)
       # - schedule: rate(7 days)
-      - schedule: rate(10 minutes)
+    timeout: 360
 
 
   spotifyScraperDaily:
     handler: spofityScraper/spotifyChartsDaily.handler
     events:
+      - schedule: rate(5 minutes)
       # - schedule: rate(1 day)
-      - schedule: rate(10 minutes)
+    timeout: 360
 
 
   spotifyScraperWeekly:
     handler: spofityScraper/spotifyChartsWeekly.handler
     events:
-      - schedule: rate(10 minutes)
+      - schedule: rate(5 minutes)
       # - schedule: rate(7 days)
+    timeout: 120
 
 
 plugins:
   - serverless-python-requirements
   - serverless-offline-sqs
-  - serverless-offline
   - serverless-dotenv-plugin
   - serverless-offline-scheduler
+  - serverless-offline
 
 resources:
   Resources:
@@ -68,7 +68,6 @@ custom:
     secretAccessKey: x
     queues:
       - QueueName: data-raw-q
-  serverless-offline:
-    port: 8001    
-  pythonRequirements:
-    dockerizePip: true
+    pythonRequirements:
+      dockerizePip: true
+
