@@ -29,8 +29,7 @@ spotifyScraper = SpotifyScraper(api_key, base_url, headers)
 global_charts = spotifyScraper.fetch_charts("global", timing)  # Ensure fetch_charts works with these parameters
 
 data = global_charts
-print("data", data)
-
+ 
 try:
     scraped_data = data
     response = sqs.send_message(
