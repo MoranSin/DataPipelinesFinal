@@ -11,38 +11,38 @@ functions:
     events:
       - schedule: rate(1 hour)
       #- schedule: rate(1 day)
-    timeout: 360
+    timeout: 900
 
   youtubeChartsWeekly:
     handler: youtubeScraper/youtubeChartsWeekly.handler
     events:
       - schedule: rate(1 hour)
       # - schedule: rate(7 days)
-    timeout: 360
+    timeout: 900
 
   
   tiktokScraper:
     handler: tiktokBillboardScraper/tiktokScraper.handler
     events:
-      - schedule: rate(1 hour)
+      - schedule: rate(5 minutes)
       # - schedule: rate(7 days)
-    timeout: 360
+    timeout: 120
 
 
   spotifyScraperDaily:
     handler: spofityScraper/spotifyChartsDaily.handler
     events:
-      - schedule: rate(5 minutes)
+      - schedule: rate(1 hour)
       # - schedule: rate(1 day)
-    timeout: 360
+    timeout: 900
 
 
   spotifyScraperWeekly:
     handler: spofityScraper/spotifyChartsWeekly.handler
     events:
-      - schedule: rate(5 minutes)
+      - schedule: rate(1 hour)
       # - schedule: rate(7 days)
-    timeout: 120
+    timeout: 900
 
 
 plugins:
