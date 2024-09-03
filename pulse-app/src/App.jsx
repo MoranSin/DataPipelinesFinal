@@ -4,19 +4,14 @@ import Timeline from "./components/Timeline/Timeline";
 import WorldMap from "./components/WorldMap/WorldMap";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ChartsContextProvider } from "./state/context";
+import AppHeader from "./components/AppHeader";
+import GenderStats from "./components/StatsBox/GenderStats";
 
 const darkTheme = createTheme({
   palette: {
     mode: "dark"
   }
 });
-
-const StyledHeader = styled("header")`
-  width: 100%;
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-`;
 
 const StyledAppContainer = styled("div")`
   padding: 2rem 4rem;
@@ -34,6 +29,13 @@ const StyledContent = styled("div")`
 
 const StyledWorldMapContainer = styled("div")`
   width: 80%;
+  display: flex;
+`;
+
+const StyledStatsContainer = styled("div")`
+  display: flex;
+  flex-direction: column;
+  width: 25%;
 `;
 
 const queryClient = new QueryClient();
@@ -45,12 +47,13 @@ const App = () => {
       <QueryClientProvider client={queryClient}>
         <ChartsContextProvider>
           <StyledAppContainer>
-            <StyledHeader>
-              <h1 style={{ color: "white" }}>Pulse</h1>
-            </StyledHeader>
+            <AppHeader />
             <StyledContent>
               <Timeline />
               <StyledWorldMapContainer>
+                <StyledStatsContainer>
+                  <GenderStats />
+                </StyledStatsContainer>
                 <WorldMap />
               </StyledWorldMapContainer>
             </StyledContent>

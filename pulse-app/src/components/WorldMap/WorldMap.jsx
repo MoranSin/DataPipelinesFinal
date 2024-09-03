@@ -1,19 +1,25 @@
 import { styled } from "@mui/material";
 import { ComposableMap, Geographies, Geography } from "react-simple-maps";
-import useWorldMapData from "./useWorldMapData";
-import { artistTypeColors } from "./featureColors";
+import { artistTypeColors, genreColors } from "./featureColors";
 import Tooltip from "@mui/material/Tooltip";
-import { Fragment } from "react";
+import { Fragment, useContext } from "react";
 import CountryModal from "../CountryModal/CountryModal";
 import useModalProps from "../CountryModal/useModalProps";
+import ChartsContext from "../../state/context";
+import { FILTERS } from "../../common/consts/filters";
 
 const StyledComposableMap = styled(ComposableMap)`
-  width: 100%;
+  // width: 100%;
+  flex-grow: 1;
   height: 80%;
 `;
 
 const WorldMap = () => {
-  const { topSongFeaturesByCountry } = useWorldMapData();
+  const {
+    state: { worldMapData, byFilter }
+  } = useContext(ChartsContext);
+  const { topSongFeaturesByCountry, charts } = worldMapData;
+
   const modalProps = useModalProps();
 
   if (!topSongFeaturesByCountry) {
@@ -26,24 +32,41 @@ const WorldMap = () => {
         <Geographies geography={"/worldFeatures.json"}>
           {({ geographies }) =>
             geographies.map((geo) => {
+              console.log({ id: geo.id, name: geo.properties.name });
               const songData = topSongFeaturesByCountry[geo.id];
-              // const byGenreColor = genreColors[songData?.genre] ?? "#D6D6DA";
               const byArtistTypeColor = artistTypeColors[songData?.artistType] ?? artistTypeColors.unknown;
+              const byGenreColor = genreColors[songData?.genre] ?? "#D6D6DA";
+
+              const colorByFilter = {
+                [FILTERS.GENDER]: byArtistTypeColor,
+                [FILTERS.GENRE]: byGenreColor
+              };
+
+              const tooltipByFilter = {
+                [FILTERS.GENDER]: songData?.artistType,
+                [FILTERS.GENRE]: songData?.genre
+              };
+
+              const color = colorByFilter[byFilter];
+              const tooltipDescription = tooltipByFilter[byFilter] ?? "no data";
+
+              const chart = charts[geo.id];
+
               const geoStyle = {
-                fill: byArtistTypeColor,
+                fill: chart ? color : "grey",
                 outline: "none"
               };
               const country = geo?.properties?.name ?? "N/A";
 
               return (
                 <Fragment key={geo.rsmKey}>
-                  <Tooltip title={songData?.genre ? `${country}-${songData?.genre}` : "No data"}>
+                  <Tooltip title={`${country}-${tooltipDescription}`}>
                     <Geography
-                      onClick={modalProps.openModal}
+                      onClick={() => modalProps.openModal({ country, chart })}
                       geography={geo}
                       style={{
                         default: geoStyle,
-                        hover: { ...geoStyle, cursor: "pointer" },
+                        hover: { ...geoStyle, ...(chart && { cursor: "pointer" }) },
                         pressed: geoStyle
                       }}
                     />
