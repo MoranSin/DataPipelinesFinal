@@ -1,143 +1,181 @@
 import requests
 import json
 import logging
-from MusicAddedDataAPI.GeniusLyricsApi import get_lyrics
-from MusicAddedDataAPI.MusicBrainzApi import get_gender
-from MusicAddedDataAPI.SpotifyApi import get_token, search_for_artist, get_songs_by_artist, get_available_genre
 
-API_ENDPOINT_ARTISTS = "http://api:8001/dev/artists"
-API_ENDPOINT_SONGS = "http://api:8001/dev/songs"
-API_ENDPOINT_CHARTS = "http://api:8001/dev/charts"
-API_ENDPOINT_GENERE = "http://api:8001/dev/genres"
+from MusicAddedDataAPI.SpotifyApi import sp_get_token
+from utils.dbUtils import (
+    get_artist_data_from_db,
+    get_song_from_db,
+    create_genre,
+    create_artist,
+    create_song,
+    create_chart,
+)
+from utils.utils import (
+    get_missing_data_for_song,
+    get_missing_data_for_artist,
+    get_genre_data,
+    get_song_payload,
+    get_artist_payload,
+    get_chart_payload,
+    get_genre_id_by_name
+)
+
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
 
 
-def get_genre_data(token):
-    genres = []
-    response = requests.get(API_ENDPOINT_GENERE)
-    if not response.status_code == 200:
-        logger.error(f"Failed to fetch genres, status code: {response.status_code}")
-        return []
-    genres = response.json()
-    if not genres:
-        new_genres = []
-        genres = get_available_genre(token)
-        for genre_name in genres:
-            post_response =  requests.post(API_ENDPOINT_GENERE, json={"genre_name": genre_name}, headers={"Content-Type": "application/json"})
-            if post_response.status_code == 200:
-                genre1 = post_response.json()
-                print(f"Successfully sent genre: {genre1}")
-                new_genres.append(genre1)
-            else:
-                print(f"Failed to send genre: {genre_name}, Status code: {post_response.status_code}, Response: {post_response.text}")
-        return new_genres 
-    else:
-        return  genres    
-
-
-
-
-def send_prepared_data(data):
-    """Send the prepared data to the external API."""
-    artist_id = 1  # Fabricated ID for the example
-    song_id = 1    # Fabricated ID for the example
-
-    for entry in data:
-        artist = entry.get('artist', {})
-        song = entry.get('song', {})
-        chart = entry.get('chart', {})
-
-        # Post artist data
-        artist_payload = {
-            "artist_name": artist.get('artist_name'),
-            "genre_id": 1,
-            "country_code": artist.get('country'),
-            "artist_gender": artist.get('artist_gender')
-            
-            
-        }
-        try:
-            response = requests.post(API_ENDPOINT_ARTISTS, json=artist_payload)
-            response.raise_for_status()  # Raise an exception for HTTP errors
-            logger.info(f"Artist data sent successfully: {response.status_code}")
-        except requests.RequestException as e:
-            logger.error(f"Failed to send artist data: {e}")
-
-        # Post song data
-        song_payload = {
-            "artist_id": artist_id,  
-            "genre_id": 1,  # Fabricated ID for the genre
-            "song_name": song.get('song_name'),
-            "song_link": song.get('song_link'),
-            "song_lyrics": song.get('song_lyrics'),
-            "song_length": song.get('song_length')
-        }
-        try:
-            response = requests.post(API_ENDPOINT_SONGS, json=song_payload)
-            response.raise_for_status()  # Raise an exception for HTTP errors
-            logger.info(f"Song data sent successfully: {response.status_code}")
-        except requests.RequestException as e:
-            logger.error(f"Failed to send song data: {e}")
-
-        # Post chart data
-        chart_payload = {
-            "artist_id": artist_id,  # This would normally come from a previous POST response
-            "song_id": song_id,  # This would normally come from a previous POST response
-            "rank_value": chart.get('rank_value'),
-            "date": chart.get('date'),
-            "source": chart.get('source'),
-            "country_code": chart.get('country'),
-            "chart_type": chart.get('chart_type')
-        }
-        try:
-            response = requests.post(API_ENDPOINT_CHARTS, json=chart_payload)
-            response.raise_for_status()  # Raise an exception for HTTP errors
-            logger.info(f"Chart data sent successfully: {response.status_code}")
-        except requests.RequestException as e:
-            logger.error(f"Failed to send chart data: {e}")
-
-def convert_seconds(seconds):
-    minutes, seconds = divmod(seconds, 60)
-    return f"{minutes:02}:{seconds:02}"
-
 def process(event, context):
     logger.info("Received event: %s", json.dumps(event))
-    token = get_token()  
-    res = get_genre_data(token)
-    print("please add to the fucking db: " + res)
-    
-    # try:
-    #     if event is None:
-    #         raise ValueError("Event data is None")
-        
+    token = sp_get_token()
+    genre_arr = get_genre_data(token)
+
+    if event is None:
+        raise ValueError("Event data is None")
+
+    if "Records" not in event:
+        raise ValueError("No records found in event data")
+
+    for record in event.get("Records", []):
+        body = record.get("body", None)
+        if body:
+            try:
+                data = json.loads(body)
+            except json.JSONDecodeError as e:
+                logger.error("Failed to decode JSON: %s", e)
+                continue
+
+            if not isinstance(data, list):
+                logger.error("Expected data to be a list, got %s", type(data).__name__)
+                continue
+
+            try:
+                for entry in data:
+                    if not isinstance(entry, dict):
+                        logger.error("Expected entry to be a dict, got %s", type(entry).__name__)
+                        continue
+                    if (not entry.get("artist") or not entry.get("song") or not entry.get("chart")):
+                        logger.error("Missing data in entry")
+                        continue
+                                     
+                    artist_payload = get_artist_payload(token, entry)
+                    artist_id = artist_payload.get("artist_id") or None
+                    artist_name = artist_payload.get("artist_name") or None
+                    song_payload = get_song_payload(token, entry, artist_id, artist_name)
+                    chart_payload = get_chart_payload(entry)
+                    
+                    genre_payload = artist_payload.get("genre_id") or "Unknown"
+                    # print("genre_payload:", genre_payload)
+                    genre_id = get_genre_id_by_name(genre_arr, genre_payload)
+                    
+                    if not genre_id:
+                        genre_res = create_genre(genre_payload)
+                        artist_payload["genre_id"] = genre_res["genre_id"]
+                        song_payload["genre_id"] = genre_res["genre_id"]
+                    else:
+                        artist_payload["genre_id"] = genre_id
+                        song_payload["genre_id"] = genre_id
+
+                    if not artist_id:
+                        new_artist = create_artist(artist_payload)
+                        artist_payload["artist_id"] = new_artist["artist_id"]
+                    
+                    # print("artist_payload:", artist_payload)
+                    song_payload["artist_id"] = artist_payload["artist_id"]
+                    if not song_payload.get("song_id"):
+                        new_song = create_song(song_payload)
+                        song_payload["song_id"] = new_song["song_id"]
+
+                    # print("after song_payload:", song_payload)                    
+                    chart_payload["artist_id"] = artist_payload["artist_id"]
+                    chart_payload["song_id"] = song_payload["song_id"]
+                    chart_res = create_chart(chart_payload)
+                
+                    # print("chart_payload:", chart_res)
+                    
+                    print(f"Added song {song_payload['song_name']} by artist {artist_payload['artist_name']} to chart in rank {chart_payload['rank_value']}")
+                    
+            except Exception as e:
+                logger.error(f"Error processing data: {e}")
+    print("finished processing")
+    return {"statusCode": 200, "body": json.dumps("Processing is done")}
+
+
+                    # if genre not exists, add genre
+                    # print("test-2")
+                    # # print("test to check entry:", entry["song"])
+                    # #### it falls here####
+                    # if (
+                    #     song_payload["genre_id"] not in genre_arr
+                    #     or artist_payload["genre_id"] not in genre_arr
+                    # ):
+                    #     print("test-3")
+                    #     genre_res = create_genre(
+                    #         token, entry["song"]["genre_id"])
+                    #     song_payload["genre_id"] = genre_res["genre_id"]
+                    #     artist_payload["genre_id"] = genre_res["genre_id"]
+                    #     print("test-4")
+                    # else:
+                    #     print("test-5")
+                    #     song_payload["genre_id"] = genre_arr[song_payload["genre_id"]]
+                    #     artist_payload["genre_id"] = genre_arr[artist_payload["genre_id"]]
+                    #     print("test-6")
+
+                    # # if artist not exists, add artist
+                    # if not artist_res:
+                    #     print("test-7")
+                    #     new_artist = create_artist(token, artist_payload)
+                    #     artist_payload["artist_id"] = new_artist["artist_id"]
+                    #     print("test-8")
+                    # else:
+                    #     print("test-9")
+                    #     artist_payload["artist_id"] = artist_res["artist_id"]
+                    #     print("test-10")
+
+
+
+
+                    # if song not exists, add song
+
+                    # entry["song"]["aritst_id"] = entry["artist"]["aritst_id"]
+                    # if not song_res:
+                    #     new_song = create_song(token, entry["song"])
+                    #     entry["song"]["song_id"] = new_song["song_id"]
+                    # else:
+                    #     entry["song"]["song_id"] = song_res["song_id"]
+
+                    # # add chart
+
+                    # entry["chart"]["aritst_id"] = entry["artist"]["aritst_id"]
+                    # entry["chart"]["song_id"] = entry["song"]["song_id"]
+                    # create_chart(token, entry["chart"])
 
     #     for record in event.get('Records', []):
     #         body = record.get('body', None)
-    #         if body: 
+    #         if body:
     #             try:
     #                 # Assume body is a JSON string, so parse it
     #                 data = json.loads(body)
     #             except json.JSONDecodeError as e:
     #                 logger.error("Failed to decode JSON: %s", e)
     #                 continue
-                
+
     #             if not isinstance(data, list):
     #                 logger.error("Expected data to be a list, got %s", type(data).__name__)
     #                 continue
-                
+
     #             for entry in data:
     #                 if not isinstance(entry, dict):
     #                     logger.error("Expected entry to be a dict, got %s", type(entry).__name__)
     #                     continue
-                    
+
     #                 artist = entry.get('artist', {})
     #                 song = entry.get('song', {})
-                    
+
     #                 artist_name = artist.get('artist_name', 'Unknown')
     #                 song_name = song.get('song_name', 'Unknown')
-                    
+
     #                 if not artist.get('artist_gender'):
     #                     try:
     #                         gender = get_gender(artist_name)
@@ -165,22 +203,17 @@ def process(event, context):
     #                                     break
     #                     except Exception as e:
     #                         logger.error(f"Failed to get song length for {song_name} by {artist_name}: {e}")
-                
+
     #             # After processing, send the data to the external API
     #             # send_prepared_data(data)
     #             # send_prepared_genre_data()
     #             print(data)
-                
 
     #         else:
     #             logger.warning("No body found in this record")
-              
+
     # except (json.JSONDecodeError, ValueError) as e:
     #     logger.error("Error processing data: %s", e)
 
-    return {
-        'statusCode': 200,
-        'body': json.dumps('Processing is done')
-    }
 
 # send_prepared_genere_data()

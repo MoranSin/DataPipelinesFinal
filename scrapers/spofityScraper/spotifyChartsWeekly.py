@@ -24,6 +24,11 @@ def handler(event, context):
 
     print("weekly spotify charts: ",global_charts)
 
+    spotifyScraper = SpotifyScraper(api_key, base_url, headers)
+    global_charts = spotifyScraper.fetch_charts("global", timing) ## TO DO: match  the fetch_charts function to work with these parameters 
+
+    # data = global_charts 
+
     sqs = boto3.client(
         'sqs', 
         region_name="us-east-1",

@@ -50,3 +50,9 @@ def fetch_song_by_name(db: Session, song_name: str):
         return db.query(Song).filter(Song.song_name == song_name).first()
     except NoResultFound:
         return None
+    
+def fetch_song_by_name_and_artist_id(db: Session, song_name: str, artist_id: str):
+    try:
+        return db.query(Song).filter(Song.song_name == song_name, Song.artist_id == artist_id).first()
+    except NoResultFound:
+        return None

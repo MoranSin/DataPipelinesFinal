@@ -11,7 +11,7 @@ from os.path import join, dirname
 from dotenv import load_dotenv
 dotenv_path = join(dirname(__file__), '.env')
 load_dotenv(dotenv_path)
- 
+
 def convert_seconds(n):
     minutes, seconds = divmod(n, 60)
     return f"{minutes:02}:{seconds:02}"
@@ -124,7 +124,7 @@ class YoutubeScraper:
         chart_type = get_chart_type(timing)
         date = get_today_date()
         
-        for entry in chart_data[:1]:
+        for entry in chart_data[:5]:
             song_name = entry.get("title", None)
             song_length = convert_seconds(entry.get("videoDuration", 0)) if entry.get("videoDuration") else None
             artist_name = entry.get("artists", [{}])[0].get("name", None)

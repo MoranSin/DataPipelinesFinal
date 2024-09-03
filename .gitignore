@@ -8,6 +8,6 @@
 ./spotify_charts_data.json
 **/venv
 **/__pycache__
-**/__init__.py
 **/.env
 scrapers/env
+**/env
