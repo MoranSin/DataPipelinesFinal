@@ -17,11 +17,11 @@ def convert_seconds(seconds):
     minutes, seconds = divmod(seconds, 60)
     return f"{minutes:02}:{seconds:02}"
 
-def get_genre_id_by_name(genre_arr, genre_name):
+def get_genre_by_name_or_id(genre_arr, genre_value):
     for genre in genre_arr:
-        if genre['genre_name'] == genre_name:
+        if genre['genre_name'] == genre_value or genre['genre_id'] == genre_value:
             return genre['genre_id']
-    return None 
+    return None
 
 def get_genre_data(token):
     genres = get_gernes_from_db()
