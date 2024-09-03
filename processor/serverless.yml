@@ -14,6 +14,8 @@ functions:
             Fn::GetAtt:
               - DataRawQueue
               - Arn
+          batchSize: 1
+          maximumRetryAttempts: 2
     timeout: 900
 
 plugins:
