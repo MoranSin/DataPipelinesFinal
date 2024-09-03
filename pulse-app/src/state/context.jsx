@@ -8,7 +8,7 @@ import { FILTERS } from "../common/consts/filters";
 
 const initialProps = {
   selectedYear: -1,
-  selectedDate: "2024-08-15",
+  selectedDate: "2024-09-03",
   selectedChart: null,
   byFilter: FILTERS.GENDER
 };

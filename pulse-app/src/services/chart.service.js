@@ -2,8 +2,10 @@ import axios from "axios";
 import { SERVER_BASE_URL } from "../common/consts/api";
 
 export const getChartAvailableDates = async () => {
+  // const response = await axios.get(new URL("/dev/charts/available-dates", SERVER_BASE_URL).toString());
   const response = await axios.get(new URL("/charts/available-dates", SERVER_BASE_URL).toString());
-  console.log(`getChartAvailableDates: ${response}`);
+  console.log("getChartAvailableDates:", response.data);
+  console.log(`print to check if the function is avilable`)
   return response;
 };
 
