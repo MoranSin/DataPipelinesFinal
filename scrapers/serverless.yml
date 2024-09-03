@@ -9,22 +9,22 @@ functions:
   youtubeChartsDaily:
     handler: youtubeScraper/youtubeChartsDaily.handler
     events:
-      - schedule: rate(1 hour)
-      #- schedule: rate(1 day)
+      # - schedule: rate(1 hour)
+      - schedule: rate(1 day)
     timeout: 360
 
   youtubeChartsWeekly:
     handler: youtubeScraper/youtubeChartsWeekly.handler
     events:
-      - schedule: rate(1 hour)
-      # - schedule: rate(7 days)
+      # - schedule: rate(1 hour)
+      - schedule: rate(7 days)
     timeout: 360
 
   
   tiktokScraper:
     handler: tiktokBillboardScraper/tiktokScraper.handler
     events:
-      - schedule: rate(40 minutes)
+      - schedule: rate(10 minutes)
       # - schedule: rate(7 days)
     timeout: 360
 
