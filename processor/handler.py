@@ -28,6 +28,7 @@ logger = logging.getLogger()
 
 def process(event, context):
     logger.info("Received event: %s", json.dumps(event))
+    print("start")
     token = sp_get_token()
     genre_arr = get_genre_data(token)
 
