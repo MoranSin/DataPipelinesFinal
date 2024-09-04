@@ -81,7 +81,7 @@ def fetch_chart_query(db: Session):
     final_result = [
         {
             "date": date,
-            "source": {
+            "charts": {
                 source: {
                     country_code: sorted(
                         [
