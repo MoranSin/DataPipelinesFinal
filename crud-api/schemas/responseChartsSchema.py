@@ -28,4 +28,4 @@ class ChartEntry(BaseModel):
 
 class ChartResponse(BaseModel):
     date: date
-    source: Dict[str, List[ChartEntry]]
+    source: Dict[str, Dict[str, List[ChartEntry]]]

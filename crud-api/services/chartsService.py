@@ -37,12 +37,16 @@ def fetch_chart_query(db: Session):
     for chart in charts:
         date_str = chart.date.isoformat()
         source_key = chart.source
+        country_code_key = chart.country_code
 
         if date_str not in result:
             result[date_str] = {}
 
         if source_key not in result[date_str]:
-            result[date_str][source_key] = set()  # Use a set to ensure uniqueness
+            result[date_str][source_key] = {}
+
+        if country_code_key not in result[date_str][source_key]:
+            result[date_str][source_key][country_code_key] = set()  # Use a set to ensure uniqueness
 
         chart_data = {
             "position": chart.position,
@@ -71,34 +75,37 @@ def fetch_chart_query(db: Session):
             chart.gender,
         )
 
-        result[date_str][source_key].add(chart_data_tuple)
+        result[date_str][source_key][country_code_key].add(chart_data_tuple)
 
     # Convert sets back to lists and sort by position
     final_result = [
         {
             "date": date,
             "source": {
-                source: sorted(
-                    [
-                        {
-                            "position": entry[0],
-                            "song": entry[1],
-                            "artist": entry[2],
-                            "duration": entry[3],
-                            "spotify_url": entry[4],
-                            "songFeatures": {
-                                "genre": entry[5],
-                                "language": entry[6],
-                            },
-                            "artistFeatures": {
-                                "gender": entry[7],
-                            },
-                        }
-                        for entry in source_data
-                    ],
-                    key=lambda x: x["position"]
-                )
-                for source, source_data in source_data.items()
+                source: {
+                    country_code: sorted(
+                        [
+                            {
+                                "position": entry[0],
+                                "song": entry[1],
+                                "artist": entry[2],
+                                "duration": entry[3],
+                                "spotify_url": entry[4],
+                                "songFeatures": {
+                                    "genre": entry[5],
+                                    "language": entry[6],
+                                },
+                                "artistFeatures": {
+                                    "gender": entry[7],
+                                },
+                            }
+                            for entry in country_code_data
+                        ],
+                        key=lambda x: x["position"]
+                    )
+                    for country_code, country_code_data in country_code_data.items()
+                }
+                for source, country_code_data in source_data.items()
             }
         }
         for date, source_data in result.items()
