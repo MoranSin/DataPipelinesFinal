@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import List, Dict, Optional, Any
+from typing import List, Dict
 from datetime import date
 
 class SongFeatures(BaseModel):
@@ -18,6 +18,14 @@ class ChartEntry(BaseModel):
     songFeatures: SongFeatures
     artistFeatures: ArtistFeatures
 
+    def __hash__(self):
+        return hash((self.position, self.song, self.artist, self.duration, self.spotify_url))
+
+    def __eq__(self, other):
+        if isinstance(other, ChartEntry):
+            return (self.position, self.song, self.artist, self.duration, self.spotify_url) == (other.position, other.song, other.artist, other.duration, other.spotify_url)
+        return False
+
 class ChartResponse(BaseModel):
     date: date
-    charts: Dict[str, List[ChartEntry]]
+    source: Dict[str, List[ChartEntry]]

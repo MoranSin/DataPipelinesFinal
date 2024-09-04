@@ -36,13 +36,13 @@ def fetch_chart_query(db: Session):
 
     for chart in charts:
         date_str = chart.date.isoformat()
-        source_type_key = f"{chart.source}_{chart.chart_type}"
+        source_key = chart.source
 
         if date_str not in result:
             result[date_str] = {}
 
-        if source_type_key not in result[date_str]:
-            result[date_str][source_type_key] = []
+        if source_key not in result[date_str]:
+            result[date_str][source_key] = set()  # Use a set to ensure uniqueness
 
         chart_data = {
             "position": chart.position,
@@ -59,16 +59,52 @@ def fetch_chart_query(db: Session):
             },
         }
 
-        result[date_str][source_type_key].append(chart_data)
+        # Convert chart_data to a tuple to make it hashable
+        chart_data_tuple = (
+            chart.position,
+            chart.song,
+            chart.artist,
+            chart.duration,
+            chart.spotify_url,
+            chart.genre,
+            "English",  # Example static value, adjust if needed
+            chart.gender,
+        )
 
-    return [
+        result[date_str][source_key].add(chart_data_tuple)
+
+    # Convert sets back to lists and sort by position
+    final_result = [
         {
             "date": date,
-            "charts": source_type_data
+            "source": {
+                source: sorted(
+                    [
+                        {
+                            "position": entry[0],
+                            "song": entry[1],
+                            "artist": entry[2],
+                            "duration": entry[3],
+                            "spotify_url": entry[4],
+                            "songFeatures": {
+                                "genre": entry[5],
+                                "language": entry[6],
+                            },
+                            "artistFeatures": {
+                                "gender": entry[7],
+                            },
+                        }
+                        for entry in source_data
+                    ],
+                    key=lambda x: x["position"]
+                )
+                for source, source_data in source_data.items()
+            }
         }
-        for date, source_type_data in result.items()
+        for date, source_data in result.items()
     ]
 
+    return final_result
 
 
 def fetch_chart_by_id(db: Session, rank_id: uuid4):
