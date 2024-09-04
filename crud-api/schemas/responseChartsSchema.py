@@ -1,16 +1,13 @@
-from pydantic import BaseModel, Field, Any
-from typing import Optional, List
-from uuid import UUID
+from pydantic import BaseModel
+from typing import List, Dict, Optional, Any
 from datetime import date
 
 class SongFeatures(BaseModel):
-    key: Optional[str] = None
-    genre: Optional[str] = None
-    language: Optional[str] = None
+    genre: str
+    language: str
 
 class ArtistFeatures(BaseModel):
-    type: Optional[str] = None
-    gender: Optional[str]  = None
+    gender: str
 
 class ChartEntry(BaseModel):
     position: int
@@ -18,16 +15,9 @@ class ChartEntry(BaseModel):
     artist: str
     duration: str
     spotify_url: str
-    songFeatures: dict[str, Any]
-    artistFeatures: dict[str, Any]
-
-class Chart(BaseModel):
-    date: date 
-    source: str 
-    country_code: str
-    chart_type: str
-    charts: List[ChartEntry] 
+    songFeatures: SongFeatures
+    artistFeatures: ArtistFeatures
 
 class ChartResponse(BaseModel):
-    # date: date 
-    charts: dict[str, dict[str, List[ChartEntry]]]
+    date: date
+    charts: Dict[str, List[ChartEntry]]
