@@ -33,7 +33,8 @@ def get_charts_by_date(db: Session, query_date: date):
     ).join(Song, Chart.song_id == Song.song_id) \
     .join(Artist, Chart.artist_id == Artist.artist_id) \
     .join(Genre, Artist.genre_id == Genre.genre_id) \
-    .filter(Chart.date == query_date)
+    .filter(Chart.date == query_date)\
+    .filter(Chart.source == 'Youtube Charts')
     
     return query
 
