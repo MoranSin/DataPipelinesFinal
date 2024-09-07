@@ -1,5 +1,5 @@
 from collections import defaultdict
-from datetime import datetime
+from sqlalchemy import func
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import NoResultFound
 from models.chartsModel import Chart
@@ -10,15 +10,13 @@ from schemas.chartsSchema import ChartCreate
 from uuid import uuid4
 import logging
 
-
-
 logging.basicConfig(level=logging.INFO)
 
 def fetch_charts(db: Session):
     return db.query(Chart).all()
 
-def fetch_chart_query(db: Session):
-    charts = db.query(
+def fetch_chart_query(db: Session, year: int | None = None, day: int | None = None):
+    query = db.query(
         Chart.rank_id.label('rank_id'),
         Chart.rank_value.label('position'),
         Song.song_name.label('song'),
@@ -33,8 +31,15 @@ def fetch_chart_query(db: Session):
         Chart.chart_type.label('chart_type')
     ).join(Song, Chart.song_id == Song.song_id) \
      .join(Artist, Chart.artist_id == Artist.artist_id) \
-     .join(Genre, Artist.genre_id == Genre.genre_id) \
-     .all()
+     .join(Genre, Artist.genre_id == Genre.genre_id)
+
+    if year:
+        query = query.filter(func.extract('year', Chart.date) == year)
+    
+    if day:
+        query = query.filter(func.extract('day', Chart.date) == day)
+    
+    charts = query.all()
 
     result = {}
 
@@ -50,24 +55,8 @@ def fetch_chart_query(db: Session):
             result[date_str][source_key] = {}
 
         if country_code_key not in result[date_str][source_key]:
-            result[date_str][source_key][country_code_key] = set()  # Use a set to ensure uniqueness
+            result[date_str][source_key][country_code_key] = set()
 
-        chart_data = {
-            "position": chart.position,
-            "song": chart.song,
-            "artist": chart.artist,
-            "duration": chart.duration,
-            "spotify_url": chart.spotify_url,
-            "songFeatures": {
-                "genre": chart.genre,
-                "language": "English",  # Example static value, adjust if needed
-            },
-            "artistFeatures": {
-                "gender": chart.gender,
-            },
-        }
-
-        # Convert chart_data to a tuple to make it hashable
         chart_data_tuple = (
             chart.position,
             chart.song,
@@ -75,13 +64,12 @@ def fetch_chart_query(db: Session):
             chart.duration,
             chart.spotify_url,
             chart.genre,
-            "English",  # Example static value, adjust if needed
+            "English",
             chart.gender,
         )
 
         result[date_str][source_key][country_code_key].add(chart_data_tuple)
 
-    # Convert sets back to lists and sort by position
     final_result = [
         {
             "date": date,
@@ -116,6 +104,7 @@ def fetch_chart_query(db: Session):
     ]
 
     return final_result
+
 
 
 def fetch_chart_by_id(db: Session, rank_id: uuid4):

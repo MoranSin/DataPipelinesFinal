@@ -11,12 +11,12 @@ export const getChartAvailableDates = async () => {
 
 export const getChartByYear = async (year) => {
   const response = await axios.get(new URL(`/dev/charts?year=${year}`, SERVER_BASE_URL).toString());
-  console.log(`getChartByYear: ${response}`);
+  console.log("getChartByYear:", response.data);
   return response;
 };
 
 export const getChartByDate = async (date) => {
   const response = await axios.get(new URL(`/dev/charts?date=${date}`, SERVER_BASE_URL).toString());
-  console.log(`getChartByDate: ${response}`);
+  console.log("getChartByYear:", response.data);
   return response;
 };

@@ -1,6 +1,7 @@
-from pydantic import BaseModel, validator
+from pydantic import BaseModel, validator, RootModel
 from uuid import UUID, uuid4
 from datetime import date
+from typing import Dict, List
 
 class Chart(BaseModel):
     rank_id: UUID
@@ -23,3 +24,13 @@ class ChartCreate(BaseModel):
     source : str
     country_code : str
     chart_type : str
+
+
+class DayList(RootModel[List[str]]):
+    pass
+
+class MonthDict(RootModel[Dict[str, DayList]]):
+    pass
+
+class YearDict(RootModel[Dict[str, MonthDict]]):
+    pass
