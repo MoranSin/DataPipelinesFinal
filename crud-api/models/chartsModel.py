@@ -1,6 +1,8 @@
 from sqlalchemy import Column, String, ForeignKey, Integer, Date
 from sqlalchemy.dialects.postgresql import UUID
 from uuid import uuid4
+from pydantic import BaseModel, RootModel
+from typing import Dict, List
 
 from config.database import Base 
 
@@ -15,3 +17,13 @@ class Chart(Base):
     source = Column(String, nullable=False)
     country_code = Column(String, nullable=False)
     chart_type = Column(String, nullable=False)
+
+
+class DayList(RootModel[List[str]]):
+    pass
+
+class MonthDict(RootModel[Dict[str, DayList]]):
+    pass
+
+class YearDict(RootModel[Dict[str, MonthDict]]):
+    pass
