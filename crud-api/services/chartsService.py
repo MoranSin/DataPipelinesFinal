@@ -1,9 +1,13 @@
+from collections import defaultdict
+from datetime import datetime
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import NoResultFound
 from models.chartsModel import Chart
 from schemas.chartsSchema import ChartCreate
 from uuid import uuid4
 import logging
+
+
 
 logging.basicConfig(level=logging.INFO)
 
@@ -15,6 +19,26 @@ def fetch_chart_by_id(db: Session, rank_id: uuid4):
         return db.query(Chart).filter(Chart.rank_id == rank_id).first()
     except NoResultFound:
         return None
+  
+def fetch_charts_by_available_dates(db: Session):
+    try:
+        charts = db.query(Chart).all()
+    except NoResultFound:
+        return None
+    
+    grouped_data = defaultdict(lambda: defaultdict(list))
+    
+    for chart in charts:
+        chart_date_str = chart.date.strftime("%Y-%m-%d")
+        year = chart_date_str[:4]
+        month = chart_date_str[5:7]
+        day = chart_date_str[8:10]
+        
+        if day not in grouped_data[year][month]:
+            grouped_data[year][month].append(day)
+
+    return dict(grouped_data)
+    
     
 def create_chart(db: Session, chart: ChartCreate):
 
