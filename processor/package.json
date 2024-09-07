@@ -6,6 +6,7 @@
     "serverless-python-requirements": "^6.1.0"
   },
   "dependencies": {
+    "lambda-processor": "file:",
     "serverless-offline": "^13.6.0",
     "serverless-offline-sqs": "^8.0.0",
     "serverless-wsgi": "^3.0.4"

@@ -6,9 +6,11 @@ import { onUpdateWorldMapData } from "./actions";
 import { getTopSongFeaturesByCountry } from "../common/utils/charts";
 import { FILTERS } from "../common/consts/filters";
 
+const getTodayDate = () => new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+
 const initialProps = {
   selectedYear: -1,
-  selectedDate: "2024-09-07",
+  selectedDate: getTodayDate(),
   selectedChart: null,
   byFilter: FILTERS.GENDER
 };
