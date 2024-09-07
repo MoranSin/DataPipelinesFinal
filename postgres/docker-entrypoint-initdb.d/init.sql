@@ -40,6 +40,7 @@ CREATE TABLE IF NOT EXISTS Songs (
     song_link VARCHAR(300),
     song_lyrics VARCHAR(5000),
     song_length VARCHAR(5), -- HH:MM,
+    song_language VARCHAR(10),
     PRIMARY KEY (song_id),
     FOREIGN KEY (artist_id)
         REFERENCES Artists (artist_id),
