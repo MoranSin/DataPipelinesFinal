@@ -2,7 +2,7 @@ import requests
 import json
 import logging
 
-from MusicAddedDataAPI.GeniusLyricsApi import gl_get_lyrics
+from MusicAddedDataAPI.GeniusLyricsApi import gl_get_lyrics, gl_get_song_lan
 from MusicAddedDataAPI.MusicBrainzApi import mb_get_gender_and_country
 from MusicAddedDataAPI.SpotifyApi import sp_search_for_artist, sp_get_songs_by_artist, sp_get_available_genre, search_for_track
 from .dbUtils import get_gernes_from_db, create_genre, get_artist_data_from_db, get_song_from_db
@@ -102,6 +102,9 @@ def get_missing_data_for_song(token,song, artist_name):
             track = search_for_track(token, artist_name)
             new_song['song_link'] = track['external_urls']['spotify'] if track['external_urls']['spotify'] else "Unknown"
                     
+        if not song.get('song_language'):
+            new_song['song_language'] = gl_get_song_lan(artist_name, song_name)
+        
         return new_song
     except Exception as e:
         logger.error(f"Failed to prepare data for song: {e}")
@@ -116,6 +119,7 @@ def get_song_payload(token, entry, artist_id, artist_name):
             "song_link": None,
             "song_lyrics": None,
             "song_length": None,
+            "song_language": None,
         }
 
         entry_song = entry.get('song', {})
@@ -128,6 +132,7 @@ def get_song_payload(token, entry, artist_id, artist_name):
         song_payload["song_link"] = entry_song["song_link"] if entry_song["song_link"] else None
         song_payload["song_length"]= entry_song["song_length"] if entry_song["song_length"] else "00:00"
         song_payload["song_lyrics"] = None
+        song_payload["song_language"] = None
 
         song_name = entry_song["song_name"]
         song_res = None

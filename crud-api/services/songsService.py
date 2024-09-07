@@ -26,7 +26,8 @@ def create_song(db: Session, song: SongCreate):
         song_name = song.song_name,
         song_link = song.song_link,
         song_lyrics = song.song_lyrics,
-        song_length = song.song_length
+        song_length = song.song_length,
+        song_language = song.song_language
     )
     db.add(new_song)
     db.commit()
@@ -41,6 +42,7 @@ def update_song(db: Session, song_id: uuid4, song: SongCreate):
     db_song.song_link = song.song_link
     db_song.song_lyrics = song.song_lyrics
     db_song.song_length = song.song_length
+    db_song.song_language = song.song_language
     db.commit()
     db.refresh(db_song)
     return db_song
