@@ -14,4 +14,5 @@ class Song(Base):
     song_link = Column(String, nullable=False)
     song_lyrics = Column(String, nullable=False)
     song_length = Column(String, nullable=False)
+    song_language = Column(String, nullable=False)
 

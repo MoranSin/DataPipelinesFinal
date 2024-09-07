@@ -11,6 +11,7 @@ class Song(BaseModel):
     song_link: str
     song_lyrics: str
     song_length: str
+    song_language: str
 
     class Config:
         from_attributes = True
@@ -22,6 +23,7 @@ class SongCreate(BaseModel):
     song_link: str
     song_lyrics: str
     song_length: str
+    song_language: str
 
     @validator("song_name")
     def song_name_must_not_be_empty(cls, v: str) -> str:
