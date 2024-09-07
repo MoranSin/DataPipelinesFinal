@@ -12,8 +12,8 @@ chartsRouter = APIRouter()
 @chartsRouter.get("/charts", response_model=list[ChartResponse])
 async def get_charts(db: Session = Depends(get_db),
     year: int | None = Query(default=None),
-    day: date | None = Query(default=None)):
-    charts = fetch_chart_query(db, year, day)
+    date: date | None = Query(default=None)):
+    charts = fetch_chart_query(db, year, date)
     if not charts:
         raise HTTPException(status_code=404, detail="Charts not found")
     return charts 
