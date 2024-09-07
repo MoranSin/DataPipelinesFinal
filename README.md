@@ -10,6 +10,7 @@ This is the final Skibidi project for the Data Pipelines rizz course, which show
 ## Table of Contents
 
 - [Prerequisites](#prerequisites)
+- [Folder Structure](#folder-structure)
 - [How to Run the UI](#how-to-run-the-ui)
 - [Setting Up the Environment](#setting-up-the-environment)
 - [Running the API](#running-the-api)
@@ -23,6 +24,8 @@ This is the final Skibidi project for the Data Pipelines rizz course, which show
 - [Pulse App](#pulse-app)
 - [Scrapers](#scrapers)
   - [YouTube Scraper](#youtube-scraper)
+  - [Tiktok Scraper](#tiktok-scraper)
+  - [Spotify Scraper](#spotify-scraper)
 - [Docker Compose Setup](#docker-compose-setup)
 
 ---
@@ -37,6 +40,111 @@ Before running the application, ensure you have the following installed:
 - [Serverless Framework](https://www.serverless.com/)
 - __ init __.py files inside the scrapers if does not exist yet
 - env files one for the scrapers and one for the processor
+
+---
+
+## Folder Structure
+
+Here is the overall project folder structure, including all main directories and key files.
+Instead of using a single `serverless.yml` file, each component (CRUD API, scrapers, processors) is modularized into its own folder with its own `serverless.yml` configuration.
+This structure was chosen to improve maintainability and scalability, allowing each service (API, scraper, processor) to operate and scale separately.
+
+
+```
+d-----  crud-api
+|         d-----  config
+|         d-----  models
+|         d-----  routers
+|         d-----  schemas
+|         d-----  services
+|         -a----  app.py
+|         -a----  Dockerfile
+|         -a----  package-lock.json
+|         -a----  package.json
+|         -a----  requirements.txt
+|         -a----  serverless.yml
+|         -a----  __init__.py
+|
+d-----  postgres
+|         d-----  docker-entrypoint-initdb.d
+|                  -a---- init.sql
+|
+d-----  processor
+|         d-----  MusicAddedDataAPI
+|         -a----  country_code.json
+|         -a----  GeniusLyricsApi.py
+|         -a----  MusicBrainzApi.py
+|         -a----  SpotifyApi.py
+|         -a----  __init__.py
+|         d-----  node_modules
+|         d-----  utils
+|                  -a---- dbUtils.py
+|                  -a---- utils.py
+|                  -a---- __init__.py
+|         -a----  .env
+|         -a----  Dockerfile
+|         -a----  handler.py
+|         -a----  package-lock.json
+|         -a----  package.json
+|         -a----  requirements.txt
+|         -a----  serverless.yml
+|
+d-----  scrapers
+|         d-----  spofityScraper
+|         -a----  spotifyChartsDaily.py
+|         -a----  spotifyChartsWeekly.py
+|         -a----  spotifyScraper.py
+|         -a----  __init__.py
+|
+|         d-----  tiktokBillboardScraper
+|         -a----  tiktokScraper.py
+|         -a----  __init__.py
+|
+|         d-----  youtubeScraper
+|         -a----  youtubeChartsDaily.py
+|         -a----  youtubeChartsWeekly.py
+|         -a----  youtubeScraper.py
+|         -a----  __init__.py
+|
+|         -a----  .env
+|         -a----  country_code.json
+|         -a----  Dockerfile
+|         -a----  genericScraper.py
+|         -a----  package-lock.json
+|         -a----  package.json
+|         -a----  requirements.txt
+|         -a----  serverless.yml
+|         -a----  __init__.py
+|
+d-----  pulse-app
+|         d----- node_modules
+|         d----- public
+|                  -a----mockServiceWorker.js
+|                  -a----vite.svg
+|                  -a----worldFeatures.json
+|         d----- src
+|                  d-----assets
+|                  d-----common
+|                  d-----components
+|                  d-----hooks
+|                  d-----mocks
+|                  d-----services
+|                  d-----state
+|                  -a----App.css
+|                  -a----App.jsx
+|                  -a----index.css
+|                  -a----main.jsx
+|        -a----index.html
+|        -a----package-lock.json
+|        -a----package.json
+|        -a----README.md
+|        -a----vite.config.js
+-a----  docker-compose.yml
+-a----  elasticmq.conf
+-a----  package-lock.json
+-a----  package.json
+-a----  requirements.txt
+```
 
 ---
 
@@ -103,12 +211,6 @@ To start the API locally:
 
 This project uses PostgreSQL as its primary database. To set it up, Docker will spin up a container with a Postgres instance. The database holds information for genres, artists, songs, and charts.
 
-If you need to manually connect to the database:
-
-```bash
-psql -h localhost -U your_db_user -d your_db_name
-```
-
 Ensure that the database migrations and schema are set up before interacting with the API.
 
 ---
@@ -160,6 +262,12 @@ These resources allow for the creation, retrieval, and updating of genre, artist
 
 The **processors** in this project handle data processing tasks. This includes tasks like cleaning scraped data, normalizing it, and transforming it before storing it in the database.
 
+The following API'S that are used are:
+
+1. lyricsgenius API
+2. Spotify API
+3. Musicbrainzngs API
+
 The processor runs automaticlly , using the `serverless` framework when it detectes something inside the SQS.
 
 ---
@@ -174,13 +282,25 @@ You can access the Pulse App by running the UI and navigating to the relevant se
 
 ## Scrapers
 
-Scrapers are automated jobs that fetch data from external sources. This project includes a **YouTube Scraper** that gathers data about songs, charts, and artists from YouTube.
+Scrapers are automated jobs that fetch data from external sources. This project includes a **YouTube Scraper**, **SpotifyScraper** and **TiktokScraper** that gathers data about songs, charts, and artists from YouTube.
 
 ### YouTube Scraper
 
 The YouTube scraper runs on scheduled intervals using the `serverless` framework and scrapes data daily or weekly.
 
-The data collected by the scraper is processed and stored in the PostgreSQL database for later use in the Pulse App.
+The data collected by the scraper is processed and stored in the aws SQS.
+
+### Tiktok Scraper
+
+The Tiktok scraper runs on scheduled intervals using the `serverless` framework and scrapes weekly data.
+
+The data collected by the scraper is processed and stored in the aws SQS.
+
+### Spotify Scraper
+
+The Spotify scraper runs on scheduled intervals using the `serverless` framework and scrapes data daily or weekly.
+
+The data collected by the scraper is processed and stored in the aws SQS.
 
 ---
 
@@ -211,3 +331,26 @@ This project demonstrates a complete data pipeline for music-related data using 
 For any questions or issues, feel free to open an issue on this repository.
 
 --- 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
