@@ -25,6 +25,7 @@ def fetch_chart_query(db: Session, year: int | None = None, date_query: date | N
                 Artist.artist_name.label('artist'),
                 Song.song_link.label('spotify_url'),
                 Song.song_length.label('duration'),
+                Song.song_language.label('language'),
                 Genre.genre_name.label('genre'),
                 Artist.artist_gender.label('gender'),
                 Chart.date.label('date'),
@@ -60,7 +61,7 @@ def fetch_chart_query(db: Session, year: int | None = None, date_query: date | N
                 chart.duration,
                 chart.spotify_url,
                 chart.genre,
-                "English", 
+                chart.language, 
                 chart.gender,
                 chart.source  
             )
