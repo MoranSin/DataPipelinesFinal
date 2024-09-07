@@ -16,97 +16,72 @@ logging.basicConfig(level=logging.INFO)
 def fetch_charts(db: Session):
     return db.query(Chart).all()
 
+def get_charts_by_date(db: Session, query_date: date):
+    query = db.query(
+        Chart.rank_value.label('position'),
+        Song.song_name.label('song'),
+        Artist.artist_name.label('artist'),
+        Song.song_link.label('spotify_url'),
+        Song.song_length.label('duration'),
+        Song.song_language.label('language'),
+        Genre.genre_name.label('genre'),
+        Artist.artist_gender.label('gender'),
+        Chart.date.label('date'),
+        Chart.country_code.label('country_code'),
+        Chart.source.label('source'),
+        Chart.chart_type.label('chart_type')
+    ).join(Song, Chart.song_id == Song.song_id) \
+    .join(Artist, Chart.artist_id == Artist.artist_id) \
+    .join(Genre, Artist.genre_id == Genre.genre_id) \
+    .filter(Chart.date == query_date)
+    
+    return query
+
+
 def fetch_chart_query(db: Session, year: int | None = None, date_query: date | None = None):
     try:
-        query = db.query(
-                Chart.rank_id.label('rank_id'),
-                Chart.rank_value.label('position'),
-                Song.song_name.label('song'),
-                Artist.artist_name.label('artist'),
-                Song.song_link.label('spotify_url'),
-                Song.song_length.label('duration'),
-                Song.song_language.label('language'),
-                Genre.genre_name.label('genre'),
-                Artist.artist_gender.label('gender'),
-                Chart.date.label('date'),
-                Chart.country_code.label('country_code'),
-                Chart.source.label('source'),
-                Chart.chart_type.label('chart_type')
-            ).join(Song, Chart.song_id == Song.song_id) \
-            .join(Artist, Chart.artist_id == Artist.artist_id) \
-            .join(Genre, Artist.genre_id == Genre.genre_id)
-        
-        if year:
-            query = query.filter(func.extract('year', Chart.date) == year)
-        
-        if date_query:
-            query = query.filter(Chart.date == date_query)
+        if not date_query:
+            date_query = date.today().strftime("%Y-%m-%d")
 
+        query = get_charts_by_date(db, date_query)
         charts = query.all()
-        result = {}
+        
+        chart_res = {}
+        
         for chart in charts:
-            date_str = chart.date.isoformat()
-            country_code_key = chart.country_code
-
-            if date_str not in result:
-                result[date_str] = {}
-
-            if country_code_key not in result[date_str]:
-                result[date_str][country_code_key] = set() 
-
-            chart_data_tuple = (
-                chart.position,
-                chart.song,
-                chart.artist,
-                chart.duration,
-                chart.spotify_url,
-                chart.genre,
-                chart.language, 
-                chart.gender,
-                chart.source  
-            )
-
-            result[date_str][country_code_key].add(chart_data_tuple)
-
-        final_result = [
-            {
-                "date": date,
-                "charts": {
-                    country_code: sorted(
-                        [
-                            {
-                                "position": entry[0],
-                                "song": entry[1],
-                                "artist": entry[2],
-                                "duration": entry[3],
-                                "spotify_url": entry[4],
-                                "source": entry[8],  # Add source to the entry
-                                "songFeatures": {
-                                    "genre": entry[5],
-                                    "language": entry[6],
-                                },
-                                "artistFeatures": {
-                                    "gender": entry[7],
-                                },
-                            }
-                            for entry in country_code_data
-                        ],
-                        key=lambda x: x["position"]
-                    )
-                    for country_code, country_code_data in country_code_data.items()
+            country = chart.country_code
+                
+            if country not in chart_res:
+                chart_res[country] = []
+                
+            chart_item = {
+                "position": chart.position,
+                "song": chart.song,
+                "artist": chart.artist,
+                "duration": chart.duration,
+                "spotify_url": chart.spotify_url,
+                "source": chart.source,
+                "songFeatures": {
+                    "genre": chart.genre,
+                    "language": chart.language
+                },
+                "artistFeatures": {
+                    "gender": chart.gender
                 }
             }
-            for date, country_code_data in result.items()
-        ]
+    
+            chart_res[country].append(chart_item)
+            
+        response = {
+            "date": str(date_query),
+            "charts": chart_res
+        }
 
-        print(f"this is final result {final_result}")
-        print(type(final_result))
-        print(type(result))
-
-        return final_result
+        print(response)
+        return response
     except Exception as e:
         print(f"error in fetch_chart_query: {e}")
-        return []
+        return {}
 
 
 

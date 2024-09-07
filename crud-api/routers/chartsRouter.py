@@ -9,7 +9,7 @@ from datetime import date
 
 chartsRouter = APIRouter()
 
-@chartsRouter.get("/charts", response_model=list[ChartResponse])
+@chartsRouter.get("/charts", response_model=ChartResponse)
 async def get_charts(db: Session = Depends(get_db),
     year: int | None = Query(default=None),
     date: date | None = Query(default=None)):
