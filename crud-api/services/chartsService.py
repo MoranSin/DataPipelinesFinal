@@ -34,7 +34,8 @@ def get_charts_by_date(db: Session, query_date: date):
     .join(Artist, Chart.artist_id == Artist.artist_id) \
     .join(Genre, Artist.genre_id == Genre.genre_id) \
     .filter(Chart.date == query_date)\
-    .filter(Chart.source == 'Youtube Charts')
+    .filter(Chart.source == 'Youtube Charts')\
+    .filter(Chart.country_code != "GBL")
     
     return query
 
@@ -71,7 +72,9 @@ def fetch_chart_query(db: Session, year: int | None = None, date_query: date | N
                 }
             }
     
-            chart_res[country].append(chart_item)
+            if chart_item not in chart_res[country]:
+                if chart.country_code == country:
+                    chart_res[country].append(chart_item)
             
         response = {
             "date": str(date_query),
