@@ -25,7 +25,7 @@ def get_charts_by_date(db: Session, query_date: date):
         Song.song_length.label('duration'),
         Song.song_language.label('language'),
         Genre.genre_name.label('genre'),
-        Artist.artist_gender.label('gender'),
+        Artist.artist_gender.label('type'),
         Chart.date.label('date'),
         Chart.country_code.label('country_code'),
         Chart.source.label('source'),
@@ -56,6 +56,10 @@ def fetch_chart_query(db: Session, year: int | None = None, date_query: date | N
             country = chart.country_code
             if country not in chart_res:
                 chart_res[country] = []
+                
+            type = chart.type
+            if type == "group":
+                type = "Band"
 
             chart_item = {
                 "position": chart.position,
@@ -69,7 +73,8 @@ def fetch_chart_query(db: Session, year: int | None = None, date_query: date | N
                     "language": chart.language
                 },
                 "artistFeatures": {
-                    "gender": chart.gender
+                    "type": type[0].upper() + type[1:],
+                    "gender": type[0].upper() + type[1:]
                 }
             }
     

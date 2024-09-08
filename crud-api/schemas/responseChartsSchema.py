@@ -8,6 +8,7 @@ class SongFeatures(BaseModel):
 
 class ArtistFeatures(BaseModel):
     gender: str
+    type: str
 
 class ChartEntry(BaseModel):
     position: int

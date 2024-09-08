@@ -22,11 +22,11 @@ def mb_get_gender_and_country(artist_name):
     
     artist = artist_list[0]
     
-    gender = artist.get("gender", "unknown")
-    country = artist.get("country", "unknown").lower()
+    gender = artist.get("gender", "Unknown")
+    country = artist.get("country", "Unknown").lower()
     new_country_code = get_alpha3_coutry_code(country)
     
-    if gender == "unknown":
-        return "group", new_country_code
+    if gender == "Unknown":
+        return "Band", new_country_code
     else:
         return gender, new_country_code
