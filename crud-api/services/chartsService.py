@@ -49,7 +49,7 @@ def fetch_chart_query(db: Session, year: int | None = None, date_query: date | N
         chart_res = {}
         
         for chart in charts:
-            if chart.source != "Youtube Charts" or chart.chart_type != "Weekly" or chart.country_code == "GBL":
+            if chart.source != "Youtube Charts" or chart.chart_type != "Daily" or chart.country_code == "GBL":
                 print(f"skipping {chart.source} - {chart.chart_type} - {chart.country_code} song {chart.song}")
                 continue
             

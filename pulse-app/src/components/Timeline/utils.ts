@@ -40,8 +40,7 @@ export const getThursdayWeeks = (payload) => {
       for (let i = 0; i < days.length; i++) {
         const date = new Date(`${year}-${month.padStart(2, "0")}-${days[i].toString().padStart(2, "0")}`);
 
-        // Check if the day is a Thursday
-        if (date.getDay() === 4) {
+        if (date.getDay() === 0 || date.getDay() === 1 || date.getDate() === 2 || date.getDay() === 3 || date.getDay() === 4 || date.getDay() === 5 || date.getDay() === 6) {
           // 4 is Thursday
           const formattedDate = date.toISOString().split("T")[0];
           const displayMonth = date.toLocaleString("default", { month: "long" });
