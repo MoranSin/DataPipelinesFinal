@@ -46,7 +46,7 @@ Before running the application, ensure you have the following installed:
 ## Folder Structure
 
 Here is the overall project folder structure, including all main directories and key files.
-Instead of using a single `serverless.yml` file, each component (CRUD API, scrapers, processors) is modularized into its own folder with its own `serverless.yml` configuration.
+Instead of using a single `serverless.yml` file, each container (CRUD API, scrapers, processors) is modularized into its own folder with its own `serverless.yml` configuration.
 This structure was chosen to improve maintainability and scalability, allowing each service (API, scraper, processor) to operate and scale separately.
 
 
@@ -159,7 +159,7 @@ The frontend UI is built with Node.js. To set it up:
 
 2. Start the development server:
    ```bash
-   npm run dev
+   npm start
    ```
 
 This will launch the UI.
@@ -175,8 +175,10 @@ Example `.env` file inside of the scraper folder:
 YOUTUBE_CHARTS_URL_KEY= ''
 YOUTUBE_CHARTS_COOKIE=''
 YOUTUBE_CHARTS_API_KEY=''
-YOUTUBE_TRENDS_COOKIE=""
+YOUTUBE_TRENDS_COOKIE=''
 YOUTUBE_TRENDS_API_KEY=''
+SPOTIFY_API_KEY_WEEKLY=''
+SPOTIFY_API_KEY_DAILY=''
 ```
 Example `.env` file inside of the processor folder:
 ```
@@ -191,7 +193,7 @@ Make sure to configure `.env` files!!!
 
 ## Running the API
 
-The backend API is built using Serverless Framework and runs on a Node.js environment.
+The backend API is built using Serverless Framework and runs on a FastAPI environment.
 
 To start the API locally:
 
@@ -201,7 +203,7 @@ To start the API locally:
    ```
 2. Automatically the scrapers will start scraping data at a designated date or time and put it into aws sqs 
 
-3. The processorr then shall take the data from the sqs add data through other api's and move it to the DB
+3. The processor then shall take the data from the sqs add additional data through other api's and move it to the DB
 
 3. You then may access the API at the endpoint `http://127.0.0.1:8001/dev/`.
 
@@ -282,7 +284,7 @@ You can access the Pulse App by running the UI and navigating to the relevant se
 
 ## Scrapers
 
-Scrapers are automated jobs that fetch data from external sources. This project includes a **YouTube Scraper**, **SpotifyScraper** and **TiktokScraper** that gathers data about songs, charts, and artists from YouTube.
+Scrapers are automated jobs that fetch data from external sources. This project includes a **YouTube Scraper**, **SpotifyScraper** and **TiktokScraper** that gathers data about songs, charts, and artists.
 
 ### YouTube Scraper
 
@@ -326,6 +328,7 @@ docker-compose down
 
 ## Conclusion
 
+Thank you Skibidi very much for reading. see you next year Shaked =)
 This project demonstrates a complete data pipeline for music-related data using APIs, scrapers, processors, and a frontend UI. It uses PostgreSQL as a database and Docker Compose for easy setup.
 
 For any questions or issues, feel free to open an issue on this repository.
