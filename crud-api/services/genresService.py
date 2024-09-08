@@ -33,18 +33,22 @@ def fetch_genre_by_name(db: Session, genre_name: str):
         return None
     
 def create_genres(db: Session, genres: list[GenreCreate]):
-    new_genres = []
-    for genre_data in genres:
-        new_genre = Genre(
-            genre_id=uuid4(),
-            genre_name=genre_data.genre_name
-        )
-        db.add(new_genre)
-        new_genres.append(new_genre)
+    try:
+        new_genres = []
+        for genre_data in genres:
+            new_genre = Genre(
+                genre_id=uuid4(),
+                genre_name=genre_data.genre_name
+            )
+            db.add(new_genre)
+            new_genres.append(new_genre)
 
-    db.commit()
+        db.commit()
 
-    for genre in new_genres:
-        db.refresh(genre)
-    
-    return new_genres
+        for genre in new_genres:
+            db.refresh(genre)
+        
+        return new_genres
+    except Exception as e:
+        logging.error(f"Failed to create genres: {e}")
+        return None

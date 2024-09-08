@@ -88,9 +88,9 @@ def process(event, context):
                     chart_payload["song_id"] = song_payload["song_id"]
                     chart_res = create_chart(chart_payload)
                 
-                    # print("chart_payload:", chart_res)
+                    print("chart_payload:", chart_res)
                     
-                    print(f"Added song {song_payload['song_name']} by artist {artist_payload['artist_name']} to chart in rank {chart_payload['rank_value']}")
+                    print(f"Added song {song_payload['song_name']} by artist {artist_payload['artist_name']} to chart in rank {chart_payload['rank_value']} in {chart_res['chart_type']}")
                     
             except Exception as e:
                 logger.error(f"Error processing data: {e}")

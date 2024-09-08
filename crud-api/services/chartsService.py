@@ -33,9 +33,8 @@ def get_charts_by_date(db: Session, query_date: date):
     ).join(Song, Chart.song_id == Song.song_id) \
     .join(Artist, Chart.artist_id == Artist.artist_id) \
     .join(Genre, Artist.genre_id == Genre.genre_id) \
-    .filter(Chart.date == query_date)\
-    .filter(Chart.source == 'Youtube Charts')\
-    .filter(Chart.country_code != "GBL")
+    .filter(Chart.date == query_date)
+
     
     return query
 
@@ -47,15 +46,17 @@ def fetch_chart_query(db: Session, year: int | None = None, date_query: date | N
 
         query = get_charts_by_date(db, date_query)
         charts = query.all()
-        
         chart_res = {}
         
         for chart in charts:
+            if chart.source != "Youtube Charts" or chart.chart_type != "Weekly" or chart.country_code == "GBL":
+                print(f"skipping {chart.source} - {chart.chart_type} - {chart.country_code} song {chart.song}")
+                continue
+            
             country = chart.country_code
-                
             if country not in chart_res:
                 chart_res[country] = []
-                
+
             chart_item = {
                 "position": chart.position,
                 "song": chart.song,
@@ -80,8 +81,6 @@ def fetch_chart_query(db: Session, year: int | None = None, date_query: date | N
             "date": str(date_query),
             "charts": chart_res
         }
-
-        print(response)
         return response
     except Exception as e:
         print(f"error in fetch_chart_query: {e}")
@@ -116,32 +115,39 @@ def fetch_charts_by_available_dates(db: Session):
     
     
 def create_chart(db: Session, chart: ChartCreate):
+    try:
+        new_chart = Chart(
+            rank_id = uuid4(),
+            artist_id = chart.artist_id,
+            song_id = chart.song_id,
+            rank_value = chart.rank_value,
+            date = chart.date,
+            source = chart.source,
+            country_code = chart.country_code,
+            chart_type = chart.chart_type
 
-    new_chart = Chart(
-        rank_id = uuid4(),
-        artist_id = chart.artist_id,
-        song_id = chart.song_id,
-        rank_value = chart.rank_value,
-        date = chart.date,
-        source = chart.source,
-        country_code = chart.country_code,
-        chart_type = chart.chart_type
-
-    )
-    db.add(new_chart)
-    db.commit()
-    db.refresh(new_chart)
-    return new_chart
+        )
+        db.add(new_chart)
+        db.commit()
+        db.refresh(new_chart)
+        return new_chart
+    except Exception as e:
+        logging.error(f"Failed to create chart: {e}")
+        return None
 
 def update_chart(db: Session, rank_id: uuid4, chart: ChartCreate):
-    db_chart = db.query(Chart).filter(Chart.rank_id == rank_id).first()
-    db_chart.artist_id = chart.artist_id
-    db_chart.song_id = chart.song_id
-    db_chart.rank_value = chart.rank_value
-    db_chart.date = chart.date
-    db_chart.source = chart.source
-    db_chart.country_code = chart.country_code
-    db_chart.chart_type = chart.chart_type
-    db.commit()
-    db.refresh(db_chart)
-    return db_chart
+    try:
+        db_chart = db.query(Chart).filter(Chart.rank_id == rank_id).first()
+        db_chart.artist_id = chart.artist_id
+        db_chart.song_id = chart.song_id
+        db_chart.rank_value = chart.rank_value
+        db_chart.date = chart.date
+        db_chart.source = chart.source
+        db_chart.country_code = chart.country_code
+        db_chart.chart_type = chart.chart_type
+        db.commit()
+        db.refresh(db_chart)
+        return db_chart
+    except Exception as e:
+        logging.error(f"Failed to update chart: {e}")
+        return None

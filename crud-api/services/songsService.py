@@ -18,34 +18,42 @@ def fetch_song_by_id(db: Session, song_id: uuid4):
         return None
 
 def create_song(db: Session, song: SongCreate):
-
-    new_song = Song(
-        song_id = uuid4(),
-        artist_id = song.artist_id,
-        genre_id = song.genre_id,
-        song_name = song.song_name,
-        song_link = song.song_link,
-        song_lyrics = song.song_lyrics,
-        song_length = song.song_length,
-        song_language = song.song_language
-    )
-    db.add(new_song)
-    db.commit()
-    db.refresh(new_song)
-    return new_song
+    try:
+        new_song = Song(
+            song_id = uuid4(),
+            artist_id = song.artist_id,
+            genre_id = song.genre_id,
+            song_name = song.song_name,
+            song_link = song.song_link,
+            song_lyrics = song.song_lyrics,
+            song_length = song.song_length,
+            song_language = song.song_language
+        )
+        db.add(new_song)
+        db.commit()
+        db.refresh(new_song)
+        return new_song
+    except Exception as e:
+        logging.error(f"Failed to create song: {e}")
+        db.rollback()  
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
 
 def update_song(db: Session, song_id: uuid4, song: SongCreate):
-    db_song = db.query(Song).filter(Song.song_id == song_id).first()
-    db_song.artist_id = song.artist_id
-    db_song.genre_id = song.genre_id
-    db_song.song_name = song.song_name
-    db_song.song_link = song.song_link
-    db_song.song_lyrics = song.song_lyrics
-    db_song.song_length = song.song_length
-    db_song.song_language = song.song_language
-    db.commit()
-    db.refresh(db_song)
-    return db_song
+    try:
+        db_song = db.query(Song).filter(Song.song_id == song_id).first()
+        db_song.artist_id = song.artist_id
+        db_song.genre_id = song.genre_id
+        db_song.song_name = song.song_name
+        db_song.song_link = song.song_link
+        db_song.song_lyrics = song.song_lyrics
+        db_song.song_length = song.song_length
+        db_song.song_language = song.song_language
+        db.commit()
+        db.refresh(db_song)
+        return db_song
+    except Exception as e:
+        logging.error(f"Failed to update song: {e}")
+        return None
 
 def fetch_song_by_name(db: Session, song_name: str):
     try:

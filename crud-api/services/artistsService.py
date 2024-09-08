@@ -17,27 +17,35 @@ def fetch_artist_by_id(db: Session, artist_id: uuid4):
         return None
     
 def create_artist(db: Session, artist: ArtistCreate):
-    new_artist = Artist(
-        artist_id = uuid4(),
-        artist_name = artist.artist_name,
-        genre_id = artist.genre_id,
-        country_code = artist.country_code,
-        artist_gender = artist.artist_gender
-    )
-    db.add(new_artist)
-    db.commit()
-    db.refresh(new_artist)
-    return new_artist
+    try:
+        new_artist = Artist(
+            artist_id = uuid4(),
+            artist_name = artist.artist_name,
+            genre_id = artist.genre_id,
+            country_code = artist.country_code,
+            artist_gender = artist.artist_gender
+        )
+        db.add(new_artist)
+        db.commit()
+        db.refresh(new_artist)
+        return new_artist
+    except Exception as e:
+        logging.error(f"Failed to create artist: {e}")
+        return None
 
 def update_artist(db: Session, artist_id: uuid4, artist: ArtistCreate):
-    db_artist = db.query(Artist).filter(Artist.artist_id == artist_id).first()
-    db_artist.artist_name = artist.artist_name
-    db_artist.genre_id = artist.genre_id
-    db_artist.country_code = artist.country_code
-    db_artist.artist_gender = artist.artist_gender
-    db.commit()
-    db.refresh(db_artist)
-    return db_artist
+    try:
+        db_artist = db.query(Artist).filter(Artist.artist_id == artist_id).first()
+        db_artist.artist_name = artist.artist_name
+        db_artist.genre_id = artist.genre_id
+        db_artist.country_code = artist.country_code
+        db_artist.artist_gender = artist.artist_gender
+        db.commit()
+        db.refresh(db_artist)
+        return db_artist
+    except Exception as e:
+        logging.error(f"Failed to update artist: {e}")
+        return None
 
 def fetch_artist_by_name(db: Session, artist_name: str):
     try:

@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, Request
+from fastapi import APIRouter, Depends, HTTPException, Request, status
 from sqlalchemy.orm import Session
 from schemas.songsSchema import SongCreate, Song
 from services.songsService import fetch_songs, fetch_song_by_id, create_song, update_song, fetch_song_by_name, fetch_song_by_name_and_artist_id
@@ -24,6 +24,8 @@ async def get_song_by_id(song_id: UUID, db: Session = Depends(get_db)):
 @songsRouter.post("/songs", response_model=Song)
 async def post_song(song: SongCreate, db: Session = Depends(get_db)):
     new_song = create_song(db, song)
+    if not new_song:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Failed to create song.")
     return new_song
 
 @songsRouter.patch("/songs/{song_id}", response_model=Song)
