@@ -32,19 +32,17 @@ export const getThursdayWeeks = (payload) => {
   const data = payload?.availableDates ?? payload;
   // Iterate over each year
   Object.keys(data).forEach((year) => {
-
     // Iterate over each month in the year
     Object.keys(data[year]).forEach((month) => {
-
       // Iterate over each day in the month
       const days = data[year][month]?.map((day) => parseInt(day));
 
       for (let i = 0; i < days.length; i++) {
         const date = new Date(`${year}-${month.padStart(2, "0")}-${days[i].toString().padStart(2, "0")}`);
-        console.log("date", date.getDay());
+
         // Check if the day is a Thursday
-        
-        if (date.getDay() === 0 || date.getDate() === 1 || date.getDate() === 2 || date.getDate() === 3 || date.getDate() === 4 || date.getDate() === 5 || date.getDate() === 6) {
+        if (date.getDay() === 4) {
+          // 4 is Thursday
           const formattedDate = date.toISOString().split("T")[0];
           const displayMonth = date.toLocaleString("default", { month: "long" });
           const weekLabel = `week of ${displayMonth.toLowerCase()} ${date.getDate()}`;

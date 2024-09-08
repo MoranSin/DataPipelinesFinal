@@ -8,6 +8,5 @@ export const getTopSongFeaturesByCountry = (charts) => {
     return acc;
   }, {});
 
-  console.log("featuresByCountry", featuresByCountry);
   return featuresByCountry;
 };
