@@ -86,8 +86,8 @@ def process(event, context):
                     chart_payload["song_id"] = song_payload["song_id"]
                     chart_res = create_chart(chart_payload)
                                     
-                    logger.info(f"Added song {song_payload['song_name']} by artist {artist_payload['artist_name']} to chart in rank {chart_payload['rank_value']} in {chart_res['chart_type']}")    
+                    print(f"Added song {song_payload['song_name']} by artist {artist_payload['artist_name']} to chart in rank {chart_payload['rank_value']} in {chart_res['chart_type']}")    
             except Exception as e:
                 logger.error(f"Error processing data: {e}")
-    logger.info("Finished processing")
+    print("Finished processing")
     return {"statusCode": 200, "body": json.dumps("Processing is done")}
