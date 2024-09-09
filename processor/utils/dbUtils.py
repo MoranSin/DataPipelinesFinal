@@ -1,5 +1,4 @@
 import requests
-import json
 import logging
 
 logging.basicConfig(level=logging.INFO)
@@ -10,10 +9,8 @@ API_ENDPOINT_SONGS = "http://api:8001/dev/songs"
 API_ENDPOINT_CHARTS = "http://api:8001/dev/charts"
 API_ENDPOINT_GENERE = "http://api:8001/dev/genres"
 
-# Genre Functions
-
-
 def get_gernes_from_db():
+    """Fetches the list of genres from the database via a REST API."""
     try:
         response = requests.get(API_ENDPOINT_GENERE)
         response.raise_for_status()
@@ -24,6 +21,7 @@ def get_gernes_from_db():
 
 
 def create_genre(genre_name):
+    """Creates a new genre entry in the database via a REST API."""
     try:
         response = requests.post(
             API_ENDPOINT_GENERE,
@@ -36,9 +34,8 @@ def create_genre(genre_name):
         logger.error(f"Failed to create genre: {e}")
         return None
 
-
-# Artist Functions
 def get_artist_data_from_db(artist_name):
+    """Fetches artist data from the database via a REST API."""
     try:
         response = requests.get(f"{API_ENDPOINT_ARTISTS}/name/{artist_name}")
         response.raise_for_status()
@@ -48,6 +45,7 @@ def get_artist_data_from_db(artist_name):
         return None
 
 def create_artist(artist_entry):
+    """Creates a new artist entry in the database via a REST API."""
     try:
         response = requests.post(
             API_ENDPOINT_ARTISTS,
@@ -60,9 +58,8 @@ def create_artist(artist_entry):
         logger.error(f"Failed to create an artist: {e}")
         return None
 
-# Song Functions
-
 def get_song_from_db(song_name, artist_id):
+    """Fetches a song's data from the database via a REST API."""
     try:
         response = requests.get(f"{API_ENDPOINT_SONGS}/name/{song_name}/artist/{artist_id}")
         response.raise_for_status()
@@ -72,6 +69,7 @@ def get_song_from_db(song_name, artist_id):
         return None
 
 def create_song(song):
+    """Creates a new song entry in the database via a REST API."""
     try:
         response = requests.post(
             API_ENDPOINT_SONGS,
@@ -84,9 +82,8 @@ def create_song(song):
         logger.error(f"Failed to create song: {e}")
         return None
 
-# Chart Functions
-
 def create_chart(chart):
+    """Creates a new chart entry in the database via a REST API."""
     try:
         response = requests.post(
             API_ENDPOINT_CHARTS,

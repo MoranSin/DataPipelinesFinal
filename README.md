@@ -39,7 +39,7 @@ Before running the application, ensure you have the following installed:
 - [PostgreSQL](https://www.postgresql.org/)
 - [Serverless Framework](https://www.serverless.com/)
 - __ init __.py files inside the scrapers if does not exist yet
-- env files one for the scrapers and one for the processor
+- .env files one for the scrapers and one for the processor
 
 ---
 
@@ -152,12 +152,17 @@ d-----  pulse-app
 
 The frontend UI is built with Node.js. To set it up:
 
-1. Install dependencies:
+1. Change directory to the pulse-app directory:
+   ```bash
+   cd pulse-app
+   ```
+
+2. Install dependencies:
    ```bash
    npm install
    ```
 
-2. Start the development server:
+3. Start the development server:
    ```bash
    npm start
    ```
@@ -197,7 +202,7 @@ The backend API is built using Serverless Framework and runs on a FastAPI enviro
 
 To start the API locally:
 
-1. Turn on the containers with Docker Compose:
+1. Turn on the containers with Docker Compose from the root folder:
    ```bash
    docker-compose up -d
    ```
@@ -248,8 +253,14 @@ GET http://127.0.0.1:8001/dev/artists/name/{Artist_name}
 
 To get a song by name:
 ```bash
-GET http://127.0.0.1:8001/dev/songs/name/{Song_name}
+GET http://127.0.0.1:8001/dev/songs/name/{song_name}
 ```
+
+To get a song by name and artist_id:
+```bash
+GET http://127.0.0.1:8001/dev/songs/name/{song_name}/artist/{artist_id}
+```
+
 
 ### Charts
 
@@ -258,7 +269,12 @@ GET http://127.0.0.1:8001/dev/songs/name/{Song_name}
 
 These resources allow for the creation, retrieval, and updating of genre, artist, song, and chart data.
 
----
+The GET /charts will detch the Youtube Charts daily songs from each country.
+
+To retrieve the list of available chart dates:
+```bash
+GET http://127.0.0.1:8001/dev/charts/available-dates
+```
 
 ## Processors
 
@@ -266,11 +282,11 @@ The **processors** in this project handle data processing tasks. This includes t
 
 The following API'S that are used are:
 
-1. lyricsgenius API
-2. Spotify API
-3. Musicbrainzngs API
+1. lyricsgenius API - Utilized to retrieve song lyrics and song language.
+2. Spotify API - Utilized to obtain the artist's genre and the song's duration.
+3. Musicbrainzngs API - Utilized to retrieve the artist's gender and country.
 
-The processor runs automaticlly , using the `serverless` framework when it detectes something inside the SQS.
+The processor is activated when the scraper sends data to the SQS queue using the `serverless` framework. It processes the information and uses FastAPI requests to insert the relevant data into the PostgreSQL database.
 
 ---
 
@@ -288,7 +304,7 @@ Scrapers are automated jobs that fetch data from external sources. This project 
 
 ### YouTube Scraper
 
-The YouTube scraper runs on scheduled intervals using the `serverless` framework and scrapes data daily or weekly.
+The YouTube scraper runs on scheduled intervals using the `serverless` framework and scrapes data daily or weekly, globally or by specific countries.
 
 The data collected by the scraper is processed and stored in the aws SQS.
 

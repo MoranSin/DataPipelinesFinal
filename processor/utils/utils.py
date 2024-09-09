@@ -10,20 +10,28 @@ from .dbUtils import get_gernes_from_db, create_genre, get_artist_data_from_db, 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
 
+
 def remove_quotes(s):
+    """Removes double quotes from a string."""
     return s.replace('"', '')
 
+
 def convert_seconds(seconds):
+    """ Converts a given number of seconds, n, into a string formatted as MM:SS (minutes and seconds)."""
     minutes, seconds = divmod(seconds, 60)
     return f"{minutes:02}:{seconds:02}"
 
+
 def get_genre_by_name_or_id(genre_arr, genre_value):
+    """Retrieves the genre ID based on genre name or ID from the genre array."""
     for genre in genre_arr:
         if genre['genre_name'] == genre_value or genre['genre_id'] == genre_value:
             return genre['genre_id']
     return None
 
+
 def get_genre_data(token):
+    """Retrieves genre data either from the database or Spotify API."""
     genres = get_gernes_from_db()
     if not genres:
         new_genres = []
@@ -31,16 +39,16 @@ def get_genre_data(token):
         for genre_name in genres:
             genre_res = create_genre(genre_name)
             if genre_res:
-                print(f"Successfully sent genre: {genre_res}")
                 new_genres.append(genre_res)
         unknown_genre = create_genre("Unknown")
-        print(f"Successfully sent genre: {unknown_genre}")
         new_genres.append(unknown_genre)
-        return new_genres 
+        return new_genres
     else:
-        return  genres    
+        return genres
+
 
 def get_song_length(token, artist_name, song_name):
+    """Fetches the length of a song by an artist using the Spotify API."""
     artist_data = sp_search_for_artist(token, artist_name)
     if artist_data:
         artist_id = artist_data['id']
@@ -51,24 +59,26 @@ def get_song_length(token, artist_name, song_name):
                 return convert_seconds(duration_ms // 1000)
     return '00:00'
 
+
 def get_artist_genre(token, artist_name):
+    """Retrieves the primary genre of an artist from the Spotify API."""
     artist_data = sp_search_for_artist(token, artist_name)
     if artist_data:
         artist_genres = artist_data['genres']
-        print("the artist genres:",artist_genres)
         return artist_genres[0] if artist_genres else 'Unknown'
     else:
         return 'Unknown'
 
+
 def get_missing_data_for_artist(token, artist):
-    """Prepare the entry for sending to the external API."""
+    """Prepares missing data like gender, country and genre for an artist using external APIs."""
     try:
         artist_name = artist.get('artist_name', 'Unknown')
         if not artist_name:
             raise ValueError("Missing artist name")
-        
+
         gender, country = mb_get_gender_and_country(artist_name)
-        artist['artist_gender'] = gender if gender else "Unknown"
+        artist['artist_gender'] = gender if gender else "Band"
         artist['country_code'] = country if country else "Unknown"
         artist['genre_id'] = get_artist_genre(token, artist_name)
         return artist
@@ -77,8 +87,8 @@ def get_missing_data_for_artist(token, artist):
         return None
 
 
-def get_missing_data_for_song(token,song, artist_name):
-    """Prepare the entry for sending to the external API."""
+def get_missing_data_for_song(token, song, artist_name):
+    """Prepares missing data like song lyrics, song length, song language and song link for a song using external APIs."""
     new_song = song
     try:
         song_name = song.get('song_name', 'Unknown')
@@ -94,23 +104,25 @@ def get_missing_data_for_song(token,song, artist_name):
                 if len(new_song['song_lyrics']) > 5000 or len(new_song['song_lyrics']) == 0:
                     new_song['song_lyrics'] = "Unknown"
 
-
         if not song.get('song_length'):
-            new_song['song_length'] = get_song_length(token,artist_name, song_name)
-        
+            new_song['song_length'] = get_song_length(
+                token, artist_name, song_name)
+
         if not song.get('song_link'):
             track = search_for_track(token, artist_name)
             new_song['song_link'] = track['external_urls']['spotify'] if track['external_urls']['spotify'] else "Unknown"
-                    
+
         if not song.get('song_language'):
             new_song['song_language'] = gl_get_song_lan(artist_name, song_name)
-        
+
         return new_song
     except Exception as e:
         logger.error(f"Failed to prepare data for song: {e}")
         return new_song
 
+
 def get_song_payload(token, entry, artist_id, artist_name):
+    """Builds and returns the payload for song data."""
     try:
         song_payload = {
             "artist_id": None,
@@ -125,12 +137,12 @@ def get_song_payload(token, entry, artist_id, artist_name):
         entry_song = entry.get('song', {})
         if not entry_song:
             raise ValueError("Missing song data")
-                
+
         song_payload["song_name"] = entry_song["song_name"] if entry_song["song_name"] else None
         song_payload["genre_id"] = None
         song_payload["artist_id"] = None
         song_payload["song_link"] = entry_song["song_link"] if entry_song["song_link"] else None
-        song_payload["song_length"]= entry_song["song_length"] if entry_song["song_length"] else "00:00"
+        song_payload["song_length"] = entry_song["song_length"] if entry_song["song_length"] else "00:00"
         song_payload["song_lyrics"] = None
         song_payload["song_language"] = None
 
@@ -140,7 +152,8 @@ def get_song_payload(token, entry, artist_id, artist_name):
             song_res = get_song_from_db(song_name, artist_id)
 
         if song_res == None:
-            song_payload = get_missing_data_for_song(token, entry_song, artist_name)
+            song_payload = get_missing_data_for_song(
+                token, entry_song, artist_name)
         else:
             song_payload = song_res
 
@@ -151,6 +164,7 @@ def get_song_payload(token, entry, artist_id, artist_name):
 
 
 def get_artist_payload(token, entry):
+    """Builds and returns the payload for artist data."""
     try:
         artist_payload = {
             "artist_name": None,
@@ -169,7 +183,7 @@ def get_artist_payload(token, entry):
             artist_payload = get_missing_data_for_artist(token, artist_payload)
         else:
             artist_payload = artist_res
-            
+
         return artist_payload
     except Exception as e:
         logger.error(f"Error in artist payload: {e}")
@@ -177,6 +191,7 @@ def get_artist_payload(token, entry):
 
 
 def get_chart_payload(entry):
+    """Builds and returns the payload for chart data."""
     chart_payload = {
         "artist_id": None,
         "song_id": None,
@@ -185,7 +200,7 @@ def get_chart_payload(entry):
         "source": None,
         "country_code": None,
         "chart_type": None,
-      }
+    }
 
     chart_payload["artist_id"] = None
     chart_payload["genre_id"] = None

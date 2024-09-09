@@ -5,6 +5,7 @@ from uuid import uuid4
 from config.database import Base 
 
 class Artist(Base):
+    """SQLAlchemy model for the 'artists' table."""
     __tablename__ = "artists"
 
     artist_id = Column(UUID(as_uuid=True), primary_key=True, default=uuid4, unique=True, nullable=False)

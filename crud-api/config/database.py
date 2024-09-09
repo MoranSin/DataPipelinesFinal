@@ -19,6 +19,7 @@ except OperationalError as e:
     print(f"Error connecting to the database: {e}")
 
 def get_db():
+    """Yield a database session."""
     db = SessionLocal()
     try:
         yield db
@@ -26,12 +27,14 @@ def get_db():
         db.close()
 
 def create_db():
+    """Create database tables based on Base metadata."""
     try:
         Base.metadata.create_all(bind=engine)
     except OperationalError:
         pass
 
 def test_connection():
+    """Test the database connection."""
     try:
         engine.connect()
         print("Connection established")

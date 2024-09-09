@@ -16,6 +16,12 @@ YOUTUBE_TRENDS_COOKIE = os.environ.get("YOUTUBE_TRENDS_COOKIE")
 
 
 def handler(event, context):
+    """
+    AWS Lambda handler function to fetch YouTube Charts data.
+
+    This handler is invoked by a scheduler and processes the input event to fetch YouTube
+    chart data based on the input parameters (country, timing, chart type).
+    """
     print("Youtube Daily Handler")
     timing = "DAILY"
     youtube_chart = "Youtube Charts"
@@ -38,8 +44,6 @@ def handler(event, context):
         timing, youtube_trends)
 
     data.extend(trends_data)
-
-    print("youtube daily chart: ",data)
 
     sqs = boto3.client(
         'sqs',

@@ -9,15 +9,21 @@ import logging
 logging.basicConfig(level=logging.INFO)
 
 def fetch_songs(db: Session):
-    return db.query(Song).all()
+    """Fetches all songs from the database."""
+    try:
+        return db.query(Song).all()
+    except NoResultFound:
+        return None
 
 def fetch_song_by_id(db: Session, song_id: uuid4):
+    """Fetches a song from the database by its ID."""
     try:
         return db.query(Song).filter(Song.song_id == song_id).first()
     except NoResultFound:
         return None
 
 def create_song(db: Session, song: SongCreate):
+    """Creates a new song in the database."""
     try:
         new_song = Song(
             song_id = uuid4(),
@@ -35,10 +41,10 @@ def create_song(db: Session, song: SongCreate):
         return new_song
     except Exception as e:
         logging.error(f"Failed to create song: {e}")
-        db.rollback()  
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
+        return None  
 
 def update_song(db: Session, song_id: uuid4, song: SongCreate):
+    """Updates an existing song in the database."""
     try:
         db_song = db.query(Song).filter(Song.song_id == song_id).first()
         db_song.artist_id = song.artist_id
@@ -56,12 +62,14 @@ def update_song(db: Session, song_id: uuid4, song: SongCreate):
         return None
 
 def fetch_song_by_name(db: Session, song_name: str):
+    """Fetches a song from the database by its name."""
     try:
         return db.query(Song).filter(Song.song_name == song_name).first()
     except NoResultFound:
         return None
     
 def fetch_song_by_name_and_artist_id(db: Session, song_name: str, artist_id: str):
+    """Fetches a song from the database by its name and artist ID."""
     try:
         return db.query(Song).filter(Song.song_name == song_name, Song.artist_id == artist_id).first()
     except NoResultFound:

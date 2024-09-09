@@ -1,5 +1,5 @@
 import os
-from .youtubeScraper import YoutubeScraper  
+from .youtubeScraper import YoutubeScraper
 import boto3
 import json
 
@@ -8,11 +8,18 @@ from dotenv import load_dotenv
 dotenv_path = join(dirname(__file__), '.env')
 load_dotenv(dotenv_path)
 
-YOUTUBE_CHARTS_API_KEY  = os.environ.get("YOUTUBE_CHARTS_API_KEY")
+YOUTUBE_CHARTS_API_KEY = os.environ.get("YOUTUBE_CHARTS_API_KEY")
 YOUTUBE_CHARTS_URL_KEY = os.environ.get("YOUTUBE_CHARTS_URL_KEY")
 YOUTUBE_CHARTS_COOKIE = os.environ.get("YOUTUBE_CHARTS_COOKIE")
 
+
 def handler(event, context):
+    """
+    AWS Lambda handler function to fetch YouTube Charts data.
+
+    This handler is invoked by a scheduler and processes the input event to fetch YouTube
+    chart data based on the input parameters (country, timing, chart type).
+    """
     print("Youtube Weekly Handler")
     timing = "WEEKLY"
     youtube_chart = "Youtube Charts"
@@ -24,8 +31,6 @@ def handler(event, context):
     data = []
     data.extend(global_charts)
     data.extend(countries_charts)
-
-    print("youtube weekly charts: ",data)
 
     sqs = boto3.client(
         'sqs', 

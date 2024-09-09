@@ -8,15 +8,21 @@ import logging
 logging.basicConfig(level=logging.INFO)
 
 def fetch_artists(db: Session):
-    return db.query(Artist).all()
+    """Retrieve all artists."""
+    try:
+        return db.query(Artist).all()
+    except NoResultFound:
+        return None
 
 def fetch_artist_by_id(db: Session, artist_id: uuid4):
+    """Retrieve artist by ID."""
     try:
         return db.query(Artist).filter(Artist.artist_id == artist_id).first()
     except NoResultFound:
         return None
     
 def create_artist(db: Session, artist: ArtistCreate):
+    """Create a new artist and return it."""
     try:
         new_artist = Artist(
             artist_id = uuid4(),
@@ -34,6 +40,7 @@ def create_artist(db: Session, artist: ArtistCreate):
         return None
 
 def update_artist(db: Session, artist_id: uuid4, artist: ArtistCreate):
+    """Update an existing artist by ID and return it."""
     try:
         db_artist = db.query(Artist).filter(Artist.artist_id == artist_id).first()
         db_artist.artist_name = artist.artist_name
@@ -48,6 +55,7 @@ def update_artist(db: Session, artist_id: uuid4, artist: ArtistCreate):
         return None
 
 def fetch_artist_by_name(db: Session, artist_name: str):
+    """Retrieve artist by name."""
     try:
         return db.query(Artist).filter(Artist.artist_name == artist_name).first()
     except NoResultFound:

@@ -1,9 +1,7 @@
 \c postgres;
 
--- Create the dblink extension if it does not exist
 CREATE EXTENSION IF NOT EXISTS dblink;
 
--- Create the database if it does not exist
 DO $$
 BEGIN
    IF NOT EXISTS (SELECT FROM pg_database WHERE datname = 'music_charts') THEN
@@ -12,7 +10,6 @@ BEGIN
 END
 $$;
 
--- Connect to the newly created database
 \c music_charts;
 
 CREATE TABLE IF NOT EXISTS Genres (
@@ -39,7 +36,7 @@ CREATE TABLE IF NOT EXISTS Songs (
     song_name VARCHAR(100),
     song_link VARCHAR(300),
     song_lyrics VARCHAR(5000),
-    song_length VARCHAR(5), -- HH:MM,
+    song_length VARCHAR(5), 
     song_language VARCHAR(30),
     PRIMARY KEY (song_id),
     FOREIGN KEY (artist_id)

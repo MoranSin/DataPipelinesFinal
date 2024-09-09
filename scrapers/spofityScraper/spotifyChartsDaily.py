@@ -11,6 +11,7 @@ load_dotenv(dotenv_path)
 SPOTIFY_API_KEY_DAILY  = os.environ.get("SPOTIFY_API_KEY_DAILY")
 
 def handler(event, context):
+    """AWS Lambda handler to scrape Spotify daily charts and send the data to an SQS queue."""
     print("Spotify Daily Handler")
     api_key = SPOTIFY_API_KEY_DAILY
 
@@ -19,9 +20,7 @@ def handler(event, context):
     timing = "DAILY"
 
     spotifyScraper = SpotifyScraper(api_key, base_url, headers)
-    global_charts = spotifyScraper.fetch_charts("global", timing) ## TO DO: match  the fetch_charts function to work with these parameters 
-
-    print("daily spotify charts: ", global_charts)
+    global_charts = spotifyScraper.fetch_charts("global", timing) 
 
     sqs = boto3.client(
             'sqs', 

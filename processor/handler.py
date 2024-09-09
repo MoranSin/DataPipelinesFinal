@@ -1,4 +1,3 @@
-import requests
 import json
 import logging
 
@@ -17,14 +16,15 @@ from utils.utils import (
     get_genre_by_name_or_id
 )
 
-
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
 
-
 def process(event, context):
+    """
+    AWS Lambda function to process event records and handle song, artist, and chart data.
+    The process function is triggered by an SQS event and processes the incoming records to a postgress database.
+    """
     logger.info("Received event: %s", json.dumps(event))
-    print("start")
     token = sp_get_token()
     genre_arr = get_genre_data(token)
 
@@ -77,22 +77,17 @@ def process(event, context):
                         new_artist = create_artist(artist_payload)
                         artist_payload["artist_id"] = new_artist["artist_id"]
                     
-                    # print("artist_payload:", artist_payload)
                     song_payload["artist_id"] = artist_payload["artist_id"]
                     if not song_payload.get("song_id"):
                         new_song = create_song(song_payload)
                         song_payload["song_id"] = new_song["song_id"]
 
-                    # print("after song_payload:", song_payload)                    
                     chart_payload["artist_id"] = artist_payload["artist_id"]
                     chart_payload["song_id"] = song_payload["song_id"]
                     chart_res = create_chart(chart_payload)
-                
-                    print("chart_payload:", chart_res)
-                    
-                    print(f"Added song {song_payload['song_name']} by artist {artist_payload['artist_name']} to chart in rank {chart_payload['rank_value']} in {chart_res['chart_type']}")
-                    
+                                    
+                    logger.info(f"Added song {song_payload['song_name']} by artist {artist_payload['artist_name']} to chart in rank {chart_payload['rank_value']} in {chart_res['chart_type']}")    
             except Exception as e:
                 logger.error(f"Error processing data: {e}")
-    print("finished processing")
+    logger.info("Finished processing")
     return {"statusCode": 200, "body": json.dumps("Processing is done")}
